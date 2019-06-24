@@ -11,10 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
+    Route::resource('jadwal-keberangkatan', 'KeberangkatanController')->except(['create', 'edit']);
+    Route::resource('jadwal-kedatangan', 'KedatanganController')->except(['create', 'edit']);
+});
+
