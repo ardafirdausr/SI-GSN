@@ -13,10 +13,12 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
-    Route::resource('jadwal-keberangkatan', 'KeberangkatanController')->except(['create', 'edit']);
-    Route::resource('jadwal-kedatangan', 'KedatanganController')->except(['create', 'edit']);
+    Route::get('/jadwal-keberangkatan', ['uses' => 'KeberangkatanController@index', 'as' => 'jadwal-keberangkatan.index']);
+    Route::get('/jadwal-kedatangan', ['uses' => 'KedatanganController@index', 'as' => 'jadwal-kedatangan.index']);
 });
+
+Route::get('/home', function(){
+    return redirect()->route('web.jadwal-keberangkatan.index');
+})->name('home');
 
