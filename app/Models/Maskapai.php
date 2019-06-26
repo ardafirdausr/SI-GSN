@@ -15,6 +15,13 @@ class Maskapai extends Model
     }
 
     public function jadwal(){
-        return $this->hasMany(Jadwal::class, 'id_maskapai', 'id');
+        return $this->hasManyThrough(
+            Jadwal::class,
+            Kapal::class,
+            'id_maskapai',
+            'id_kapal',
+            'id',
+            'id'
+        );
     }
 }

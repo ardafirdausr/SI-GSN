@@ -22,8 +22,4 @@ class Jadwal extends Model
     public function kapal(){
         return $this->belongsTo(Kapal::class, 'id_kapal', 'id');
     }
-
-    public function maskapai(){
-        return $this->belongsTo(Maskapai::class, 'id_maskapai', 'id');
-    }
 }

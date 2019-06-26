@@ -23,7 +23,7 @@
     <link href="{{ asset('semantic.min.css') }}" rel="stylesheet">
 </head>
 <body>
-    <nav class="ui visible left vertical sidebar menu">
+    <nav class="visible ui left vertical sidebar menu">
         <div class="logo-pelindo">
             <img src="{{ asset('images/pelindo3.png') }}" alt="Pelindo 3 Logo">
         </div>
@@ -38,12 +38,12 @@
             </div>
         </a>
     </nav>
-    <section class="pusher borderless">
-        <header class="ui fixed top menu">
+    <section class="pusher">
+        <header class="ui top menu borderless" style="border-bottom: 0px">
             {{-- style="border-radius: 0!important; border: 0; margin-left: 260px; -webkit-transition-duration: 0.5s;"> --}}
             <div class="left menu">
-                    <a id="open-nav" class="item"><i class="icon content"></i></a>
-                    <span class="item">Application</span>
+                <a id="open-nav" class="item"><i class="icon content"></i></a>
+                <h2 class="item ui header">Application</h2>
             </div>
             <div class="right menu">
                     <div class="ui dropdown item">Language <i class="dropdown icon"></i>

@@ -14,14 +14,7 @@ class AddRelationshipsToJadwalTable extends Migration
     public function up()
     {
         Schema::table('jadwal', function (Blueprint $table) {
-            $table->integer('id_maskapai')
-                  ->unsigned();
-            $table->foreign('id_maskapai')
-                  ->references('id')
-                  ->on('maskapai')
-                  ->onUpdate('cascade')
-                  ->onDelete('cascade');
-            $table->integer('id_kapal')
+            $table->bigInteger('id_kapal')
                   ->unsigned();
             $table->foreign('id_kapal')
                   ->references('id')

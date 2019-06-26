@@ -16,9 +16,18 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$userAutoIncrement = userAutoIncrement();
+
+function userAutoIncrement(){
+    for ($i = 0; $i < 1000; $i++) {
+        yield $i;
+    }
+}
+
+$factory->define(App\Models\User::class, function (Faker $faker) use ($userAutoIncrement) {
+    $userAutoIncrement->next();
     return [
-        'name' => $faker->name,
+        'name' => $faker->name.' - '.$userAutoIncrement->current(),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
