@@ -49,11 +49,11 @@ class KapalController extends Controller{
         ]);
         if($validator->passes()){
             $kapal = Kapal::create($requestData);
-            return response()->json($kapal);
+            return response()->json($kapal, 201);
         }
         return response()->json([
             'message' => 'Data tidak valid',
-            $vaidator->errors()
+            $validator->errors()
         ], 400);
     }
 
@@ -65,24 +65,35 @@ class KapalController extends Controller{
      * @return Kapal kapal
      */
     public function update(Request $request, Kapal $kapal){
-        $requestData = $request->only([
-            'kode',
-            'nama',
-            'id_maskapai'
-        ]);
-        $validator = Validator::make($requestData, [
-            'kode' => 'required|string|unique:kapal',
-            'nama' => 'required|string',
-            'id_maskapai' => 'required|integer|exists:maskapai,id'
-        ]);
+        $isKodeIdentic = $kapal->kode == $request->input('kode');
+        $requestData = null;
+        if($isKodeIdentic){
+            $requestData = $request->only(['nama', 'id_maskapai']);
+            $validator = Validator::make($requestData, [
+                'nama' => 'required|string',
+                'id_maskapai' => 'required|integer|exists:maskapai,id'
+            ]);
+        }
+        else{
+            $requestData = $request->only([
+                'kode',
+                'nama',
+                'id_maskapai'
+            ]);
+            $validator = Validator::make($requestData, [
+                'kode' => 'required|string|unique:kapal',
+                'nama' => 'required|string',
+                'id_maskapai' => 'required|integer|exists:maskapai,id'
+            ]);
+        }
         if($validator->passes()){
             $isKapalUpdated = $kapal->update($requestData);
-            if($isKapalUpdated) return response()->json($kapal);
+            if($isKapalUpdated) return response()->json($kapal, 201);
             return response()->json(['message' => 'Gagal mengupdate data kapal'], 500);
         }
         return response()->json([
             'message' => 'Data tidak valid',
-            $vaidator->errors()
+            $validator->errors()
         ], 400);
     }
 
@@ -90,9 +101,9 @@ class KapalController extends Controller{
      * Delete kapal by Id
      * @return null
      */
-    public function delete(Request $request, Kapal $kapal){
+    public function destroy(Request $request, Kapal $kapal){
         $isKapalDeleted = $kapal->delete();
-        if($isKapalUpdated) return response()->json($kapal);
+        if($isKapalDeleted) return response()->json(null, 204);
         return response()->json(['message' => 'Gagal menghapus jadwal'], 500);
     }
 }

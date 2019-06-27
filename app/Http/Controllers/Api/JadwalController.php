@@ -67,8 +67,8 @@ class JadwalController extends Controller{
         $validator = Validator::make($requestData, [
             'asal' => 'required|string',
             'tujuan' => 'required|string',
-            'keberangkatan' => 'required|timestamp',
-            'kedatangan' => 'required|timestamp',
+            'keberangkatan' => 'required|date',
+            'kedatangan' => 'required|after:'.$requestData['keberangkatan'],
             'status' => Rule::in('on schedule', 'delay', 'cancel'),
             'id_kapal' => 'required|integer|exists:kapal,id',
         ]);
@@ -78,7 +78,7 @@ class JadwalController extends Controller{
         }
         return response()->json([
             'message' => 'Data tidak valid',
-            $vaidator->errors()
+            'errors' => $validator->errors()
         ], 400);
     }
 
@@ -104,8 +104,8 @@ class JadwalController extends Controller{
         $validator = Validator::make($requestData, [
             'asal' => 'required|string',
             'tujuan' => 'required|string',
-            'keberangkatan' => 'required|timestamp',
-            'kedatangan' => 'required|timestamp',
+            'keberangkatan' => 'required|date',
+            'kedatangan' => 'required|date',
             'status' => Rule::in('on schedule', 'delay', 'cancel'),
             'id_kapal' => 'required|integer|exists:kapal,id',
         ]);
@@ -121,7 +121,7 @@ class JadwalController extends Controller{
         }
         return response()->json([
             'message' => 'Data tidak valid',
-            $vaidator->errors()
+            'errors' => $validator->errors()
         ], 400);
     }
 
@@ -130,7 +130,7 @@ class JadwalController extends Controller{
      * @param int id
      * @return null
      */
-    public function delete(Request $request, Jadwal $jadwal){
+    public function destroy(Request $request, Jadwal $jadwal){
         $isJadwalDeleted = $jadwal->delete();
         if($isJadwalDeleted) return response()->json(null, 204);
         return response()->json([

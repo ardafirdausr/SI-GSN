@@ -46,7 +46,7 @@ class MaskapaiController extends Controller{
         ]);
         if($validator->passes()){
             $maskapai = Maskapai::create($requestData);
-            return response()->json($maskapai);
+            return response()->json($maskapai, 201);
         }
         return response()->json([
             'message' => 'Data tidak valid',
