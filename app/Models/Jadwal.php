@@ -16,7 +16,6 @@ class Jadwal extends Model
         'kedatangan',
         'status',
         'id_kapal',
-        'id_maskapai'
     ];
 
     public function kapal(){

@@ -18,9 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['namespace' => 'Api'], function(){
+Route::group(['namespace' => 'Api', 'middleware' => ['api-localization']], function(){
     Route::apiResources([
-        'jadwal-keberangkatan' => 'KeberangkatanController',
-        'jadwal-kedatangan' => 'KedatanganController'
+        'kapal' => 'KapalController',
+        'jadwal' => 'JadwalController',
+        'maskapai' => 'MaskapaiController'
     ]);
 });
+
+Route::fallback(function(){ return response()->json(['message' => 'Url not found'], 404); });
