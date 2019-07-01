@@ -3,20 +3,17 @@
 	Jadwal Keberangkatan
 @endsection
 @section('content')
-<div class="ui grid custom-container">
-	<div class="row">
-		<div class="column">
-			<h2 class="ui header">{{ date("l, d-m-Y") }} </h2>
+	<div class="ui grid containers">
+		<div class="row">
+			<div class="column">
+				<h2 class="ui header">{{ date("l, d-m-Y") }} </h2>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="left aligned thirteen wide column">
-			<div class="ui one column grid">
-				<div class="right aligned column">
-					<div class="ui active inverted dimmer loading">
-						<div class="ui text loader">Loading</div>
-					</div>
-					<table class="ui raised segment selectable celled striped fixed table">
+		<div class="row">
+			<div class="left aligned thirteen wide column">
+				<div class="ui one column grid">
+					<div class="right aligned column">
+						<table class="ui raised segment selectable celled striped fixed table">
 							<thead>
 								<tr>
 									<th>Maskapai</th>
@@ -35,8 +32,8 @@
 											<td class="nine wide">{{ $jadwal->kapal->maskapai->nama }}</td>
 											<td class="one wide">{{ $jadwal->kapal->kode }}</td>
 											<td class="one wide">{{ $jadwal->kapal->nama }}</td>
-											<td class="one wide">{{ $jadwal->asal }}</td>
-											<td class="one wide">{{ date("H : m", strtotime($jadwal->kedatangan))." WIB" }}</td>
+											<td class="one wide">{{ $jadwal->tujuan }}</td>
+											<td class="one wide">{{ date("H : m", strtotime($jadwal->keberangkatan))." WIB" }}</td>
 											<td class="{{ $jadwal->status == 'on schedule' ? 'positive' : 'negative' }}" >
 												<i class="icon
 													{{ $jadwal->status == 'on schedule' ? 'checkmark' : ''}}
@@ -46,12 +43,14 @@
 												{{ $jadwal->status }}
 											</td>
 											<td class="action action-edit positive collapsing single line" style="display: none;">
-												<input type="hidden" name="id" value="{{ $jadwal->id }}">
-												<i class="edit icon"></i> Edit
+												<div>
+													<i class="edit icon"></i> Edit
+												</div>
 											</td>
 											<td class="action action-delete negative collapsing single line" style="display: none;">
-												<input type="hidden" name="id" value="{{ $jadwal->id }}">
-												<i class="trash icon"></i> Hapus
+												<div class="action-delete">
+													<i class="trash icon"></i> Hapus
+												</div>
 											</td>
 										</tr>
 									@endforeach
@@ -85,12 +84,6 @@
 			<div class="right aligned two wide column">
 				@if(count($jadwalCollection) > 0)
 					<div class="ui one column grid">
-						{{-- <div class="column">
-							<div class="ui primary fluid shadow button action-button" id="create-button">
-								<i class="plus icon"></i>
-								Tambah
-							</div>
-						</div> --}}
 						<div class="column">
 							<div class="ui green fluid shadow button action-button" id="show-update-button">
 								<i class="edit icon"></i>
@@ -108,7 +101,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui mini basic modal delete-modal">
+	<div class="ui basic modal delete-modal">
 		<div class="ui icon header">
 			<i class="trash icon"></i>
 			Jadwal Pelayaran
@@ -125,13 +118,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui modal create-modal">
+	<div class="ui modal update-modal">
 		<h1 class="ui header">Buat Jadwal</h1>
 		<div class="content">
 			<div class="ui form">
-				<div class="inline field grid">
-					<label class="column">Maskapai</label>
-					<input class="column" type="text" name="jakarta" placeholder="Jakarta">
+				<div class="inline field">
+					<label>Maskapai</label>
+					<input type="text" name="jakarta" placeholder="Jakarta">
 				</div>
 				<div class="inline field">
 					<label>Kode kapal</label>
@@ -158,7 +151,7 @@
 		</div>
 	</div>
 	<style>
-		.custom-container {
+		.containers {
 			margin: 20px 40px !important;
 		}
 		.shadow {
@@ -204,6 +197,7 @@
 			}
 		});
 		$('#create-button').on('click', function(){
+			alert();
 			$('.ui.modal.create-modal').modal({
 				closable  : true,
 				// onDeny    : function(){
@@ -216,27 +210,16 @@
 			}).modal('show');
 		});
 		$('.action-delete').on('click', function(){
-			var clickedElement = $(this);
-			$('.ui.mini.basic.modal.delete-modal').modal({
+			$('.ui.basic.modal.delete-modal').modal({
 					closable  : true,
 					// onDeny    : function(){
 					// 	window.alert('Wait not yet!');
 					// 	return false;
 					// },
 					onApprove : function() {
-						$.ajax({
-							url: "/api/jadwal/" + clickedElement.children('input[name="id"]').val(),
-							method: 'DELETE',
-							complete: function(response){
-								console.log(response);
-							}
-						})
+
 					}
-			}).modal('show');
+				}).modal('show');
 		});
-		function render(){
-			$('.loading').removeClass('active');
-		}
-		render();
 	</script>
 @endsection

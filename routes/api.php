@@ -24,6 +24,9 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api-localization']], funct
         'jadwal' => 'JadwalController',
         'maskapai' => 'MaskapaiController'
     ]);
+    Route::prefix(['prefix' => '/maskapai', 'as' => 'maskapai.'], function(){
+        Route::get('/{maskapai}/kapal', ['uses' => 'MaskapaiController@showKapalByMaskapaiId', 'as' => '.kapal' ]);
+    });
 });
 
 Route::fallback(function(){ return response()->json(['message' => 'Url not found'], 404); });

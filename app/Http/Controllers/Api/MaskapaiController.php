@@ -97,4 +97,14 @@ class MaskapaiController extends Controller{
             'message' => 'Gagal menghapus maskapai',
         ], 500);
     }
+
+    /**
+     * Show maskapai's kapals by maskapai id
+     * @param int id
+     * @return Collection<Kapal> kapalCollection
+     */
+    public function showKapalByMaskapaiId(Request $request, Maskapai $maskapai){
+        $kapalCollection = $maskapai->kapal();
+        return response()->json($kapalCollection, 200);
+    }
 }

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title')
-	Jadwal Keberangkatan
+	Jadwal Kedatangan
 @endsection
 @section('content')
 	<div class="ui grid containers">
 		<div class="row">
 			<div class="column">
-				<h2 class="ui header">{{ date("l, d-m-Y") }} </h2>
+				<h2 class="ui header"> {{ date("l, d-m-Y") }} </h2>
 			</div>
 		</div>
 		<div class="row">
@@ -19,81 +19,85 @@
 									<th>Maskapai</th>
 									<th>Kode Kapal</th>
 									<th>Nama Kapal</th>
-									<th>Tujuan</th>
+									<th>Asal</th>
 									<th>Jam</th>
 									<th>Status</th>
 									<th id="action-title" style="display: none;">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach ($jadwalCollection as $jadwal)
+								@if(count($paginatedJadwal->items()) > 0)
+									@foreach ($paginatedJadwal->items() as $jadwal)
+										<tr>
+											<td class="nine wide">{{ $jadwal->kapal->maskapai->nama }}</td>
+											<td class="one wide">{{ $jadwal->kapal->kode }}</td>
+											<td class="one wide">{{ $jadwal->kapal->nama }}</td>
+											<td class="one wide">{{ $jadwal->asal }}</td>
+											<td class="one wide">{{ date("H : m", strtotime($jadwal->kedatangan))." WIB" }}</td>
+											<td class="{{ $jadwal->status == 'on schedule' ? 'positive' : 'negative' }}" >
+												<i class="icon
+													{{ $jadwal->status == 'on schedule' ? 'checkmark' : ''}}
+													{{ $jadwal->status == 'delay' ? 'attention' : ''}}
+													{{ $jadwal->status == 'cancel' ? 'close' : ''}}
+												"></i>
+												{{ $jadwal->status }}
+											</td>
+											<td class="action action-edit positive collapsing single line" style="display: none;">
+												<div>
+													<i class="edit icon"></i> Edit
+												</div>
+											</td>
+											<td class="action action-delete negative collapsing single line" style="display: none;">
+												<div class="action-delete">
+													<i class="trash icon"></i> Hapus
+												</div>
+											</td>
+										</tr>
+									@endforeach
+								@else
 									<tr>
-										<td class="nine wide">{{ $jadwal->kapal->maskapai->nama }}</td>
-										<td class="one wide">{{ $jadwal->kapal->kode }}</td>
-										<td class="one wide">{{ $jadwal->kapal->nama }}</td>
-										<td class="one wide">{{ $jadwal->asal }}</td>
-										<td class="one wide">{{ date("H : m", strtotime($jadwal->kedatangan))." WIB" }}</td>
-										<td class="{{ $jadwal->status == 'on schedule' ? 'positive' : 'negative' }}" >
-											<i class="icon
-												{{ $jadwal->status == 'on schedule' ? 'checkmark' : ''}}
-												{{ $jadwal->status == 'delay' ? 'attention' : ''}}
-												{{ $jadwal->status == 'cancel' ? 'close' : ''}}
-											"></i>
-											{{ $jadwal->status }}
-										</td>
-										<td class="action action-edit positive collapsing single line" style="display: none;">
-											<div>
-												<i class="edit icon"></i> Edit
-											</div>
-										</td>
-										<td class="action action-delete negative collapsing single line" style="display: none;">
-											<div class="action-delete">
-												<i class="trash icon"></i> Hapus
-											</div>
-										</td>
-									</tr>
-								@endforeach
+										<td colspan="6" style="text-align:center"> Tidak ada jadwal hari ini</td>
+									<tr>
+								@endif
 							</tbody>
 						</table>
 					</div>
-					<div class="right aligned column">
-						<div class="ui right floated pagination shadow menu">
-							<a class="icon item">
-								<i class="left chevron icon"></i>
-							</a>
-							<a class="item">1</a>
-							<a class="item">2</a>
-							<a class="item">3</a>
-							<a class="item">4</a>
-							<a class="icon item">
-								<i class="right chevron icon"></i>
-							</a>
+					@if(count($paginatedJadwal->items()) > 0)
+						<div class="right aligned column">
+							<div class="ui right floated pagination shadow menu">
+								<a class="icon item" href="{{ $paginatedJadwal->previousPageUrl() }}">
+									<i class="left chevron icon"></i>
+								</a>
+								<a class="item">1</a>
+								<a class="item">2</a>
+								<a class="item">3</a>
+								<a class="item">4</a>
+								<a class="icon item" href="{{ $paginatedJadwal->nextPageUrl() }}">
+									<i class="right chevron icon"></i>
+								</a>
+							</div>
 						</div>
-					</div>
+					@endif
 				</div>
 			</div>
 			<div class="one wide column"></div>
 			<div class="right aligned two wide column">
-				<div class="ui one column grid">
-					<div class="column">
-						<div class="ui primary fluid shadow button action-button" id="create-button">
-							<i class="plus icon"></i>
-							Tambah
+				@if(count($paginatedJadwal->items()) > 0)
+					<div class="ui one column grid">
+						<div class="column">
+							<div class="ui green fluid shadow button action-button" id="show-update-button">
+								<i class="edit icon"></i>
+								Update
+							</div>
+						</div>
+						<div class="column">
+							<div class="ui red fluid shadow button action-button" id="show-delete-button">
+								<i class="trash icon"></i>
+								Hapus
+							</div>
 						</div>
 					</div>
-					<div class="column">
-						<div class="ui green fluid shadow button action-button" id="show-update-button">
-							<i class="edit icon"></i>
-							Update
-						</div>
-					</div>
-					<div class="column">
-						<div class="ui red fluid shadow button action-button" id="show-delete-button">
-							<i class="trash icon"></i>
-							Hapus
-						</div>
-					</div>
-				</div>
+				@endif
 			</div>
 		</div>
 	</div>

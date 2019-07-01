@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Jadwal;
+use App\Models\Maskapai;
 
 class JadwalController extends Controller{
 
@@ -26,11 +27,12 @@ class JadwalController extends Controller{
      */
     public function showJadwalKedatangan(Request $request){
         $tanggal = $request->input('tangggal') ?? date('Y-m-d');
-        $jadwalCollection = Jadwal::with('kapal')
+        $paginatedJadwal = Jadwal::with('kapal')
                                   ->where('tujuan', 'Surabaya')
                                   ->whereDate('kedatangan', $tanggal)
-                                  ->get();
-        return view('jadwal.kedatangan', compact('jadwalCollection'));
+                                  ->orderBy('kedatangan', 'asc')
+                                  ->paginate(5);
+        return view('jadwal.kedatangan', compact('paginatedJadwal'));
     }
 
     /**
@@ -43,7 +45,8 @@ class JadwalController extends Controller{
         $jadwalCollection = Jadwal::with('kapal')
                                   ->where('asal', 'Surabaya')
                                   ->whereDate('keberangkatan', $tanggal)
-                                  ->get();
+                                  ->orderBy('keberangkatan', 'asc')
+                                  ->paginate(5);
         return view('jadwal.keberangkatan', compact('jadwalCollection'));
     }
 
@@ -52,6 +55,7 @@ class JadwalController extends Controller{
      * @return View createJadwal
      */
     public function create(Request $request){
-        return view('jadwal.create');
+        $maskapaiCollection = Maskapai::all();
+        return view('jadwal.create', compact('maskapaiCollection'));
     }
 }
