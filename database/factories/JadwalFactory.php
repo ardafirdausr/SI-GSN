@@ -12,8 +12,8 @@ $factory->define(App\Models\Jadwal::class, function (Faker $faker) {
     $otherCity = $faker->city;
     while($otherCity == 'Surabaya') $otherCity = $faker->city;
 
-    $keberangkatan = \Carbon\Carbon::now()->add(rand(0,24), 'hour');
-    $kedatangan = (new \Carbon\Carbon($keberangkatan))->add(rand(6, 48), 'hour');
+    $keberangkatan = \Carbon\Carbon::now()->add(rand(0,72), 'hour');
+    $kedatangan = (new \Carbon\Carbon($keberangkatan))->add(rand(6, 72), 'hour');
     return [
         'asal' => $isSurabaya ? $surabaya : $otherCity,
         'tujuan'  => $isSurabaya ? $otherCity : $surabaya,

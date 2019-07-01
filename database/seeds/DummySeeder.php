@@ -12,9 +12,9 @@ class DummySeeder extends Seeder
      */
     public function run(){
         factory('App\Models\User', 3)->create();
-        $maskapaiCollection = factory('App\Models\Maskapai', 3)->create();
+        $maskapaiCollection = factory('App\Models\Maskapai', 4)->create();
         foreach($maskapaiCollection as $maskapai){
-            $kapalCollection = $maskapai->kapal()->saveMany(factory('App\Models\Kapal', 5)->make());
+            $kapalCollection = $maskapai->kapal()->saveMany(factory('App\Models\Kapal', 10)->make());
             foreach($kapalCollection as $kapal){
                 $jadwal = $kapal->jadwal()->save(factory('App\Models\Jadwal')->make());
             }

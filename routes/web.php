@@ -14,11 +14,12 @@
 Auth::routes();
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
-    Route::get('/jadwal-keberangkatan', ['uses' => 'KeberangkatanController@index', 'as' => 'jadwal-keberangkatan.index']);
-    Route::get('/jadwal-kedatangan', ['uses' => 'KedatanganController@index', 'as' => 'jadwal-kedatangan.index']);
+    Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
+        Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan']);
+        Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan']);
+        Route::get('/create', ['uses' => 'JadwalController@create', 'as' => 'create']);
+    });
 });
 
-Route::get('/home', function(){
-    return redirect()->route('web.jadwal-keberangkatan.index');
-})->name('home');
-
+Route::get('/', function(){ return response('Nothing here'); });
+Route::fallback(function(){ return redirect('/') ; });
