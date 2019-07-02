@@ -28,7 +28,7 @@ class DummySeeder extends Seeder
             $kapalCollection = $agenPelayaran->kapal()->saveMany(factory('App\Models\Kapal', 10)->make());
             // creating dummy jadwal each kapal
             foreach($kapalCollection as $kapal){
-                $jadwal = $kapal->jadwal()->save(factory('App\Models\Jadwal')->make());
+                factory('App\Models\Jadwal')->create(['id_kapal' => $kapal->id]);
             }
         }
     }
