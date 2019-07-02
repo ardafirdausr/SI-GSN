@@ -14,11 +14,12 @@ class AddRelationshipsToKapalTable extends Migration
     public function up()
     {
         Schema::table('kapal', function (Blueprint $table) {
-            $table->bigInteger('id_maskapai')
-                  ->unsigned();
-            $table->foreign('id_maskapai')
+            $table->bigInteger('id_agen_pelayaran')
+                  ->unsigned()
+                  ->before('created_at');
+            $table->foreign('id_agen_pelayaran')
                   ->references('id')
-                  ->on('maskapai')
+                  ->on('agen_pelayaran')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
         });

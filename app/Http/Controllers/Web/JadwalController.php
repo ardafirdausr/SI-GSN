@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Models\Jadwal;
-use App\Models\Maskapai;
+use App\Models\AgenPelayaran;
 
 class JadwalController extends Controller{
 
@@ -55,7 +55,7 @@ class JadwalController extends Controller{
      * @return View createJadwal
      */
     public function create(Request $request){
-        $maskapaiCollection = Maskapai::all();
-        return view('jadwal.create', compact('maskapaiCollection'));
+        $agenPelayaranCollection = AgenPelayaran::all();
+        return view('jadwal.create', compact('agenPelayaranCollection'));
     }
 }

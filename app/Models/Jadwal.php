@@ -10,12 +10,11 @@ class Jadwal extends Model
     public $table = 'jadwal';
     protected $fillable = [
         'id',
-        'asal',
-        'tujuan',
-        'keberangkatan',
-        'kedatangan',
-        'status',
-        'id_kapal',
+        'waktu',
+        'kota',
+        'status_kegiatan',
+        'status_kapal',
+        'status_tiket'
     ];
 
     public function kapal(){

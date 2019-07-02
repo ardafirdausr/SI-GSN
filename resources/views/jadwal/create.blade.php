@@ -44,11 +44,11 @@
 			</div>
 			<div class="fields">
 				<div class="fifteen wide field">
-					<label class="three wide column">Maskapai</label>
+					<label class="three wide column">Agen Pelayaran</label>
 					<select class="ui search dropdown">
 						<option value="">Pilih Masakapai</option>
-						@foreach ($maskapaiCollection as $maskapai)
-						<option value="{{ $maskapai->id }}"> {{ $maskapai->nama }} </option>
+						@foreach ($agenPelayaranCollection as $agenPelayaran)
+						<option value="{{ $agenPelayaran->id }}"> {{ $agenPelayaran->nama }} </option>
 						@endforeach
 					</select>
 				</div>

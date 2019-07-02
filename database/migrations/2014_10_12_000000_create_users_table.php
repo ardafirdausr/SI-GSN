@@ -15,10 +15,13 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            // $table->string('email')->unique();
+            $table->string('NIP')->unique();
+            $table->string('username')->unique();
+            $table->string('nama');
+            // $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('access_role', ['petugas terminal', 'petugas agen', 'admin']);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -4,21 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Maskapai extends Model
+class AgenPelayaran extends Model
 {
-    public $table = 'maskapai';
+    public $table = 'agen_pelayaran';
 
-    protected $fillable = ['nama', 'loket'];
+    protected $fillable = [
+        'nama',
+        'alamat',
+        'telepon',
+        'loket'
+    ];
 
     public function kapal(){
-        return $this->hasMany(Kapal::class, 'id_maskapai', 'id');
+        return $this->hasMany(Kapal::class, 'id_agen_pelayaran', 'id');
     }
 
     public function jadwal(){
         return $this->hasManyThrough(
             Jadwal::class,
             Kapal::class,
-            'id_maskapai',
+            'id_agen_pelayaran',
             'id_kapal',
             'id',
             'id'

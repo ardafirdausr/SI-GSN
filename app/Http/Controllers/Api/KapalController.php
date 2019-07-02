@@ -33,19 +33,19 @@ class KapalController extends Controller{
      * Create new kapal
      * @param string kode
      * @param string nama
-     * @param int id_maskapai
+     * @param int id_agen_pelayaran
      * @return Kapal kapal
      */
     public function store(Request $request){
         $requestData = $request->only([
             'kode',
             'nama',
-            'id_maskapai'
+            'id_agen_pelayaran'
         ]);
         $validator = Validator::make($requestData, [
             'kode' => 'required|string|unique:kapal',
             'nama' => 'required|string',
-            'id_maskapai' => 'required|integer|exists:maskapai,id'
+            'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
         ]);
         if($validator->passes()){
             $kapal = Kapal::create($requestData);
@@ -61,29 +61,29 @@ class KapalController extends Controller{
      * Update kapal by Id
      * @param string kode
      * @param string nama
-     * @param int id_maskapai
+     * @param int id_agen_pelayaran
      * @return Kapal kapal
      */
     public function update(Request $request, Kapal $kapal){
         $isKodeIdentic = $kapal->kode == $request->input('kode');
         $requestData = null;
         if($isKodeIdentic){
-            $requestData = $request->only(['nama', 'id_maskapai']);
+            $requestData = $request->only(['nama', 'id_agen_pelayaran']);
             $validator = Validator::make($requestData, [
                 'nama' => 'required|string',
-                'id_maskapai' => 'required|integer|exists:maskapai,id'
+                'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
             ]);
         }
         else{
             $requestData = $request->only([
                 'kode',
                 'nama',
-                'id_maskapai'
+                'id_agen_pelayaran'
             ]);
             $validator = Validator::make($requestData, [
                 'kode' => 'required|string|unique:kapal',
                 'nama' => 'required|string',
-                'id_maskapai' => 'required|integer|exists:maskapai,id'
+                'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
             ]);
         }
         if($validator->passes()){

@@ -15,7 +15,8 @@ class AddRelationshipsToJadwalTable extends Migration
     {
         Schema::table('jadwal', function (Blueprint $table) {
             $table->bigInteger('id_kapal')
-                  ->unsigned();
+                  ->unsigned()
+                  ->before('created_at');
             $table->foreign('id_kapal')
                   ->references('id')
                   ->on('kapal')

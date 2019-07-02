@@ -14,5 +14,5 @@ $factory->define(App\Models\Kapal::class, function (Faker $faker) {
 
 // $factory->afterCreating(App\Models\Kapal::class, function ($kapal, $faker) {
 //     $jadwal = $kapal->jadwal()->save(factory('App\Models\Jadwal', 1)->make());
-//     $jadwal->update(['id_maskapai' => $kapal->id_maskapai]);
+//     $jadwal->update(['id_agen_pelayaran' => $kapal->id_agen_pelayaran]);
 // });

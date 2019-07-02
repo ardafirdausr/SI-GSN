@@ -15,11 +15,11 @@ class CreateJadwalTable extends Migration
     {
         Schema::create('jadwal', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('asal');
-            $table->string('tujuan');
-            $table->dateTime('keberangkatan');
-            $table->dateTime('kedatangan');
-            $table->enum('status', ['on schedule', 'delay', 'cancel']);
+            $table->dateTime('waktu');
+            $table->string('kota');
+            $table->enum('status_kegiatan', ['datang', 'berangkat']);
+            $table->enum('status_kapal', ['on schedule', 'delay', 'cancel']);
+            $table->enum('status_tiket', ['check in', 'boarding']);
             $table->timestamps();
         });
     }

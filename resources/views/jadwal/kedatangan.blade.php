@@ -16,7 +16,7 @@
 						<table class="ui raised segment selectable celled striped fixed table">
 							<thead>
 								<tr>
-									<th>Maskapai</th>
+									<th>Agen Pelayaran</th>
 									<th>Kode Kapal</th>
 									<th>Nama Kapal</th>
 									<th>Asal</th>
@@ -29,7 +29,7 @@
 								@if(count($paginatedJadwal->items()) > 0)
 									@foreach ($paginatedJadwal->items() as $jadwal)
 										<tr>
-											<td class="nine wide">{{ $jadwal->kapal->maskapai->nama }}</td>
+											<td class="nine wide">{{ $jadwal->kapal->agen_pelayaran->nama }}</td>
 											<td class="one wide">{{ $jadwal->kapal->kode }}</td>
 											<td class="one wide">{{ $jadwal->kapal->nama }}</td>
 											<td class="one wide">{{ $jadwal->asal }}</td>
@@ -123,7 +123,7 @@
 		<div class="content">
 			<div class="ui form">
 				<div class="inline field">
-					<label>Maskapai</label>
+					<label>Agen Pelayaran</label>
 					<input type="text" name="jakarta" placeholder="Jakarta">
 				</div>
 				<div class="inline field">

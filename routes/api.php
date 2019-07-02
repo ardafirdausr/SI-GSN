@@ -22,10 +22,10 @@ Route::group(['namespace' => 'Api', 'middleware' => ['api-localization']], funct
     Route::apiResources([
         'kapal' => 'KapalController',
         'jadwal' => 'JadwalController',
-        'maskapai' => 'MaskapaiController'
+        'agen_pelayaran' => 'AgenPelayaranController'
     ]);
-    Route::prefix(['prefix' => '/maskapai', 'as' => 'maskapai.'], function(){
-        Route::get('/{maskapai}/kapal', ['uses' => 'MaskapaiController@showKapalByMaskapaiId', 'as' => '.kapal' ]);
+    Route::prefix(['prefix' => '/agenPelayaran', 'as' => 'agen_pelayaran.'], function(){
+        Route::get('/{agenPelayaran}/kapal', ['uses' => 'AgenPelayaranController@showKapalByAgenPelayaranId', 'as' => '.kapal' ]);
     });
 });
 

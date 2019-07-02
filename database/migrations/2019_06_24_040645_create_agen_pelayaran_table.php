@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMaskapaiTable extends Migration
+class CreateAgenPelayaranTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateMaskapaiTable extends Migration
      */
     public function up()
     {
-        Schema::create('maskapai', function (Blueprint $table) {
+        Schema::create('agen_pelayaran', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nama');
-            $table->string('loket');
+            $table->string('nama', 50);
+            $table->string('alamat', 100);
+            $table->string('telepon', 20);
+            $table->string('loket', 20);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateMaskapaiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maskapai');
+        Schema::dropIfExists('agen_pelayaran');
     }
 }
