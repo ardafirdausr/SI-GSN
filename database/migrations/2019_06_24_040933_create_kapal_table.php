@@ -15,8 +15,8 @@ class CreateKapalTable extends Migration
     {
         Schema::create('kapal', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode');
-            $table->string('nama');
+            $table->string('kode', 25);
+            $table->string('nama', 50);
             $table->timestamps();
         });
     }

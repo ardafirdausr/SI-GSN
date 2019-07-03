@@ -19,6 +19,7 @@ $factory->define(App\Models\AgenPelayaran::class, function (Faker $faker) use ($
     $faker->addProvider(new \Faker\Provider\id_ID\PhoneNumber($faker));
     return [
         'nama' => $faker->company,
+        'logo' => asset('images/pelindo3.png'),
         'alamat' => $faker->address,
         'telepon' => $faker->phoneNumber,
         'loket' => 'loket-'.$agenPelayaranAutoIncrement->current()

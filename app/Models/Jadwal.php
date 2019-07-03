@@ -14,7 +14,8 @@ class Jadwal extends Model
         'kota',
         'status_kegiatan',
         'status_kapal',
-        'status_tiket'
+        'status_tiket',
+        'id_kapal'
     ];
 
     public function kapal(){

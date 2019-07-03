@@ -32,21 +32,34 @@ class AgenPelayaranController extends Controller{
     /**
      * Create new agen_pelayaran
      * @param string nama
+     * @param Image logo
+     * @param string alamat
+     * @param string telepon
      * @param string loket
      * @return AgenPelayaran agenPelayaran
      */
     public function store(Request $request){
         $requestData = $request->only([
             'nama',
-            'loket',
+            'logo',
+            'alamat',
+            'telepon',
+            'loket'
         ]);
         $validator = Validator::make($requestData, [
-            'nama' => 'required|string',
+            'nama' => 'required|string|max:50',
+            'logo' => 'sometimes|mimes:jpeg,jpg,png|max:2048',
+            'alamat' => 'required|string|max:100',
+            'telepon' => 'required|string|max:20',
             'loket' => 'required|string|unique:agen_pelayaran,loket',
         ]);
         if($validator->passes()){
-            $agenPelayaran = AgenPelayaran::create($requestData);
-            return response()->json($agenPelayaran, 201);
+            try{
+                $agenPelayaran = AgenPelayaran::create($requestData);
+                return response()->json($agenPelayaran, 201);
+            } catch (Exception $e){
+                return response()->json(['message' => $e], 500);
+            }
         }
         return response()->json([
             'message' => 'Data tidak valid',
@@ -57,23 +70,37 @@ class AgenPelayaranController extends Controller{
     /**
      * Update agen_pelayaran by Id
      * @param string nama
+     * @param Image logo
+     * @param string alamat
+     * @param string telepon
      * @param string loket
      * @return AgenPelayaran agenPelayaran
      */
     public function update(Request $request, AgenPelayaran $agenPelayaran){
         $requestData = $request->only([
             'nama',
+            'logo',
+            'alamat',
+            'telepon',
             'loket',
         ]);
         $validator = Validator::make($requestData, [
-            'nama' => 'required|string',
+            'nama' => 'required|string|max:50',
+            'logo' => 'sometimes|mimes:jpeg,jpg,png|max:2048',
+            'alamat' => 'required|string|max:100',
+            'telepon' => 'required|string|max:20',
             'loket' => 'required|string|unique:agen_pelayaran,loket',
         ]);
         if($validator->passes()){
             $isAgenPelayaranUpdated = $agenPelayaran->update($requestData);
             if($isAgenPelayaranUpdated){
-                $agenPelayaran = AgenPelayaran::find($agenPelayaran->id);
-                return response()->json($agenPelayaran, 201);
+                try{
+                    $agenPelayaran = AgenPelayaran::find($agenPelayaran->id);
+                    return response()->json($agenPelayaran, 201);
+                } catch(Exception $e){
+                    return response()->json(['message' => $e], 500);
+                }
+
             }
             return response()->json([
                 'Gagal mengupdate agen_pelayaran'
@@ -91,11 +118,16 @@ class AgenPelayaranController extends Controller{
      * @return null
      */
     public function destroy(Request $request, AgenPelayaran $agenPelayaran){
-        $isAgenPelayaranDeleted = $agenPelayaran->delete();
-        if($isAgenPelayaranDeleted) return response()->json(null, 204);
-        return response()->json([
-            'message' => 'Gagal menghapus agen_pelayaran',
-        ], 500);
+        try{
+            $isAgenPelayaranDeleted = $agenPelayaran->delete();
+            if($isAgenPelayaranDeleted) return response()->json(null, 204);
+            return response()->json([
+                'message' => 'Gagal menghapus agen_pelayaran',
+            ], 500);
+        } catch(Exception $e){
+            return response()->json(['message' => $e], 500);
+        }
+
     }
 
     /**

@@ -10,6 +10,7 @@ class AgenPelayaran extends Model
 
     protected $fillable = [
         'nama',
+        'logo',
         'alamat',
         'telepon',
         'loket'

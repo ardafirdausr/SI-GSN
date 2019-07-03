@@ -17,7 +17,6 @@
 							<thead>
 								<tr>
 									<th>Agen Pelayaran</th>
-									<th>Kode Kapal</th>
 									<th>Nama Kapal</th>
 									<th>Asal</th>
 									<th>Jam</th>

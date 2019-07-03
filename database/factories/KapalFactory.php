@@ -5,7 +5,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Kapal::class, function (Faker $faker) {
-    $faker->addProvider(new \Faker\Provider\id_ID\Person($faker));
+    // $faker->addProvider(new \Faker\Provider\id_ID\Person($faker));
     return [
         'kode' => uniqid(),
         'nama' => $faker->lastName

@@ -16,6 +16,7 @@ class CreateAgenPelayaranTable extends Migration
         Schema::create('agen_pelayaran', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nama', 50);
+            $table->string('logo')->nullable();
             $table->string('alamat', 100);
             $table->string('telepon', 20);
             $table->string('loket', 20);
