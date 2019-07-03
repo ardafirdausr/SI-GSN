@@ -21,15 +21,6 @@ class DummySeeder extends Seeder
                 'access_role' => $accessRole
             ]);
         }
-        // creating dummy agen pelayaran
-        $agenPelayaranCollection = factory('App\Models\AgenPelayaran', 4)->create();
-        // creating dummy kapal each agen
-        foreach($agenPelayaranCollection as $agenPelayaran){
-            $kapalCollection = $agenPelayaran->kapal()->saveMany(factory('App\Models\Kapal', 10)->make());
-            // creating dummy jadwal each kapal
-            foreach($kapalCollection as $kapal){
-                factory('App\Models\Jadwal')->create(['id_kapal' => $kapal->id]);
-            }
-        }
+        factory('App\Models\AgenPelayaran', 4)->create();
     }
 }

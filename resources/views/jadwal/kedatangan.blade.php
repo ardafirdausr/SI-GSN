@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('title')
 	Jadwal Kedatangan
 @endsection
@@ -17,6 +17,7 @@
 							<thead>
 								<tr>
 									<th>Agen Pelayaran</th>
+									<th>Kode Kapal</th>
 									<th>Nama Kapal</th>
 									<th>Asal</th>
 									<th>Jam</th>
@@ -31,15 +32,15 @@
 											<td class="nine wide">{{ $jadwal->kapal->agen_pelayaran->nama }}</td>
 											<td class="one wide">{{ $jadwal->kapal->kode }}</td>
 											<td class="one wide">{{ $jadwal->kapal->nama }}</td>
-											<td class="one wide">{{ $jadwal->asal }}</td>
-											<td class="one wide">{{ date("H : m", strtotime($jadwal->kedatangan))." WIB" }}</td>
-											<td class="{{ $jadwal->status == 'on schedule' ? 'positive' : 'negative' }}" >
+											<td class="one wide">{{ $jadwal->kota }}</td>
+											<td class="one wide">{{ date("H : m", strtotime($jadwal->waktu))." WIB" }}</td>
+											<td class="{{ $jadwal->status_kapal == 'on schedule' ? 'positive' : 'negative' }}" >
 												<i class="icon
-													{{ $jadwal->status == 'on schedule' ? 'checkmark' : ''}}
-													{{ $jadwal->status == 'delay' ? 'attention' : ''}}
-													{{ $jadwal->status == 'cancel' ? 'close' : ''}}
+													{{ $jadwal->status_kapal == 'on schedule' ? 'checkmark' : ''}}
+													{{ $jadwal->status_kapal == 'delay' ? 'attention' : ''}}
+													{{ $jadwal->status_kapal == 'cancel' ? 'close' : ''}}
 												"></i>
-												{{ $jadwal->status }}
+												{{ $jadwal->status_kapal }}
 											</td>
 											<td class="action action-edit positive collapsing single line" style="display: none;">
 												<div>
@@ -61,19 +62,10 @@
 							</tbody>
 						</table>
 					</div>
-					@if(count($paginatedJadwal->items()) > 0)
-						<div class="right aligned column">
-							<div class="ui right floated pagination shadow menu">
-								<a class="icon item" href="{{ $paginatedJadwal->previousPageUrl() }}">
-									<i class="left chevron icon"></i>
-								</a>
-								<a class="item">1</a>
-								<a class="item">2</a>
-								<a class="item">3</a>
-								<a class="item">4</a>
-								<a class="icon item" href="{{ $paginatedJadwal->nextPageUrl() }}">
-									<i class="right chevron icon"></i>
-								</a>
+					@if($paginatedJadwal->total() > $paginatedJadwal->perPage())
+					<div class="right aligned column">
+						<div class="ui right floated pagination shadow menu">
+								{{ $paginatedJadwal->links() }}
 							</div>
 						</div>
 					@endif

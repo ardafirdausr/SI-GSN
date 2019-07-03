@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::group(['namespace' => 'Api', 'middleware' => ['api-localization']], function(){
+Route::group(['namespace' => 'Api', 'middleware' => ['api-localization'], 'as' => 'api.'], function(){
     Route::apiResources([
         'kapal' => 'KapalController',
         'jadwal' => 'JadwalController',
