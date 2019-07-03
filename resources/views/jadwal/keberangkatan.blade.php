@@ -63,18 +63,9 @@
 						</table>
 					</div>
 					@if($paginatedJadwal->total() > $paginatedJadwal->perPage())
-						<div class="right aligned column">
-							<div class="ui right floated pagination shadow menu">
-								<a class="icon item" href="{{ $paginatedJadwal->previousPageUrl() }}">
-									<i class="left chevron icon"></i>
-								</a>
-								<a class="item">1</a>
-								<a class="item">2</a>
-								<a class="item">3</a>
-								<a class="item">4</a>
-								<a class="icon item" href="{{ $paginatedJadwal->nextPageUrl() }}">
-									<i class="right chevron icon"></i>
-								</a>
+					<div class="right aligned column">
+						<div class="ui right floated pagination shadow menu">
+								{{ $paginatedJadwal->links() }}
 							</div>
 						</div>
 					@endif
