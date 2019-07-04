@@ -19,6 +19,7 @@ class User extends Authenticatable
         'NIP',
         'username',
         'nama',
+        'foto',
         // 'email',
         'password',
         'access_role',

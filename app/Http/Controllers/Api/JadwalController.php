@@ -9,6 +9,7 @@ use Rule;
 use Validator;
 
 use App\Models\Jadwal;
+use App\Http\Resources\JadwalResource;
 
 class JadwalController extends Controller{
 
@@ -20,12 +21,13 @@ class JadwalController extends Controller{
     public function index(Request $request){
         $statusKegiatan = $request->input('status_kegiatan') ?? '%%';
         $waktu = $request->input('waktu') ?? date("Y-m-d");
-        $jadwalCollection = Jadwal::with('kapal')
-                                  ->with('kapal.agen_pelayaran')
-                                  ->where('status_kegiatan', 'like', $statusKegiatan)
-                                  ->whereDate('waktu', $waktu)
-                                  ->get();
-        return response()->json($jadwalCollection, 200);
+        $size =  $request->input('size') ?? 10;
+        $paginatedJadwal = Jadwal::where('status_kegiatan', 'like', $statusKegiatan)
+                                 ->whereDate('waktu', $waktu)
+                                 ->paginate($size);
+        return JadwalResource::collection($paginatedJadwal)
+                             ->response()
+                             ->setStatusCode(200);
     }
 
     /**

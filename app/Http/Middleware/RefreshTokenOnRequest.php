@@ -3,6 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use JWTAuth;
+use Exception;
+use Illuminate\Support\Str;
+use \Tymon\JWTAuth\Exceptions\JWTException;
+use \Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class RefreshTokenOnRequest
 {

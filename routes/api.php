@@ -19,6 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
+    Route::post('/login', ['uses' => 'AuthController@login', 'as' => 'login']);
+    Route::post('/logout', ['uses' => 'AuthController@logout', 'as' => 'logout']);
     Route::apiResources([
         'kapal' => 'KapalController',
         'jadwal' => 'JadwalController',
