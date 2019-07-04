@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\KapalResource;
+use App\Http\Resources\BasicResource;
 use Rule;
 use Validator;
 
@@ -16,8 +18,10 @@ class KapalController extends Controller{
      * @return Collection<Kapal> kapalCollection
      */
     public function index(Request $request){
-        $kapalCollection = Kapal::all();
-        return response()->json($kapalCollection, 200);
+        $size = $request->input('size') ?? 10;
+        $kapalCollection = Kapal::paginate($size);
+        return KapalResource::collection($kapalCollection)->response()
+                                                          ->setStatusCode(200);
     }
 
     /**
@@ -26,84 +30,19 @@ class KapalController extends Controller{
      * @return Kapal kapal
      */
     public function show(Request $request, Kapal $kapal){
-        return response()->json($kapal, 200);
+        return (new KapalResource($kapal))->response()
+                                        ->setStatusCode(200);
     }
 
     /**
-     * Create new kapal
-     * @param string kode
-     * @param string nama
-     * @param int id_agen_pelayaran
-     * @return Kapal kapal
+     * @param int size
+     * @return Collection<Jadwal> paginatedJadwal
      */
-    public function store(Request $request){
-        $requestData = $request->only([
-            'kode',
-            'nama',
-            'id_agen_pelayaran'
-        ]);
-        $validator = Validator::make($requestData, [
-            'kode' => 'required|string|unique:kapal',
-            'nama' => 'required|string',
-            'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
-        ]);
-        if($validator->passes()){
-            $kapal = Kapal::create($requestData);
-            return response()->json($kapal, 201);
-        }
-        return response()->json([
-            'message' => 'Data tidak valid',
-            $validator->errors()
-        ], 400);
-    }
-
-    /**
-     * Update kapal by Id
-     * @param string kode
-     * @param string nama
-     * @param int id_agen_pelayaran
-     * @return Kapal kapal
-     */
-    public function update(Request $request, Kapal $kapal){
-        $isKodeIdentic = $kapal->kode == $request->input('kode');
-        $requestData = null;
-        if($isKodeIdentic){
-            $requestData = $request->only(['nama', 'id_agen_pelayaran']);
-            $validator = Validator::make($requestData, [
-                'nama' => 'required|string',
-                'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
-            ]);
-        }
-        else{
-            $requestData = $request->only([
-                'kode',
-                'nama',
-                'id_agen_pelayaran'
-            ]);
-            $validator = Validator::make($requestData, [
-                'kode' => 'required|string|unique:kapal',
-                'nama' => 'required|string',
-                'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
-            ]);
-        }
-        if($validator->passes()){
-            $isKapalUpdated = $kapal->update($requestData);
-            if($isKapalUpdated) return response()->json($kapal, 201);
-            return response()->json(['message' => 'Gagal mengupdate data kapal'], 500);
-        }
-        return response()->json([
-            'message' => 'Data tidak valid',
-            $validator->errors()
-        ], 400);
-    }
-
-    /**
-     * Delete kapal by Id
-     * @return null
-     */
-    public function destroy(Request $request, Kapal $kapal){
-        $isKapalDeleted = $kapal->delete();
-        if($isKapalDeleted) return response()->json(null, 204);
-        return response()->json(['message' => 'Gagal menghapus jadwal'], 500);
+    public function showJadwalByKapalId(Request $request, Kapal $kapal){
+        $size = $request->input('size');
+        $paginatedJadwal = $kapal->jadwal()->paginate($size);
+        return BasicResource::collection($paginatedJadwal)
+                             ->response()
+                             ->setStatusCode(200);
     }
 }

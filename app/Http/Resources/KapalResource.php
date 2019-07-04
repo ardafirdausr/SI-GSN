@@ -18,8 +18,14 @@ class KapalResource extends JsonResource
             'id' => $this->id,
             'kode' => $this->kode,
             'nama' => $this->nama,
-            'id_agen_pelayaran' => $this->id_agen_pelayaran,
-            'agen_pelayaran' => $this->agen_pelayaran
+            'agen_pelayaran' => [
+                'id' => $this->agen_pelayaran->id,
+                'nama' => $this->agen_pelayaran->nama,
+                'logo' => $this->agen_pelayaran->logo,
+                'loket' => $this->agen_pelayaran->loket
+            ],
+            'created_at' => (string) $this->created_at,
+            'updated_at' => (string) $this->updated_at
         ];
     }
 }

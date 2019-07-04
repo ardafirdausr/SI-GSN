@@ -21,8 +21,17 @@ class JadwalResource extends JsonResource
             'status_kegiatan' => $this->status_kegiatan,
             'status_kapal' => $this->status_kapal,
             'status_tiket' => $this->status_tiket,
-            'kapal' => \App\Models\Kapal::find($this->id_kapal),
-            'agen_pelayaran' => $this->kapal->agen_pelayaran,
+            'kapal' => [
+                'id' => $this->kapal->id,
+                'kode' => $this->kapal->kode,
+                'nama' => $this->kapal->nama,
+            ],
+            'agen_pelayaran' => [
+                'id' => $this->kapal->agen_pelayaran->id,
+                'nama' => $this->kapal->agen_pelayaran->nama,
+                'logo' => $this->kapal->agen_pelayaran->logo,
+                'loket' => $this->kapal->agen_pelayaran->loket
+            ],
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];

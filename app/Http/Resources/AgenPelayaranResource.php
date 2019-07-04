@@ -21,6 +21,8 @@ class AgenPelayaranResource extends JsonResource
             'alamat' => $this->alamat,
             'telepon' => $this->telepon,
             'loket' => $this->loket,
+            'created_at' => (string) $this->created_at,
+            'updated_at' => (string) $this->updated_at
         ];
     }
 }
