@@ -14,6 +14,14 @@ use App\Models\AgenPelayaran;
 class AgenPelayaranController extends Controller{
 
     /**
+	 * Constructor
+	 * * Set middleware for controller functions
+	 */
+	public function __construct(){
+		$this->middleware(['jwt-auth-refresh']);
+	}
+
+    /**
      * Show all agen_pelayaran
      * @param int size
      * @return Collection<AgenPelayaran> agenPelayaranCollection

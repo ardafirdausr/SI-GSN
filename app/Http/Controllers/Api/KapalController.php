@@ -14,6 +14,14 @@ use App\Models\Kapal;
 class KapalController extends Controller{
 
     /**
+	 * Constructor
+	 * * Set middleware for controller functions
+	 */
+	public function __construct(){
+		$this->middleware(['jwt-auth-refresh']);
+	}
+
+    /**
      * Show all kapal
      * @return Collection<Kapal> kapalCollection
      */

@@ -11,7 +11,7 @@ use Validator;
 
 class AuthController extends Controller{
 
-    /**
+  /**
 	 * Constructor
 	 * * Set middleware for controller functions
 	 */

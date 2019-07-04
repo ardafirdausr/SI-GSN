@@ -14,6 +14,14 @@ use App\Http\Resources\JadwalResource;
 class JadwalController extends Controller{
 
     /**
+	 * Constructor
+	 * * Set middleware for controller functions
+	 */
+	public function __construct(){
+		$this->middleware(['jwt-auth-refresh']);
+	}
+
+    /**
      * Show all jadwal
      * @param enum tipe
      * @return Collection<Jadwal> jadwalCollection
