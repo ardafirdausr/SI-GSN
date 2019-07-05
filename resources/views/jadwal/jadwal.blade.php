@@ -1,6 +1,6 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 @section('title')
-	Jadwal Kedatangan
+	{{ $titleJadwal }}
 @endsection
 @section('content')
 	<div class="ui grid containers">
@@ -17,7 +17,6 @@
 							<thead>
 								<tr>
 									<th>Agen Pelayaran</th>
-									<th>Kode Kapal</th>
 									<th>Nama Kapal</th>
 									<th>Asal</th>
 									<th>Jam</th>
@@ -30,7 +29,6 @@
 									@foreach ($paginatedJadwal->items() as $jadwal)
 										<tr>
 											<td class="nine wide">{{ $jadwal->kapal->agen_pelayaran->nama }}</td>
-											<td class="one wide">{{ $jadwal->kapal->kode }}</td>
 											<td class="one wide">{{ $jadwal->kapal->nama }}</td>
 											<td class="one wide">{{ $jadwal->kota }}</td>
 											<td class="one wide">{{ date("H : m", strtotime($jadwal->waktu))." WIB" }}</td>

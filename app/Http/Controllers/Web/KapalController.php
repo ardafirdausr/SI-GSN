@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Kapal;
 
 class KapalController extends Controller
 {
@@ -12,9 +13,11 @@ class KapalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $size = $request->input('size');
+        $paginatedKapal = Kapal::with('agen_pelayaran')->paginate($size);
+        return view('kapal.index', compact('paginatedKapal'));
     }
 
     /**

@@ -4,19 +4,34 @@
         <div class="logo-pelindo">
             <img src="{{ asset('images/pelindo3.png') }}" alt="Pelindo 3 Logo">
         </div>
-        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.keberangkatan' ? '#' : route('web.jadwal.keberangkatan') }}">
-            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.keberangkatan' ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="ship icon"></i>Jadwal Keberangkatan
-            </div>
-        </a>
         <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.kedatangan' ? '#' : route('web.jadwal.kedatangan') }}">
             <div class="ui {{ Route::currentRouteName() == 'web.jadwal.kedatangan' ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="ship icon"></i>Jadwal Kedatangan
+                <i class="arrow right icon"></i>Jadwal Kedatangan
             </div>
         </a>
-        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.create' ? '#' : route('web.jadwal.create') }}">
-            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.create' ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="plus icon"></i>Tambah Jadwal
+        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.keberangkatan' ? '#' : route('web.jadwal.keberangkatan') }}">
+            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.keberangkatan' ? 'primary' : 'deactive' }} fluid rounded button">
+                <i class="arrow left icon"></i>Jadwal Keberangkatan
+            </div>
+        </a>
+        <a class="item" href="{{ preg_match('/^web\.jadwal\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.jadwal.index') }}">
+            <div class="ui {{ preg_match('/^web\.jadwal\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
+                <i class="calendar alternate outline icon"></i>Master Jadwal
+            </div>
+        </a>
+        <a class="item" href="{{ preg_match('/^web\.kapal\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.kapal.index') }}">
+            <div class="ui {{ preg_match('/^web\.kapal\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
+                <i class="ship icon"></i>Master Kapal
+            </div>
+        </a>
+        <a class="item" href="{{ preg_match('/^web\.agen-pelayaran\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.agen-pelayaran.index') }}">
+            <div class="ui {{ preg_match('/^web\.agen-pelayaran\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
+                <i class="building outline icon"></i>Master Agen Pelayaran
+            </div>
+        </a>
+        <a class="item" href="{{ preg_match('/^web\.user\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.user.index') }}">
+            <div class="ui {{ preg_match('/^web\.user\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
+                <i class="user icon"></i>Master User
             </div>
         </a>
     </nav>
@@ -27,10 +42,10 @@
                 <h2 class="item ui header">@yield('title', 'Sistem Informasi Pelayanan Terminal GSN')</h2>
             </div>
             <div class="right menu">
-                <div class="ui item" id="notification">
+                {{-- <div class="ui item" id="notification">
                     <i class="bell icon"></i>
-                </div>
-                <div class="ui flowing popup bottom left transition hidden">
+                </div> --}}
+                {{-- <div class="ui flowing popup bottom left transition hidden">
                     <div class="ui three column divided center aligned grid">
                     <div class="column">
                         <h4 class="ui header">Basic Plan</h4>
@@ -48,7 +63,7 @@
                         <div class="ui button">Choose</div>
                     </div>
                     </div>
-                </div>
+                </div> --}}
                 {{-- <div class="ui simple dropdown item">
                     <i class="bell icon"></i>
                     <div class="menu">
@@ -64,6 +79,7 @@
                     </span>
                     <i class="dropdown icon"></i>
                     <div class="menu">
+                        <a class="item" href="{{ route('web.profil') }}"><i class="user icon"></i>Profil</a>
                         <a class="item" href="{{ route('logout') }}"><i class="sign out icon"></i>Keluar</a>
                         {{-- <a class="item"><i class="edit icon"></i>Edit</a>
                         <a class="item"><i class="globe icon"></i>Language</a>
@@ -94,7 +110,7 @@
         width: 100%;
     }
     .rounded{
-        border-radius: 20px !important;
+        border-radius: 8px !important;
         text-align: justify !important;
     }
     .rounded .icon{

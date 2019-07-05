@@ -83,12 +83,13 @@ class JadwalController extends Controller{
      */
     public function showJadwalKedatangan(Request $request){
         $waktu = $request->input('waktu') ?? date('Y-m-d');
+        $titleJadwal = 'Jadwal Kedatangan';
         $paginatedJadwal = Jadwal::with('kapal')
                                   ->where('status_kegiatan', 'datang')
                                   ->whereDate('waktu', $waktu)
                                   ->orderBy('waktu', 'asc')
                                   ->paginate(10);
-        return view('jadwal.kedatangan', compact('paginatedJadwal'));
+        return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal'));
     }
 
     /**
@@ -98,12 +99,13 @@ class JadwalController extends Controller{
      */
     public function showJadwalKeberangkatan(Request $request){
         $waktu = $request->input('waktu') ?? date('Y-m-d');
+        $titleJadwal = "Jadwal Keberangakatan";
         $paginatedJadwal = Jadwal::with('kapal')
                                   ->where('status_kegiatan', 'berangkat')
                                   ->whereDate('waktu', $waktu)
                                   ->orderBy('waktu', 'asc')
                                   ->paginate(10);
-        return view('jadwal.keberangkatan', compact('paginatedJadwal'));
+        return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal'));
     }
 
     /**

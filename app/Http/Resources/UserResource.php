@@ -19,7 +19,7 @@ class UserResource extends JsonResource
             'NIP' => $this->NIP,
             'username' => $this->username,
             'nama' => $this->nama,
-            'foto' => $this->foto,
+            'foto' => asset($this->foto),
             'access_role' => $this->access_role,
         ];
     }

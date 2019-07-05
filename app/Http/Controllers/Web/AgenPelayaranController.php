@@ -4,17 +4,20 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\AgenPelayaran;
 
 class AgenPelayaranController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @param int size
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $size = $request->input('size');
+        $paginatedAgenPelayaran = AgenPelayaran::paginate($size);
+        return view('agen-pelayaran.index', compact('paginatedAgenPelayaran'));
     }
 
     /**

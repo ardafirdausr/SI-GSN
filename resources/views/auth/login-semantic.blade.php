@@ -2,9 +2,9 @@
 @section('app')
 <div class="ui middle aligned center aligned grid">
     <div class="left aligned column">
-        <h2 class="ui blue image header">
-            <img src="/images/pelindo3.png" class="fluid large image">
-            <div class="content">Login</div>
+        <h2 class="ui blue image header" id="title-container">
+            <img src="/images/pelindo3.png" class="fluid large image" id="logo-pelindo">
+            <div class="content" id="title-login">Login</div>
         </h2>
         <form class="ui large error form" method="POST" action="{{ route('login') }}">
             @csrf
@@ -47,6 +47,20 @@
 
 @section('app-style')
 <style>
+    #title-container{
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-start;
+    }
+    #logo-pelindo{
+        width: 200px !important;
+        margin-right: 5px;
+    }
+    #title-login{
+        font-size: 40px !important;
+        text-anchor: end;
+    }
+
     body {
         background-color: #DADADA;
     }

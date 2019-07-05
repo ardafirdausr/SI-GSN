@@ -19,12 +19,14 @@ Route::group(['middleware' => 'guest'], function(){
 });
 
 Route::group(['middleware' => 'auth:web'], function(){
+
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout', 'as' => 'logout']);
     Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
         // User Resource Route
+        Route::get('/profil', ['uses' => 'UserController@showProfile', 'as' => 'profil']);
         Route::resource('user', 'UserController');
         // Agent Pelayaran Resource Route
-        Route::resource('agent-pelayaran', 'AgenPelayaranController');
+        Route::resource('agen-pelayaran', 'AgenPelayaranController');
         // Kapal Resource Route
         Route::resource('kapal', 'KapalController');
         // Jadwal Resource Route

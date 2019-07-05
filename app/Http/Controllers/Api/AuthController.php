@@ -31,7 +31,7 @@ class AuthController extends Controller{
 			$credentials = $request->only('username', 'password');
 			try {
 				if (! $token = JWTAuth::attempt($credentials)) {
-					return response()->json(['message' => 'Invalid credentials'], 500);
+					return response()->json(['message' => 'Username atau Password salah'], 400);
 				}
 			}
 			catch (JWTException $e) {
@@ -45,8 +45,11 @@ class AuthController extends Controller{
 																			->response()
 																		  ->setStatusCode(200);
 		}
-		$error = $validator->errors();
-		return $this->respondInvalid(null, $error);
+		$errors = $validator->errors();
+		return response()->json([
+			'message'  => 'Data tidak valid',
+			'errors' => $errors
+		], 400);
 	}
 
 	/**
@@ -57,9 +60,12 @@ class AuthController extends Controller{
 		$token = $request->bearerToken();
 		try {
 			JWTAuth::invalidate($token);
-			return response()->json(['message'=> 'Logout berhasil']);
+			return response()->json(['message'=> 'Logout berhasil'], 200);
 		} catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-			return $this->respondInternalError('Logout gagal, silahkan coba lagi');
+			return response()->json([
+				'message'  => 'Data tidak valid',
+				'errors' => $errors
+			], 500);
 		}
 	}
 }

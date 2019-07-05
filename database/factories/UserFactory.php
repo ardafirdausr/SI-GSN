@@ -32,7 +32,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) use ($userAutoI
         'NIP' => $faker->nik(),
         'username' => Str::camel($name),
         'nama' => $name,
-        'foto' => asset('images/man.png'),
+        'foto' => 'images/man.png',
         // 'email' => $faker->unique()->safeEmail,
         // 'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

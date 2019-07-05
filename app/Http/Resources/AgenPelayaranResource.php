@@ -17,7 +17,7 @@ class AgenPelayaranResource extends JsonResource
         return [
             'id' => $this->id,
             'nama' => $this->nama,
-            'logo' => $this->logo,
+            'logo' => asset($this->logo),
             'alamat' => $this->alamat,
             'telepon' => $this->telepon,
             'loket' => $this->loket,

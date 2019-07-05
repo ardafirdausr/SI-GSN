@@ -16,7 +16,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
     Route::post('/login', ['uses' => 'AuthController@login', 'as' => 'login']);
     Route::post('/logout', ['uses' => 'AuthController@logout', 'as' => 'logout']);
     Route::get('/asu', function(){return('asru');});
-    Route::group(['prefix' => '/agen_pelayaran', 'as' => 'agen_pelayaran.'], function(){
+    Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
         Route::get('/', ['uses' => 'AgenPelayaranController@index', 'as' => 'index']);
         Route::get('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@show', 'as' => 'show']);
         Route::get('/{agenPelayaran}/kapal', ['uses' => 'AgenPelayaranController@showKapalByAgenPelayaranId', 'as' => '.kapal' ]);

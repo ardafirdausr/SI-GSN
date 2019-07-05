@@ -64,7 +64,10 @@ class AgenPelayaranController extends Controller{
      **/
     public function showJadwalByAgenPelayaranId(Request $request, AgenPelayaran $agenPelayaran){
         $size = $request->input('size') ?? 10;
-        $paginatedJadwal = $agenPelayaran->jadwal()->with('kapal')->paginate(10);
+        $paginatedJadwal = $agenPelayaran->jadwal()
+                                         ->with('kapal')
+                                         ->orderBy('waktu', 'desc')
+                                         ->paginate(10);
         return BasicResource::collection($paginatedJadwal)
                             ->response()
                             ->setStatusCode(200);

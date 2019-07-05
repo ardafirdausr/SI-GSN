@@ -48,7 +48,9 @@ class KapalController extends Controller{
      */
     public function showJadwalByKapalId(Request $request, Kapal $kapal){
         $size = $request->input('size');
-        $paginatedJadwal = $kapal->jadwal()->paginate($size);
+        $paginatedJadwal = $kapal->jadwal()
+                                 ->orderBy('waktu', 'desc')
+                                 ->paginate($size);
         return BasicResource::collection($paginatedJadwal)
                              ->response()
                              ->setStatusCode(200);
