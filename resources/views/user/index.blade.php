@@ -21,8 +21,11 @@
 								@if(count($paginatedUser->items()) > 0)
 									@foreach ($paginatedUser->items() as $user)
 										<tr>
-											<td>
-												<img src="{{ asset($user->foto) }}" alt="{{ $user->nama }}" style="width:100%">
+											<td class="center aligned">
+												<img
+													src="{{ asset($user->foto) }}"
+													alt="{{ $user->nama }}"
+													width="120" />
 											</td>
 											<td class="data-alamat">{{ $user->nama }}</td>
 											<td class="data-nama">{{ $user->username }}</td>
@@ -165,22 +168,12 @@
 		}
 
 		function showForm(title){
-			$('#form-container').css({
-						opacity: 0,
-						visibility: "visible"
-					}).animate({
-						opacity: 1
-					}, 200);
 			$('#form-title').html(title);
+			$('#form-container').transition('fade up');
 		}
 
 		function hideForm(){
-			$('#form-container').css({
-						opacity: 1.0,
-						visibility: "hidden"
-				}).animate({
-						opacity: 0
-				}, 200);
+			$('#form-container').transition('fade up');
 			setTimeout(function(){ $('#form-title').html(''); }, 200);
 		}
 

@@ -42,4 +42,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function log_aktivitas(){
+        return $this->morphToMany(LogAktivitas::class, 'log');
+    }
+
+    public static function boot(){
+        parent::boot();
+        static::created(function($user){
+            $authUser = auth()->user();
+            $authUser = $authUser ? $authUser->username : 'Anonim';
+            $user->log_aktivitas()->create([
+                'aktivitas' => "$authUser telah menambahkan user baru dengan id : $user->id"
+            ]);
+        });
+        static::updated(function($user){
+            $authUser = auth()->user();
+            $authUser = $authUser ? $authUser->username : 'Anonim';
+            $user->log_aktivitas()->create([
+                'aktivitas' => "$authUser telah mengupdate user baru dengan id : $user->id"
+            ]);
+        });
+        static::deleted(function($user){
+            $authUser = auth()->user();
+            $authUser = $authUser ? $authUser->username : 'Anonim';
+            $user->log_aktivitas()->create([
+                'aktivitas' => "$authUser telah menghapus user baru dengan id : $user->id"
+            ]);
+        });
+    }
 }

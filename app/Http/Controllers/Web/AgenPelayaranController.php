@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\AgenPelayaran;
+use App\Models\LogAktivitas;
 
 class AgenPelayaranController extends Controller
 {
@@ -17,7 +18,10 @@ class AgenPelayaranController extends Controller
     {
         $size = $request->input('size');
         $paginatedAgenPelayaran = AgenPelayaran::paginate($size);
-        return view('agen-pelayaran.index', compact('paginatedAgenPelayaran'));
+        $topFiveAgenPelayaranLogs = LogAktivitas::where('log_type', 'App\Models\AgenPelayaran')
+                                               ->orderBy('created_at', 'desc')
+                                               ->get();
+        return view('agen-pelayaran.index', compact('paginatedAgenPelayaran', 'topFiveAgenPelayaranLogs'));
     }
 
     /**

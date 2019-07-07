@@ -15,7 +15,7 @@ class KapalController extends Controller
      */
     public function index(Request $request)
     {
-        $size = $request->input('size');
+        $size = $request->input('size') ?? 10;
         $paginatedKapal = Kapal::with('agen_pelayaran')->paginate($size);
         return view('kapal.index', compact('paginatedKapal'));
     }
