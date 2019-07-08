@@ -180,6 +180,20 @@ Master Jadwal Pelayaran
 								value={{ old('loket') }}>
 						</div>
 					</div>
+					<div class="field">
+						<label  id="filename" class="custom-file-label" for="validatedCustomFile"></label>
+						<div class="ui left icon transparent input">
+							<i class="photo icon"></i>
+							<input type="file" name="logo"id="logo" placeholder="Pilih logo agen"
+								value={{ old('loket') }}>
+						</div>
+						<div id="img-upload-container" class="my-md-3">
+							<img id='img-upload'/>
+						</div>
+						<small id="photoHelpBlock" class="form-text text-muted">
+							Foto yang yang dipilih berformat .jpg, .png, .jpeg, dengan kapasitas kurang dari 2MB
+						</small>
+					</div>
 					@if($errors->any())
 					<div class="ui error message">
 						<div class="header">Username atau Password Salah</div>
@@ -277,6 +291,24 @@ Master Jadwal Pelayaran
 
 	#create-form-container, #update-form-container{
 		display: none;
+	}
+
+	#img-upload-container{
+		width: 100%;
+		padding: 5px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: 1px solid #eaeaea;
+		min-height: 200px;
+	}
+	#img-upload{
+		width: 100%;
+		object-fit: cover;
+	}
+	#logo{
+		text-overflow: ellipsis;
+		overflow: hidden;
 	}
 </style>
 <script>
@@ -426,6 +458,26 @@ Master Jadwal Pelayaran
 			onApprove: function () {
 			}
 		}).modal('show');
+	});
+
+	function showPreview(input) {
+		console.log(input.files);
+		if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+						$('#filename').text(input.files[0].name);
+						$('#img-upload').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+		}
+		else{
+			$('#filename').text("");
+			$('#img-upload').attr('src', "");
+		}
+	}
+
+	$("#logo").on('change', function(){
+			showPreview(this);
 	});
 </script>
 @endsection
