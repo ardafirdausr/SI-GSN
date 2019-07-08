@@ -21,20 +21,41 @@ Route::group(['middleware' => 'guest'], function(){
 Route::group(['middleware' => 'auth:web'], function(){
 
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout', 'as' => 'logout']);
+
     Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
+
         // User Resource Route
         Route::get('/profil', ['uses' => 'UserController@showProfile', 'as' => 'profil']);
         Route::resource('user', 'UserController');
+
         // Agent Pelayaran Resource Route
-        Route::resource('agen-pelayaran', 'AgenPelayaranController');
+        // Route::resource('agen-pelayaran', 'AgenPelayaranController');
+        Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
+            Route::get('/', ['uses' => 'AgenPelayaranController@index', 'as' => 'index']);
+            Route::post('/', ['uses' => 'AgenPelayaranController@store', 'as' => 'store']);
+            Route::put('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@update', 'as' => 'update']);
+            Route::delete('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@destroy', 'as' => 'destroy']);
+        });
+
         // Kapal Resource Route
-        Route::resource('kapal', 'KapalController');
+        // Route::resource('kapal', 'KapalController');
+        Route::group(['prefix' => '/kapal', 'as' => 'kapal.'], function(){
+            Route::get('/', ['uses' => 'KapalController@index', 'as' => 'index']);
+            Route::post('/', ['uses' => 'KapalController@store', 'as' => 'store']);
+            Route::put('/{kapal}', ['uses' => 'KapalController@update', 'as' => 'update']);
+            Route::delete('/{kapal}', ['uses' => 'KapalController@destroy', 'as' => 'destroy']);
+        });
+
         // Jadwal Resource Route
+        // Route::resource('jadwal', 'JadwalController');
         Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
+            Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
             Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan']);
             Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan']);
+            Route::post('/', ['uses' => 'JadwalController@store', 'as' => 'store']);
+            Route::put('/{jadwal}', ['uses' => 'JadwalController@update', 'as' => 'update']);
+            Route::delete('/{jadwal}', ['uses' => 'JadwalController@destroy', 'as' => 'destroy']);
         });
-        Route::resource('jadwal', 'JadwalController');
     });
 });
 

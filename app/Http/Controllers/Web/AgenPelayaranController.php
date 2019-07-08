@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Validator;
+
 use App\Models\AgenPelayaran;
 use App\Models\LogAktivitas;
 
@@ -25,68 +27,108 @@ class AgenPelayaranController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Create new agen_pelayaran
+     * @param string nama
+     * @param Image logo
+     * @param string alamat
+     * @param string telepon
+     * @param string loket
+     * @return AgenPelayaran agenPelayaran
      */
-    public function create()
-    {
-        //
+    public function store(Request $request){
+        $requestData = $request->only([
+            'nama',
+            'logo',
+            'alamat',
+            'telepon',
+            'loket'
+        ]);
+        $validator = Validator::make($requestData, [
+            'nama' => 'required|string|max:50',
+            'logo' => 'sometimes|mimes:jpeg,jpg,png|max:2048',
+            'alamat' => 'required|string|max:100',
+            'telepon' => 'required|string|max:20',
+            'loket' => 'required|string|unique:agen_pelayaran,loket',
+        ]);
+        if($validator->passes()){
+            try{
+                $agenPelayaran = AgenPelayaran::create($requestData);
+                return redirect()->route('web.agen-pelayaran.index')
+                                 ->with(['successMessage' => "Berhasil menambahkan $agenPelayaran->nama"]);
+            } catch (Exception $e){
+                return redirect()->route('web.agen-pelayaran.index')
+                                 ->with(['errorMessage' => 'Server Error']);
+            }
+        }
+        return redirect()->route('web.agen-pelayaran.index')
+                         ->with(['errorMessage' => 'Server Error'])
+                         ->withErrors($validator);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Update agen_pelayaran by Id
+     * @param string nama
+     * @param Image logo
+     * @param string alamat
+     * @param string telepon
+     * @param string loket
+     * @return AgenPelayaran agenPelayaran
      */
-    public function store(Request $request)
-    {
-        //
+    public function update(Request $request, AgenPelayaran $agenPelayaran){
+        $requestData = $request->only([
+            'nama',
+            'logo',
+            'alamat',
+            'telepon',
+            'loket',
+        ]);
+        $validator = Validator::make($requestData, [
+            'nama' => 'required|string|max:50',
+            'logo' => 'sometimes|mimes:jpeg,jpg,png|max:2048',
+            'alamat' => 'required|string|max:100',
+            'telepon' => 'required|string|max:20',
+            'loket' => 'required|string|unique:agen_pelayaran,loket',
+        ]);
+        if($validator->passes()){
+            $isAgenPelayaranUpdated = $agenPelayaran->update($requestData);
+            if($isAgenPelayaranUpdated){
+                try{
+                    $agenPelayaran = AgenPelayaran::find($agenPelayaran->id);
+                    return redirect()->route('web.agen-pelayaran.index')
+                                     ->with(['successMessage' => "Berhasil mengupdate $agenPelayaran->nama"]);
+                } catch(Exception $e){
+                    return redirect()->route('web.agen-pelayaran.index')
+                                     ->with(['errorMessage' => 'Server Error']);
+                }
+
+            }
+            return redirect()->route('web.agen-pelayaran.index')
+                             ->with(['errorMessage' => 'Update Gagal']);
+        }
+        return redirect()->route('web.agen-pelayaran.index')
+                         ->with(['errorMessage' => 'Server Error'])
+                         ->withErrors($validator);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Delete agen_pelayaran by Id
+     * @param int id
+     * @return null
      */
-    public function show($id)
-    {
-        //
-    }
+    public function destroy(Request $request, AgenPelayaran $agenPelayaran){
+        try{
+            $namaAgenPelayaran = $agenPelayaran->nama;
+            $isAgenPelayaranDeleted = $agenPelayaran->delete();
+            if($isAgenPelayaranDeleted){
+                return redirect()->route('web.agen-pelayaran.index')
+                                 ->with(['successMessage' => "Berhasil Menghapus $namaAgenPelayaran"]);
+            }
+            return redirect()->route('web.agen-pelayaran.index')
+                             ->with(['errorMessage' => "Gagal Menghapus $namaAgenPelayaran"]);
+        } catch(Exception $e){
+            return redirect()->route('web.agen-pelayaran.index')
+                             ->with(['errorMessage' => 'Server Error']);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
