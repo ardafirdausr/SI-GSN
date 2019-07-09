@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use Storage;
 use Log;
 
 use App\Models\AgenPelayaran;
@@ -54,6 +55,14 @@ class AgenPelayaranController extends Controller
         if($validator->passes()){
             try{
                 $agenPelayaran = AgenPelayaran::create($requestData);
+                if($request->hasFile('logo')){
+                    $imageUploaded = $request->file('logo');
+                    $extension = $imageUploaded->extension();
+                    $folderName = '/images/agen-pelayaran';
+                    $filename = base64_encode("agen-pelayaran#$agenPelayaran->id").'.'.$extension;
+                    Storage::disk('public')->putFileAs($folderName, $imageUploaded, $filename);
+                    $agenPelayaran->update(['logo' => '/storage'.$folderName.'/'.$filename]);
+                }
                 return redirect()->back()
                                  ->with([
                                      'successMessage' => "Berhasil menambahkan $agenPelayaran->nama"
@@ -98,31 +107,40 @@ class AgenPelayaranController extends Controller
             'logo' => 'sometimes|file|image|max:2048',
             'alamat' => 'required|string|max:100',
             'telepon' => 'required|string|max:20',
-            'loket' => 'sometimes|string|unique:agen_pelayaran,loket',
+            'loket' => 'sometimes|string|unique:agen_pelayaran,loket,'.$agenPelayaran->id,
         ]);
+
         if($validator->passes()){
-            $isAgenPelayaranUpdated = $agenPelayaran->update($requestData);
-            if($isAgenPelayaranUpdated){
-                try{
+            try{
+                $isAgenPelayaranUpdated = $agenPelayaran->update($requestData);
+                $isImageUpdated = true;
+                if($request->hasFile('logo')){
+                    $imageUploaded = $request->file('logo');
+                    $extension = $imageUploaded->extension();
+                    $folderName = '/images/agen-pelayaran';
+                    $filename = base64_encode("agen-pelayaran#$agenPelayaran->id").'.'.$extension;
+                    $savedImage = Storage::disk('public')->putFileAs($folderName, $imageUploaded, $filename);
+                    $isImageUpdated = $agenPelayaran->update(['logo' => '/storage'.$folderName.'/'.$filename]);
+                }
+                if($isAgenPelayaranUpdated && $isImageUpdated){
                     $agenPelayaran = AgenPelayaran::find($agenPelayaran->id);
                     return redirect()->back()
                                      ->with(['successMessage' => "Berhasil mengupdate $agenPelayaran->nama"]);
-                } catch(Exception $e){
+                }
+                return redirect()->back()
+                             ->withInput()
+                             ->with([
+                                 'errorMessage' => 'Update Gagal',
+                                 'failedUpdate' => true
+                               ]);
+            } catch(Exception $e){
                     return redirect()->back()
                                      ->withInput()
                                      ->with([
                                          'errorMessage' => 'Server Error',
                                          'failedUpdate' => true
                                        ]);
-                }
-
             }
-            return redirect()->back()
-                             ->withInput()
-                             ->with([
-                                 'errorMessage' => 'Update Gagal',
-                                 'failedUpdate' => true
-                               ]);
         }
         return redirect()->back()
                         ->withInput()

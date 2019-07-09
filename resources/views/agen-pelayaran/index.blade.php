@@ -37,7 +37,9 @@ Master Jadwal Pelayaran
 							{{ $agenPelayaran->id }}
 						</td>
 						<td id="value-logo" value={{ $agenPelayaran->logo }} class="center aligned">
-							<img src="{{ $agenPelayaran->logo ?? asset('images/base.png') }}" alt="{{ $agenPelayaran->nama }}" id="value-logo">
+							<img
+								src="{{ $agenPelayaran->logo ? asset($agenPelayaran->logo) : asset('images/base.png') }}"
+								alt="{{ $agenPelayaran->nama }}" id="value-logo">
 						</td>
 						<td id="value-nama" value="{{ $agenPelayaran->nama }}">
 							{{ $agenPelayaran->nama }}
@@ -235,7 +237,7 @@ Master Jadwal Pelayaran
 			</form>
 		</div>
 		<div class="row changeable-segment" id="update-form-container" style="display: none">
-			<form class="ui form" id="update-form" method="POST" action="{{ route('web.agen-pelayaran.update', ['agenPelayaran' => ':agenPelayaran']) }}" enctype="multipart/form-data">
+			<form class="ui error form" id="update-form" method="POST" action="{{ route('web.agen-pelayaran.update', ['agenPelayaran' => ':agenPelayaran']) }}" enctype="multipart/form-data">
 				@csrf
 				<input type="hidden" name="_method" value="PUT">
 				<h2 class="ui green header" id="form-title">Edit Agen Pelayaran</h2>
@@ -287,8 +289,6 @@ Master Jadwal Pelayaran
 					<div class="ui error message">
 						<div class="header">{{ session('errorMessage') }}</div>
 						<ul>
-							<li>tokek</li>
-							<li>toke</li>
 							@foreach($errors->all() as $error)
 								<li>{{ $error}}</li>
 							@endforeach
@@ -373,7 +373,6 @@ Master Jadwal Pelayaran
 
 	$(document).ready(function(){
 		setLastState();
-		activateLastUpdate();
 		setTimeout(function() {
 			hideAllDismissableMessage();
 		}, 3000);
@@ -385,25 +384,24 @@ Master Jadwal Pelayaran
 	}
 
 	function activateLastUpdate(){
-		// var id = "{{old('id-update')}}";
-		// var selectedDataRow = $('#data-' + id);
-		// var imageSource = selectedDataRow.find('#value-logo').attr('value');
-		// var url = $('#update-form').attr('action');
-		// selectedDataRow.addClass('active');
-		// url = url.replace(':agenPelayaran', id);
-		// $('#update-form').attr('action', url);
-		// $('#update-form #img-upload-container').show();
-		// $('#update-form #img-upload').attr('src', imageSource);
+		var id = "{{old('id-update')}}";
+		var selectedDataRow = $('#data-' + id);
+		var imageSource = selectedDataRow.find('#value-logo').attr('value');
+		selectedDataRow.addClass('active');
+		var url = $('#update-form').attr('action');
+		url = url.replace(':agenPelayaran', id);
+		$('#update-form').attr('action', url);
+		$('#update-form #img-upload-container').show();
+		$('#update-form #img-upload').attr('src', imageSource);
 	}
 
 	function setLastState(){
 		var failedCreate = {{ session()->has('failedCreate') ? 'true' : 'false' }};
 		var failedUpdate = {{ session()->has('failedUpdate') ? 'true' : 'false' }};
-		console.log('create : ' + failedCreate);
-		console.log('update : ' + failedUpdate);
 		if(failedCreate) $('#create-button').click();
 		if(failedUpdate){
 			$('#update-button').click();
+			activateLastUpdate();
 			toggleLogInformation(0);
 			toggleUpdateForm(400);
 			;
