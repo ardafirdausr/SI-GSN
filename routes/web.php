@@ -29,7 +29,6 @@ Route::group(['middleware' => 'auth:web'], function(){
         Route::resource('user', 'UserController');
 
         // Agent Pelayaran Resource Route
-        // Route::resource('agen-pelayaran', 'AgenPelayaranController');
         Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
             Route::get('/', ['uses' => 'AgenPelayaranController@index', 'as' => 'index']);
             Route::post('/', ['uses' => 'AgenPelayaranController@store', 'as' => 'store']);
@@ -38,7 +37,6 @@ Route::group(['middleware' => 'auth:web'], function(){
         });
 
         // Kapal Resource Route
-        // Route::resource('kapal', 'KapalController');
         Route::group(['prefix' => '/kapal', 'as' => 'kapal.'], function(){
             Route::get('/', ['uses' => 'KapalController@index', 'as' => 'index']);
             Route::post('/', ['uses' => 'KapalController@store', 'as' => 'store']);
@@ -47,7 +45,6 @@ Route::group(['middleware' => 'auth:web'], function(){
         });
 
         // Jadwal Resource Route
-        // Route::resource('jadwal', 'JadwalController');
         Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
             Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
             Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan']);
@@ -56,6 +53,7 @@ Route::group(['middleware' => 'auth:web'], function(){
             Route::put('/{jadwal}', ['uses' => 'JadwalController@update', 'as' => 'update']);
             Route::delete('/{jadwal}', ['uses' => 'JadwalController@destroy', 'as' => 'destroy']);
         });
+
     });
 });
 

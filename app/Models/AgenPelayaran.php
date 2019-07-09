@@ -35,28 +35,28 @@ class AgenPelayaran extends Model
         return $this->morphToMany(LogAktivitas::class, 'log');
     }
 
-    public static function boot(){
-        parent::boot();
-        static::created(function($agenPelayaran){
-            $authUser = auth()->user();
-            $authUser = $authUser ? $authUser->username : 'Anonim';
-            $agenPelayaran->log_aktivitas()->create([
-                'aktivitas' => "$authUser telah menambahkan agen pelayaran dengan id : $agenPelayaran->id"
-            ]);
-        });
-        static::updated(function($agenPelayaran){
-            $authUser = auth()->user();
-            $authUser = $authUser ? $authUser->username : 'Anonim';
-            $agenPelayaran->log_aktivitas()->create([
-                'aktivitas' => "$authUser telah mengupdate agen pelayaran dengan id : $agenPelayaran->id"
-            ]);
-        });
-        static::deleted(function($agenPelayaran){
-            $authUser = auth()->user();
-            $authUser = $authUser ? $authUser->username : 'Anonim';
-            $agenPelayaran->log_aktivitas()->create([
-                'aktivitas' => "$authUser telah menghapus agen pelayaran dengan id : $agenPelayaran->id"
-            ]);
-        });
-    }
+    // public static function boot(){
+    //     parent::boot();
+    //     static::created(function($agenPelayaran){
+    //         $authUser = auth()->user();
+    //         $authUser = $authUser ? $authUser->username : 'Anonim';
+    //         $agenPelayaran->log_aktivitas()->create([
+    //             'aktivitas' => "$authUser telah menambahkan agen pelayaran dengan id : $agenPelayaran->id"
+    //         ]);
+    //     });
+    //     static::updated(function($agenPelayaran){
+    //         $authUser = auth()->user();
+    //         $authUser = $authUser ? $authUser->username : 'Anonim';
+    //         $agenPelayaran->log_aktivitas()->create([
+    //             'aktivitas' => "$authUser telah mengupdate agen pelayaran dengan id : $agenPelayaran->id"
+    //         ]);
+    //     });
+    //     static::deleted(function($agenPelayaran){
+    //         $authUser = auth()->user();
+    //         $authUser = $authUser ? $authUser->username : 'Anonim';
+    //         $agenPelayaran->log_aktivitas()->create([
+    //             'aktivitas' => "$authUser telah menghapus agen pelayaran dengan id : $agenPelayaran->id"
+    //         ]);
+    //     });
+    // }
 }

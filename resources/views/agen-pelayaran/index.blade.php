@@ -32,23 +32,23 @@ Master Jadwal Pelayaran
 				<tbody>
 					@if(count($paginatedAgenPelayaran->items()) > 0)
 					@foreach ($paginatedAgenPelayaran->items() as $agenPelayaran)
-					<tr>
-						<td id="data-id" value="{{ $agenPelayaran->id }}">
+					<tr id="data-{{ $agenPelayaran->id }}">
+						<td id="value-id" value="{{ $agenPelayaran->id }}">
 							{{ $agenPelayaran->id }}
 						</td>
-						<td class="center aligned">
-							<img src="{{ $agenPelayaran->logo }}" alt="{{ $agenPelayaran->nama }}" id="data-gambar">
+						<td id="value-logo" value={{ $agenPelayaran->logo }} class="center aligned">
+							<img src="{{ $agenPelayaran->logo ?? asset('images/base.png') }}" alt="{{ $agenPelayaran->nama }}" id="value-logo">
 						</td>
-						<td id="data-nama" value="{{ $agenPelayaran->nama }}">
+						<td id="value-nama" value="{{ $agenPelayaran->nama }}">
 							{{ $agenPelayaran->nama }}
 						</td>
-						<td id="data-alamat" value="{{ $agenPelayaran->alamat }}">
+						<td id="value-alamat" value="{{ $agenPelayaran->alamat }}">
 							{{ $agenPelayaran->alamat }}
 						</td>
-						<td id="data-telepon" value="{{ $agenPelayaran->telepon }}">
+						<td id="value-telepon" value="{{ $agenPelayaran->telepon }}">
 							{{ $agenPelayaran->telepon }}
 						</td>
-						<td id="data-loket" value="{{ $agenPelayaran->loket }}">
+						<td id="value-loket" value="{{ $agenPelayaran->loket }}">
 							{{ $agenPelayaran->loket }}
 						</td>
 						<td>
@@ -111,8 +111,8 @@ Master Jadwal Pelayaran
 		<div class="row changeable-segment" id="log-container">
 			<div class="ui one column">
 				<h2 class="ui header">Log Perubahan</h2>
-				<table class="ui raised segment selectable celled striped fixed small collapsing table">
-					<thead>
+				<table class="ui raised segment selectable celled striped fixed small collapsing definition table" style="width: 100%">
+					<thead class="full-width">
 						<tr>
 							<th>Aktivitas</th>
 							<th>Tanggal</th>
@@ -133,7 +133,7 @@ Master Jadwal Pelayaran
 						@endforeach
 						@else
 						<tr>
-							<td colspan="6" style="text-align:center"> Tidak ada log</td>
+							<td colspan="2" style="text-align:center"> Tidak ada log</td>
 						<tr>
 							@endif
 					</tbody>
@@ -146,48 +146,74 @@ Master Jadwal Pelayaran
 					</tfoot>
 				</table>
 			</div>
+			<div class="ui one column changeable-segment" >
+				@if(session()->has('errorMessage'))
+				<div class="ui icon tiny error message" id="errorMessage">
+						<i class="close icon"></i>
+					<i class="notched x icon"></i>
+					<div class="content">
+						<div class="header">
+							{{ session('errorMessage') }}
+						</div>
+						{{-- <p>We're fetching that content for you.</p> --}}
+					</div>
+				</div>
+				@endif
+				@if(session()->has('successMessage'))
+				<div class="ui icon tiny success message" id="successMessage">
+					<i class="close icon"></i>
+					<i class="notched check icon"></i>
+					<div class="content">
+						<div class="header">
+							{{ session('successMessage') }}
+						</div>
+						{{-- <p>We're fetching that content for you.</p> --}}
+					</div>
+				</div>
+				@endif
+			</div>
 		</div>
-		<div class="row changeable-segment" id="create-form-container">
-			<form class="ui form" id="create-form" method="POST" action="{{ route('web.agen-pelayaran.store') }}">
+		<div class="row changeable-segment" id="create-form-container" style="display: none">
+			<form class="ui form error" id="create-form" method="POST" action="{{ route('web.agen-pelayaran.store') }}" enctype="multipart/form-data">
 				@csrf
 				<h2 class="ui blue header" id="form-title">Tambah Agen Pelayaran</h2>
 				<div class="ui raised segment">
-					<div class="field">
+					<div class="field {{ $errors->has('nama') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="id card icon"></i>
-							<input type="text" name="nama" placeholder="Masukkan Nama"
-								value="{{ old('nama') }}">
-						</div>
+							<input type="text" id="create-nama" name="nama" placeholder="Masukkan Nama"
+								value={{ old('nama') }}>
+							</div>
 					</div>
-					<div class="field">
+					<div class="field {{ $errors->has('alamat') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="map icon"></i>
-							<input type="text" name="alamat" placeholder="Masukkan Alamat"
+							<input type="text" id="create-alamat" name="alamat" placeholder="Masukkan Alamat"
 								value={{ old('alamat') }}>
-						</div>
+							</div>
 					</div>
-					<div class="field">
+					<div class="field {{ $errors->has('telepon') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="phone icon"></i>
-							<input type="text" name="telepon" placeholder="Masukkan Telepon"
+							<input type="text" id="create-telepon" name="telepon" placeholder="Masukkan Telepon"
 								value={{ old('telepon') }}>
-						</div>
+							</div>
 					</div>
-					<div class="field">
+					<div class="field {{ $errors->has('loket') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="pin icon"></i>
-							<input type="text" name="loket" placeholder="Masukkan Loket"
+							<input type="text" id="create-loket" name="loket" placeholder="Masukkan Loket"
 								value={{ old('loket') }}>
-						</div>
+							</div>
 					</div>
-					<div class="field">
-						<label  id="filename" class="custom-file-label" for="validatedCustomFile"></label>
+					<div class="photo-field-container field {{ $errors->has('logo') ? 'error' : '' }}">
+						<label for="logo" >Logo Agen Pelayaran</label>
 						<div class="ui left icon transparent input">
 							<i class="photo icon"></i>
-							<input type="file" name="logo"id="logo" placeholder="Pilih logo agen"
-								value={{ old('loket') }}>
-						</div>
-						<div id="img-upload-container" class="my-md-3">
+							<input type="file" id="create-logo" name="logo" placeholder="Pilih logo agen"
+								value={{ old('logo') }}>
+							</div>
+						<div id="img-upload-container" class="my-md-3" style="display: none">
 							<img id='img-upload'/>
 						</div>
 						<small id="photoHelpBlock" class="form-text text-muted">
@@ -196,56 +222,87 @@ Master Jadwal Pelayaran
 					</div>
 					@if($errors->any())
 					<div class="ui error message">
-						<div class="header">Username atau Password Salah</div>
-						<p>{{ $errors->first() }} </p>
+						<div class="header">{{ session('errorMessage') }}</div>
+						<ul>
+							@foreach($errors->all() as $error)
+								<li>{{ $error}}</li>
+							@endforeach
+						</ul>
 					</div>
 					@endif
-					<button class="ui fluid large blue submit button">Simpan</button>
+					<input type="submit" name="create-form" value="Simpan" class="ui fluid large blue submit button">
 				</div>
 			</form>
 		</div>
-		<div class="row changeable-segment" id="update-form-container">
-			<form class="ui form" id="update-form" method="POST" action="{{ route('web.agen-pelayaran.update', ['agenPelayaran' => ':agenPelayaran']) }}">
+		<div class="row changeable-segment" id="update-form-container" style="display: none">
+			<form class="ui form" id="update-form" method="POST" action="{{ route('web.agen-pelayaran.update', ['agenPelayaran' => ':agenPelayaran']) }}" enctype="multipart/form-data">
 				@csrf
 				<input type="hidden" name="_method" value="PUT">
 				<h2 class="ui green header" id="form-title">Edit Agen Pelayaran</h2>
 				<div class="ui raised segment">
-					<div class="field">
+					<input type="hidden" name="id-update" value="{{ old('id-update') }}">
+					<div class="field {{ $errors->has('nama') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="id card icon"></i>
-							<input type="text" name="nama" placeholder="Masukkan Nama"
+							<input type="text" id="update-nama" name="nama" placeholder="Masukkan Nama"
 								value="{{ old('nama') }}">
 						</div>
 					</div>
-					<div class="field">
+					<div class="field {{ $errors->has('alamat') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="map icon"></i>
-							<input type="text" name="alamat" placeholder="Masukkan Alamat"
+							<input type="text" id="update-alamat" name="alamat" placeholder="Masukkan Alamat"
 								value={{ old('alamat') }}>
 						</div>
 					</div>
-					<div class="field">
+					<div class="field {{ $errors->has('telepon') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="phone icon"></i>
-							<input type="text" name="telepon" placeholder="Masukkan Telepon"
+							<input type="text" id="update-telepon" name="telepon" placeholder="Masukkan Telepon"
 								value={{ old('telepon') }}>
 						</div>
 					</div>
-					<div class="field">
+					<div class="field {{ $errors->has('loket') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="pin icon"></i>
-							<input type="text" name="loket" placeholder="Masukkan Loket"
+							<input type="text" id="update-loket" name="loket" placeholder="Masukkan Loket"
 								value={{ old('loket') }}>
 						</div>
 					</div>
+					<div class="photo-field-container field {{ $errors->has('logo') ? 'error' : '' }}">
+						<label for="logo" >Logo Agen Pelayaran</label>
+						<div class="ui left icon transparent input">
+							<i class="photo icon"></i>
+							<input type="file" id="update-logo" name="logo" placeholder="Pilih logo agen"
+								value={{ old('logo') }}>
+						</div>
+						<div id="img-upload-container" class="my-md-3" style="display: none">
+							<img id='img-upload'/>
+						</div>
+						<small id="photoHelpBlock" class="form-text text-muted">
+							Foto yang yang dipilih berformat .jpg, .png, .jpeg, dengan kapasitas kurang dari 2MB
+						</small>
+					</div>
 					@if($errors->any())
 					<div class="ui error message">
-						<div class="header">Username atau Password Salah</div>
-						<p>{{ $errors->first() }} </p>
+						<div class="header">{{ session('errorMessage') }}</div>
+						<ul>
+							<li>tokek</li>
+							<li>toke</li>
+							@foreach($errors->all() as $error)
+								<li>{{ $error}}</li>
+							@endforeach
+						</ul>
 					</div>
 					@endif
-					<button class="ui fluid large blue submit button">Simpan</button>
+					<input type="submit" name="update-form" value="Simpan" class="ui fluid large green submit button">
 				</div>
+			</form>
+		</div>
+		<div id="delete-form-container" style="display: none">
+			<form id="delete-form" method="POST" action="{{ route('web.agen-pelayaran.destroy', ['agenPelayaran' => ':agenPelayaran']) }}">
+				@csrf
+				<input type="hidden" name="_method" value="DELETE">
 			</form>
 		</div>
 	</div>
@@ -280,17 +337,13 @@ Master Jadwal Pelayaran
 		cursor: pointer;
 	}
 
-	#data-gambar{
+	#value-logo{
 		width: 100%;
 		max-width: 150px;
 	}
 
 	.changeable-segment{
 		margin-top: 30px;
-	}
-
-	#create-form-container, #update-form-container{
-		display: none;
 	}
 
 	#img-upload-container{
@@ -310,17 +363,65 @@ Master Jadwal Pelayaran
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
+
+	.photo-field-container > *{
+		margin: 10px auto;
+	}
+
 </style>
 <script>
+
+	$(document).ready(function(){
+		setLastState();
+		activateLastUpdate();
+		setTimeout(function() {
+			hideAllDismissableMessage();
+		}, 3000);
+	});
+
+	function hideAllDismissableMessage(){
+		$('.message .close').closest('.message')
+      									.transition('fade')
+	}
+
+	function activateLastUpdate(){
+		// var id = "{{old('id-update')}}";
+		// var selectedDataRow = $('#data-' + id);
+		// var imageSource = selectedDataRow.find('#value-logo').attr('value');
+		// var url = $('#update-form').attr('action');
+		// selectedDataRow.addClass('active');
+		// url = url.replace(':agenPelayaran', id);
+		// $('#update-form').attr('action', url);
+		// $('#update-form #img-upload-container').show();
+		// $('#update-form #img-upload').attr('src', imageSource);
+	}
+
+	function setLastState(){
+		var failedCreate = {{ session()->has('failedCreate') ? 'true' : 'false' }};
+		var failedUpdate = {{ session()->has('failedUpdate') ? 'true' : 'false' }};
+		console.log('create : ' + failedCreate);
+		console.log('update : ' + failedUpdate);
+		if(failedCreate) $('#create-button').click();
+		if(failedUpdate){
+			$('#update-button').click();
+			toggleLogInformation(0);
+			toggleUpdateForm(400);
+			;
+		}
+	}
+
 	// insert data to form
-	function insertDataToUpdateForm(id, nama, alamat, telepon, loket) {
+	function insertDataToUpdateForm(id, nama, alamat, telepon, loket, logo) {
 		var url = $('#update-form').attr('action');
 		url = url.replace(':agenPelayaran', id);
 		$('#update-form').attr('action', url);
+		$('#update-form input[name=id-update]').val(id);
 		$('#update-form input[name=nama]').val(nama);
 		$('#update-form input[name=alamat]').val(alamat);
 		$('#update-form input[name=telepon]').val(telepon);
 		$('#update-form input[name=loket]').val(loket);
+		$('#update-form #img-upload-container').show();
+		$('#update-form #img-upload').attr('src', logo);
 	}
 
   // reset update form to its normal state
@@ -328,10 +429,40 @@ Master Jadwal Pelayaran
 		var url = $('#update-form').attr('action');
 		url = url.replace(/\/[0-9]+$/, '/:agenPelayaran');
 		$('#update-form').attr('action', url);
+		$('#update-form input[name=id-update]').val('');
 		$('#update-form input[name=nama]').val('');
 		$('#update-form input[name=alamat]').val('');
 		$('#update-form input[name=telepon]').val('');
 		$('#update-form input[name=loket]').val('');
+		$('#update-form #img-upload-container').hide();
+		$('#update-form #img-upload').attr('src', '');
+	}
+
+	// reset create form to its normal state
+	function resetCreateFormData(){
+		$('#create-form input[name=nama]').val('');
+		$('#create-form input[name=alamat]').val('');
+		$('#create-form input[name=telepon]').val('');
+		$('#create-form input[name=loket]').val('');
+		$('#create-form #img-upload-container').hide();
+		$('#create-form #img-upload').attr('src', '');
+	}
+
+	function insertIdToDeleteForm(id){
+		var url = $('#delete-form').attr('action');
+		url = url.replace(':agenPelayaran', id);
+		$('#delete-form').attr('action', url);
+	}
+
+	function removeIdFromDeletForm(){
+		var url = $('#delete-form').attr('action');
+		url = url.replace(/\/[0-9]+$/, '/:agenPelayaran');
+	}
+
+	function resetAllForm(){
+		resetCreateFormData();
+		resetUpdateFormData();
+		removeIdFromDeletForm()
 	}
 
 	function setSelectedEditRowToActive(clickedElement){
@@ -394,6 +525,7 @@ Master Jadwal Pelayaran
 		var clickedElement = $(this);
 		if (clickedElement.attr('isClicked') == 'true') {
 			setButtonToUnclickedState(clickedElement, 'Tambah', 'plus')
+			resetAllForm();
 			toggleLogInformation(400);
 			toggleCreateForm(0)
 		} else {
@@ -408,6 +540,7 @@ Master Jadwal Pelayaran
 		var clickedElement = $(this);
 		if (clickedElement.attr('isClicked') == 'true') {
 			setButtonToUnclickedState(clickedElement, 'Update', 'edit');
+			resetAllForm();
 			hideRowActionButton('edit');
 			deactiveAllUpdateableRow();
 			if($('#update-form-container').css('display') != 'none'){
@@ -424,6 +557,7 @@ Master Jadwal Pelayaran
 	$('#delete-button').on('click', function () {
 		var clickedElement = $(this);
 		if (clickedElement.attr('isClicked') == 'true') {
+			resetAllForm();
 			setButtonToUnclickedState(clickedElement, 'Hapus', 'trash');
 			hideRowActionButton('delete');
 		} else {
@@ -436,15 +570,16 @@ Master Jadwal Pelayaran
 	$('.action-edit').on('click', function () {
 		var clickedElement = $(this);
 		var rowDataElement = clickedElement.parent();
-		var id = rowDataElement.find('#data-id').attr('value');
-		var nama = rowDataElement.find('#data-nama').attr('value');
-		var alamat = rowDataElement.find('#data-alamat').attr('value');
-		var telepon = rowDataElement.find('#data-telepon').attr('value');
-		var loket = rowDataElement.find('#data-loket').attr('value');
+		var id = rowDataElement.find('#value-id').attr('value');
+		var nama = rowDataElement.find('#value-nama').attr('value');
+		var alamat = rowDataElement.find('#value-alamat').attr('value');
+		var telepon = rowDataElement.find('#value-telepon').attr('value');
+		var loket = rowDataElement.find('#value-loket').attr('value');
+		var logo = rowDataElement.find('#value-logo').attr('value');
 		deactiveAllUpdateableRow();
 		setSelectedEditRowToActive(rowDataElement);
 		resetUpdateFormData();
-		insertDataToUpdateForm(id, nama, alamat, telepon, loket);
+		insertDataToUpdateForm(id, nama, alamat, telepon, loket, logo);
 		if ($('#update-form-container').css('display') == 'none'){
 			toggleLogInformation(0);
 			toggleUpdateForm(400);
@@ -453,31 +588,108 @@ Master Jadwal Pelayaran
 
   // listenser for selected row to show delete modal
 	$('.action-delete').on('click', function () {
+		var clickedElement = $(this);
+		var rowDataElement = clickedElement.parent();
+		var id = rowDataElement.find('#value-id').attr('value');
 		$('.ui.basic.modal.delete-modal').modal({
 			closable: true,
 			onApprove: function () {
+				insertIdToDeleteForm(id);
+				$('#delete-form').submit();
 			}
 		}).modal('show');
 	});
 
 	function showPreview(input) {
-		console.log(input.files);
+		var selectedInput = $(input);
+		var fieldContainer = selectedInput.closest('div.photo-field-container');
+		var photoContainer = fieldContainer.find('#img-upload-container');
+		var photo = fieldContainer.find('#img-upload');
+
 		if (input.files && input.files[0]) {
 				var reader = new FileReader();
 				reader.onload = function (e) {
-						$('#filename').text(input.files[0].name);
-						$('#img-upload').attr('src', e.target.result);
+					photoContainer.show();
+					photo.attr('src', e.target.result);
 				}
 				reader.readAsDataURL(input.files[0]);
 		}
 		else{
-			$('#filename').text("");
-			$('#img-upload').attr('src', "");
+			photoContainer.hide();
+			photo.attr('src', "");
 		}
 	}
 
-	$("#logo").on('change', function(){
-			showPreview(this);
+	$("#create-logo").on('change', function(){
+		showPreview(this);
 	});
+
+	$('#update-logo').on('change', function(){
+		showPreview(this);
+	});
+
+	$('#create-form,#update-form').form({
+		on: 'blur',
+		inline: true,
+		fields: {
+			nama: {
+				identifier  : 'nama',
+				rules: [
+					{
+						type: 'empty',
+						prompt: 'Nama tidak boleh kosong'
+					},
+					{
+						type: 'maxLength[50]',
+						prompt: 'Panjang maksimal karakter tidak boleh lebih dari 50'
+					}
+				]
+			},
+			alamat: {
+				identifier  : 'alamat',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'Alamat tidak boleh kosong'
+					},
+					{
+						type: 'maxLength[100]',
+						prompt: 'Panjang maksimal karakter tidak boleh lebih dari 100'
+					}
+				]
+			},
+			telepon: {
+				identifier  : 'telepon',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'Telepon tidak boleh kosong'
+					},
+					{
+						type: 'maxLength[20]',
+						prompt: 'Panjang maksimal karakter tidak boleh lebih dari 20'
+					}
+				]
+			},
+			loket: {
+				identifier  : 'loket',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'Loket tidak boleh kosong'
+					}
+				]
+			}
+		}
+  });
+
+	$('.message .close').on('click', function() {
+    $(this)
+      .closest('.message')
+      .transition('fade')
+    ;
+  })
+;
+
 </script>
 @endsection

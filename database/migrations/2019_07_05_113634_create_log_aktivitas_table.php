@@ -16,8 +16,8 @@ class CreateLogAktivitasTable extends Migration
         Schema::create('log_aktivitas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('aktivitas');
-            $table->integer('log_id');
-            $table->string('log_type');
+            $table->integer('log_id')->nullable();
+            $table->string('log_type')->nullable();
             $table->timestamp('created_at');
         });
     }

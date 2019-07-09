@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
+use Log;
 
 use App\Models\AgenPelayaran;
 use App\Models\LogAktivitas;
@@ -22,7 +23,7 @@ class AgenPelayaranController extends Controller
         $paginatedAgenPelayaran = AgenPelayaran::paginate($size);
         $topFiveAgenPelayaranLogs = LogAktivitas::where('log_type', 'App\Models\AgenPelayaran')
                                                ->orderBy('created_at', 'desc')
-                                               ->get();
+                                               ->paginate($size);
         return view('agen-pelayaran.index', compact('paginatedAgenPelayaran', 'topFiveAgenPelayaranLogs'));
     }
 
@@ -45,7 +46,7 @@ class AgenPelayaranController extends Controller
         ]);
         $validator = Validator::make($requestData, [
             'nama' => 'required|string|max:50',
-            'logo' => 'sometimes|mimes:jpeg,jpg,png|max:2048',
+            'logo' => 'sometimes|file|image|mimes:jpeg,jpg,png|max:2048',
             'alamat' => 'required|string|max:100',
             'telepon' => 'required|string|max:20',
             'loket' => 'required|string|unique:agen_pelayaran,loket',
@@ -53,16 +54,26 @@ class AgenPelayaranController extends Controller
         if($validator->passes()){
             try{
                 $agenPelayaran = AgenPelayaran::create($requestData);
-                return redirect()->route('web.agen-pelayaran.index')
-                                 ->with(['successMessage' => "Berhasil menambahkan $agenPelayaran->nama"]);
-            } catch (Exception $e){
-                return redirect()->route('web.agen-pelayaran.index')
-                                 ->with(['errorMessage' => 'Server Error']);
+                return redirect()->back()
+                                 ->with([
+                                     'successMessage' => "Berhasil menambahkan $agenPelayaran->nama"
+                                  ]);
+            } catch (Error $e){
+                return redirect()->back()
+                                 ->withInput()
+                                 ->with([
+                                     'errorMessage' => 'Server Error',
+                                     'failedCreate' => true
+                                 ]);
             }
         }
-        return redirect()->route('web.agen-pelayaran.index')
-                         ->with(['errorMessage' => 'Server Error'])
-                         ->withErrors($validator);
+        return redirect()->back()
+                        ->withInput()
+                        ->with([
+                            'errorMessage' => 'Data tidak valid',
+                            'failedCreate' => true
+                        ])
+                        ->withErrors($validator);
     }
 
     /**
@@ -84,30 +95,42 @@ class AgenPelayaranController extends Controller
         ]);
         $validator = Validator::make($requestData, [
             'nama' => 'required|string|max:50',
-            'logo' => 'sometimes|mimes:jpeg,jpg,png|max:2048',
+            'logo' => 'sometimes|file|image|max:2048',
             'alamat' => 'required|string|max:100',
             'telepon' => 'required|string|max:20',
-            'loket' => 'required|string|unique:agen_pelayaran,loket',
+            'loket' => 'sometimes|string|unique:agen_pelayaran,loket',
         ]);
         if($validator->passes()){
             $isAgenPelayaranUpdated = $agenPelayaran->update($requestData);
             if($isAgenPelayaranUpdated){
                 try{
                     $agenPelayaran = AgenPelayaran::find($agenPelayaran->id);
-                    return redirect()->route('web.agen-pelayaran.index')
+                    return redirect()->back()
                                      ->with(['successMessage' => "Berhasil mengupdate $agenPelayaran->nama"]);
                 } catch(Exception $e){
-                    return redirect()->route('web.agen-pelayaran.index')
-                                     ->with(['errorMessage' => 'Server Error']);
+                    return redirect()->back()
+                                     ->withInput()
+                                     ->with([
+                                         'errorMessage' => 'Server Error',
+                                         'failedUpdate' => true
+                                       ]);
                 }
 
             }
-            return redirect()->route('web.agen-pelayaran.index')
-                             ->with(['errorMessage' => 'Update Gagal']);
+            return redirect()->back()
+                             ->withInput()
+                             ->with([
+                                 'errorMessage' => 'Update Gagal',
+                                 'failedUpdate' => true
+                               ]);
         }
-        return redirect()->route('web.agen-pelayaran.index')
-                         ->with(['errorMessage' => 'Server Error'])
-                         ->withErrors($validator);
+        return redirect()->back()
+                        ->withInput()
+                        ->with([
+                            'errorMessage' => 'Data tidak valid',
+                            'failedUpdate' => true
+                        ])
+                        ->withErrors($validator);
     }
 
     /**
@@ -120,13 +143,13 @@ class AgenPelayaranController extends Controller
             $namaAgenPelayaran = $agenPelayaran->nama;
             $isAgenPelayaranDeleted = $agenPelayaran->delete();
             if($isAgenPelayaranDeleted){
-                return redirect()->route('web.agen-pelayaran.index')
-                                 ->with(['successMessage' => "Berhasil Menghapus $namaAgenPelayaran"]);
+                return redirect()->back()
+                                 ->with(['successMessage' => "Berhasil menghapus $namaAgenPelayaran"]);
             }
-            return redirect()->route('web.agen-pelayaran.index')
-                             ->with(['errorMessage' => "Gagal Menghapus $namaAgenPelayaran"]);
+            return redirect()->back()
+                             ->with(['errorMessage' => "Gagal menghapus $namaAgenPelayaran"]);
         } catch(Exception $e){
-            return redirect()->route('web.agen-pelayaran.index')
+            return redirect()->back()
                              ->with(['errorMessage' => 'Server Error']);
         }
 
