@@ -19,6 +19,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
 
     Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
         Route::get('/', ['uses' => 'AgenPelayaranController@index', 'as' => 'index']);
+        Route::get('/search', ['uses' => 'AgenPelayaranController@search', 'as' => 'search']);
         Route::get('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@show', 'as' => 'show']);
         Route::get('/{agenPelayaran}/kapal', ['uses' => 'AgenPelayaranController@showKapalByAgenPelayaranId', 'as' => '.kapal' ]);
         Route::get('/{agenPelayaran}/jadwal', ['uses' => 'AgenPelayaranController@showJadwalByAgenPelayaranId', 'as' => '.jadwal' ]);

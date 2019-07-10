@@ -21,7 +21,10 @@ class AgenPelayaranController extends Controller
     public function index(Request $request)
     {
         $size = $request->input('size');
-        $paginatedAgenPelayaran = AgenPelayaran::paginate($size);
+        $key = $request->input('key') ?? 'nama';
+        $query = $request->has('query') ? $request->input('query') : '';
+        $paginatedAgenPelayaran = AgenPelayaran::where('nama', 'like', "%$query%")
+                                               ->paginate($size);
         $topFiveAgenPelayaranLogs = LogAktivitas::where('log_type', 'App\Models\AgenPelayaran')
                                                ->orderBy('created_at', 'desc')
                                                ->paginate($size);
@@ -63,7 +66,7 @@ class AgenPelayaranController extends Controller
                     Storage::disk('public')->putFileAs($folderName, $imageUploaded, $filename);
                     $agenPelayaran->update(['logo' => '/storage'.$folderName.'/'.$filename]);
                 }
-                return redirect()->back()
+                return redirect()->route('web.agen-pelayaran.index')
                                  ->with([
                                      'successMessage' => "Berhasil menambahkan $agenPelayaran->nama"
                                   ]);

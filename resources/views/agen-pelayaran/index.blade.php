@@ -11,13 +11,18 @@ Master Jadwal Pelayaran
 					<h2 class="ui header">Daftar Agen Pelayaran</h2>
 				</div>
 				<div class="right aligned column">
-					<div class="ui icon small input">
-						<input type="text" placeholder="Cari.....">
-						<i class="search link icon"></i>
+					<div class="ui fluid search" id="search-bar">
+						<div class="ui icon fluid input">
+							<input class="prompt" type="text" placeholder="Cari..." id="search">
+							<i class="search icon"></i>
+						</div>
+						<div class="results"></div>
 					</div>
 				</div>
 			</div>
-			<table class="ui raised {{$paginatedAgenPelayaran->hasMorePages() ? 'stacked' : '' }} segment selectable celled striped fixed collapsing table">
+			<table style="{{ count($paginatedAgenPelayaran->items()) > 1 ? '' : 'width: 100%' }}"
+				class="ui raised {{$paginatedAgenPelayaran->hasMorePages() ? 'stacked' : '' }} segment selectable celled striped fixed collapsing table"
+				>
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -395,7 +400,21 @@ Master Jadwal Pelayaran
 		$('#update-form #img-upload').attr('src', imageSource);
 	}
 
+	function mapQueryToObject(){
+		var queries = {};
+		if(document.location.search){
+			var querieStrings = document.location.search.substr(1).split('&');
+			$.each(querieStrings, function(c,q){
+				var i = q.split('=');
+				queries[i[0].toString()] = decodeURIComponent(i[1].toString());
+			});
+		}
+		return queries;
+	}
+
 	function setLastState(){
+		var queryString = mapQueryToObject(location.search);
+		$('#search').val(queryString.query);
 		var failedCreate = {{ session()->has('failedCreate') ? 'true' : 'false' }};
 		var failedUpdate = {{ session()->has('failedUpdate') ? 'true' : 'false' }};
 		if(failedCreate) $('#create-button').click();
@@ -686,8 +705,44 @@ Master Jadwal Pelayaran
       .closest('.message')
       .transition('fade')
     ;
-  })
-;
+  });
 
+	$('#search-bar').search({
+    minCharacters : 2,
+		searchFullText: false,
+    apiSettings   : {
+			url: "{{ route('api.agen-pelayaran.search') }}",
+			method: 'GET',
+			beforeSend: function(settings) {
+				settings.data = {
+					'query': $('#search').val()
+				};
+				return settings;
+			},
+      onResponse: function(searchResult) {
+        var response = {
+            results : []
+        };
+					console.log('keyword : ', $('#search').val());
+					console.log('results : ', searchResult);
+        // translate
+        $.each(searchResult.data, function(index, item) {
+
+          var maxResults = 5;
+					// only show 5 top match
+          if(index >= maxResults) return false;
+
+          // add result to category
+          response.results.push({
+            title       : item.nama,
+            description : item.alamat,
+            url         : "{{ route('web.agen-pelayaran.index') }}" + "?query=" + item.nama,
+						// image: item.logo
+          });
+        });
+        return response;
+      },
+    },
+  });
 </script>
 @endsection

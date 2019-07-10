@@ -14,14 +14,6 @@ use App\Models\AgenPelayaran;
 class AgenPelayaranController extends Controller{
 
     /**
-	 * Constructor
-	 * * Set middleware for controller functions
-	 */
-	public function __construct(){
-		$this->middleware(['jwt-auth-refresh']);
-	}
-
-    /**
      * Show all agen_pelayaran
      * @param int size
      * @return Collection<AgenPelayaran> agenPelayaranCollection
@@ -42,6 +34,24 @@ class AgenPelayaranController extends Controller{
     public function show(Request $request, AgenPelayaran $agenPelayaran){
         return (new AgenPelayaranResource($agenPelayaran))->response()
                                                           ->setStatusCode(200);
+    }
+
+    /**
+     * Search data
+     * @param String nama
+     * @param String keyword
+     * @param int size
+     * @return Map<int,String> id,nama
+     */
+    public function search(Request $request){
+        $size = $request->input('size') ?? 10;
+        $key = $request->input('key') ?? 'nama';
+        $query = $request->has('query') ? "%{$request->input('query')}%" : '';
+        $paginatedSearchResult = AgenPelayaran::where($key, 'like', "$query")
+                                              ->paginate($size);
+        return BasicResource::collection($paginatedSearchResult)
+                            ->response()
+                            ->setStatusCode(200);
     }
 
     /**
