@@ -18,7 +18,7 @@ class JadwalController extends Controller{
 	 * * Set middleware for controller functions
 	 */
 	public function __construct(){
-		$this->middleware(['jwt-auth-refresh']);
+		$this->middleware(['jwt-auth-refresh'])->only(['update']);
 	}
 
     /**
