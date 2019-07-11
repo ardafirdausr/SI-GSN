@@ -38,16 +38,20 @@ class AgenPelayaranController extends Controller{
 
     /**
      * Search data
-     * @param String nama
-     * @param String keyword
+     * @param String key
+     * @param String query
      * @param int size
-     * @return Map<int,String> id,nama
+     * @return Collection<AgenPelayaran> searchResult
      */
     public function search(Request $request){
         $size = $request->input('size') ?? 10;
         $key = $request->input('key') ?? 'nama';
-        $query = $request->has('query') ? "%{$request->input('query')}%" : '';
-        $paginatedSearchResult = AgenPelayaran::where($key, 'like', "$query")
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : ''
+                    : '%%';
+        $paginatedSearchResult = AgenPelayaran::where($key, 'like', $query)
                                               ->paginate($size);
         return BasicResource::collection($paginatedSearchResult)
                             ->response()

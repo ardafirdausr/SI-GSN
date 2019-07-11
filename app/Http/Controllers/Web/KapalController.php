@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Validator;
 
 use App\Models\Kapal;
+use App\Models\LogAktivitas;
 
 class KapalController extends Controller
 {
@@ -18,8 +19,21 @@ class KapalController extends Controller
     public function index(Request $request)
     {
         $size = $request->input('size') ?? 10;
-        $paginatedKapal = Kapal::with('agen_pelayaran')->paginate($size);
-        return view('kapal.index', compact('paginatedKapal'));
+        $key = $request->input('key') ?? 'nama';
+        // query = '' is included
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : ''
+                    : '%%';
+        $paginatedKapal = Kapal::where($key, 'like', $query)
+                               ->with('agen_pelayaran')
+                               ->paginate($size);
+        $topFiveKapalLogs = LogAktivitas::where('log_type', 'App\Models\Kapal')
+                                        ->orderBy('created_at', 'desc')
+                                        ->take(5)
+                                        ->get();
+        return view('kapal.index', compact('paginatedKapal', 'topFiveKapalLogs'));
     }
 
     /**
@@ -36,17 +50,23 @@ class KapalController extends Controller
             'id_agen_pelayaran'
         ]);
         $validator = Validator::make($requestData, [
-            'kode' => 'required|string|unique:kapal',
+            'kode' => 'required|string|unique:kapal,kode',
             'nama' => 'required|string',
             'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
         ]);
         if($validator->passes()){
             $kapal = Kapal::create($requestData);
             return redirect()->route('web.kapal.index')
-                             ->with(['successMessage' => "Berhasil menambahkan $kapal->nama"]);
+                             ->with([
+                                 'successMessage' => "Berhasil menambahkan $kapal->nama"
+                               ]);
         }
-        return redirect()->route('web.kapal.index')
-                         ->with(['errorMessage' => 'Data tidak valid'])
+        return redirect()->back()
+                         ->with([
+                             'errorMessage' => 'Data tidak valid',
+                             'failedCreate' => true
+                          ])
+                         ->withInput()
                          ->withErrors($validator);
     }
 
@@ -58,38 +78,35 @@ class KapalController extends Controller
      * @return Kapal kapal
      */
     public function update(Request $request, Kapal $kapal){
-        $isKodeIdentic = $kapal->kode == $request->input('kode');
-        $requestData = null;
-        if($isKodeIdentic){
-            $requestData = $request->only(['nama', 'id_agen_pelayaran']);
-            $validator = Validator::make($requestData, [
-                'nama' => 'required|string',
-                'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
-            ]);
-        }
-        else{
-            $requestData = $request->only([
-                'kode',
-                'nama',
-                'id_agen_pelayaran'
-            ]);
-            $validator = Validator::make($requestData, [
-                'kode' => 'required|string|unique:kapal',
-                'nama' => 'required|string',
-                'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
-            ]);
-        }
+        $requestData = $request->only([
+            'nama',
+            'kode',
+            'id_agen_pelayaran'
+        ]);
+        $validator = Validator::make($requestData, [
+            'kode' => "required|string|unique:kapal,kode,$kapal->id",
+            'nama' => 'required|string',
+            'id_agen_pelayaran' => 'required|integer|exists:agen_pelayaran,id'
+        ]);
         if($validator->passes()){
             $isKapalUpdated = $kapal->update($requestData);
             if($isKapalUpdated){
-                return redirect()->route('web.kapal.index')
+                return redirect()->back()
                                  ->with(['successMessage' => "Berhasil mengupdate $kapal->nama"]);
             }
-            return redirect()->route('web.kapal.index')
-                             ->with(['errorMessage' => "Gagal mengupdate $kapal->nama"]);
+            return redirect()->back()
+                             ->with([
+                                 'errorMessage' => "Gagal mengupdate $kapal->nama",
+                                 'failedUpdate' => true
+                               ])
+                             ->withInput();
         }
-        return redirect()->route('web.kapal.index')
-                         ->with(['errorMessage' => 'Data tidak valid'])
+        return redirect()->back()
+                         ->with([
+                            'errorMessage' => 'Data tidak valid',
+                            'failedUpdate' => true
+                           ])
+                         ->withInput()
                          ->withErrors($validator);
     }
 
@@ -98,13 +115,13 @@ class KapalController extends Controller
      * @return null
      */
     public function destroy(Request $request, Kapal $kapal){
-        $kapalName = $kalap->nama;
+        $kapalName = $kapal->nama;
         $isKapalDeleted = $kapal->delete();
         if($isKapalDeleted) {
-            return redirect()->route('web.kapal.index')
+            return redirect()->back()
                              ->with(['successMessage' => "Berhasil menghapus $kapalName"]);
         }
-        return redirect()->route('web.kapal.index')
+        return redirect()->back()
                          ->with(['errorMessage' => "Gagal menghapus $kapalName"]);
     }
 }

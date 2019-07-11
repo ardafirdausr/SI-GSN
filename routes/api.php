@@ -27,12 +27,14 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
 
     Route::group(['prefix' => '/kapal', 'as' => 'kapal.'], function(){
         Route::get('/', ['uses' => 'KapalController@index', 'as' => 'index']);
+        Route::get('/search', ['uses' => 'KapalController@search', 'as' => 'search']);
         Route::get('/{kapal}', ['uses' => 'KapalController@show', 'as' => 'show']);
         Route::get('/{kapal}/jadwal', ['uses' => 'KapalController@showJadwalByKapalId', 'as' => '.kapal' ]);
     });
 
     Route::group(['prefix' => '/jadwal', 'as' => 'jadwal'], function(){
         Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
+        Route::get('/search', ['uses' => 'KapalController@search', 'as' => 'search']);
         Route::get('/{jadwal}', ['uses' => 'JadwalController@show', 'as' => 'show']);
         Route::put('/{jadwal}', ['uses' => 'JadwalController@update', 'as' => 'update']);
     });

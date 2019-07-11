@@ -35,6 +35,29 @@ class KapalController extends Controller{
     }
 
     /**
+     * Search data
+     * @param String key
+     * @param String query
+     * @param int size
+     * @return Collection<AgenPelayaran> searchResult
+     */
+    public function search(Request $request){
+        $size = $request->input('size') ?? 10;
+        $key = $request->input('key') ?? 'nama';
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : ''
+                    : '%%';
+        $paginatedSearchResult = Kapal::with('agen_pelayaran')
+                                      ->where($key, 'like', $query)
+                                      ->paginate($size);
+        return BasicResource::collection($paginatedSearchResult)
+                            ->response()
+                            ->setStatusCode(200);
+    }
+
+    /**
      * @param int size
      * @return Collection<Jadwal> paginatedJadwal
      */

@@ -22,12 +22,18 @@ class AgenPelayaranController extends Controller
     {
         $size = $request->input('size');
         $key = $request->input('key') ?? 'nama';
-        $query = $request->has('query') ? $request->input('query') : '';
-        $paginatedAgenPelayaran = AgenPelayaran::where('nama', 'like', "%$query%")
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : ''
+                    : '%%';
+        $paginatedAgenPelayaran = AgenPelayaran::where($key, 'like', $query)
                                                ->paginate($size);
+        // return response()->json($paginatedAgenPelayaran);
         $topFiveAgenPelayaranLogs = LogAktivitas::where('log_type', 'App\Models\AgenPelayaran')
                                                ->orderBy('created_at', 'desc')
-                                               ->paginate($size);
+                                               ->take(5)
+                                               ->get();
         return view('agen-pelayaran.index', compact('paginatedAgenPelayaran', 'topFiveAgenPelayaranLogs'));
     }
 

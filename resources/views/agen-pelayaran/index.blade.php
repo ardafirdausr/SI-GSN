@@ -8,7 +8,9 @@ Master Jadwal Pelayaran
 		<div class="ui one column">
 			<div class="ui two column grid">
 				<div class="left aligned column">
-					<h2 class="ui header">Daftar Agen Pelayaran</h2>
+					<h2 class="ui blue header clickable-header">
+						<a href="{{ route('web.agen-pelayaran.index') }}">Daftar Agen Pelayaran</a>
+					</h2>
 				</div>
 				<div class="right aligned column">
 					<div class="ui fluid search" id="search-bar">
@@ -20,7 +22,7 @@ Master Jadwal Pelayaran
 					</div>
 				</div>
 			</div>
-			<table style="{{ count($paginatedAgenPelayaran->items()) > 1 ? '' : 'width: 100%' }}"
+			<table style="min-width: 100%"
 				class="ui raised {{$paginatedAgenPelayaran->hasMorePages() ? 'stacked' : '' }} segment selectable celled striped fixed collapsing table"
 				>
 				<thead>
@@ -153,7 +155,7 @@ Master Jadwal Pelayaran
 					</tfoot>
 				</table>
 			</div>
-			<div class="ui one column changeable-segment" >
+			<div class="ui one column changeable-segment error-removeable" >
 				@if(session()->has('errorMessage'))
 				<div class="ui icon tiny error message" id="errorMessage">
 						<i class="close icon"></i>
@@ -185,35 +187,35 @@ Master Jadwal Pelayaran
 				@csrf
 				<h2 class="ui blue header" id="form-title">Tambah Agen Pelayaran</h2>
 				<div class="ui raised segment">
-					<div class="field {{ $errors->has('nama') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('nama') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="id card icon"></i>
 							<input type="text" id="create-nama" name="nama" placeholder="Masukkan Nama"
 								value={{ old('nama') }}>
 							</div>
 					</div>
-					<div class="field {{ $errors->has('alamat') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('alamat') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="map icon"></i>
 							<input type="text" id="create-alamat" name="alamat" placeholder="Masukkan Alamat"
 								value={{ old('alamat') }}>
 							</div>
 					</div>
-					<div class="field {{ $errors->has('telepon') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('telepon') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="phone icon"></i>
 							<input type="text" id="create-telepon" name="telepon" placeholder="Masukkan Telepon"
 								value={{ old('telepon') }}>
 							</div>
 					</div>
-					<div class="field {{ $errors->has('loket') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('loket') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="pin icon"></i>
 							<input type="text" id="create-loket" name="loket" placeholder="Masukkan Loket"
 								value={{ old('loket') }}>
 							</div>
 					</div>
-					<div class="photo-field-container field {{ $errors->has('logo') ? 'error' : '' }}">
+					<div class="photo-field-container field error-deactiveable {{ $errors->has('logo') ? 'error' : '' }}">
 						<label for="logo" >Logo Agen Pelayaran</label>
 						<div class="ui left icon transparent input">
 							<i class="photo icon"></i>
@@ -228,7 +230,7 @@ Master Jadwal Pelayaran
 						</small>
 					</div>
 					@if($errors->any())
-					<div class="ui error message">
+					<div class="ui error message error-removeable">
 						<div class="header">{{ session('errorMessage') }}</div>
 						<ul>
 							@foreach($errors->all() as $error)
@@ -248,35 +250,35 @@ Master Jadwal Pelayaran
 				<h2 class="ui green header" id="form-title">Edit Agen Pelayaran</h2>
 				<div class="ui raised segment">
 					<input type="hidden" name="id-update" value="{{ old('id-update') }}">
-					<div class="field {{ $errors->has('nama') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('nama') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="id card icon"></i>
 							<input type="text" id="update-nama" name="nama" placeholder="Masukkan Nama"
 								value="{{ old('nama') }}">
 						</div>
 					</div>
-					<div class="field {{ $errors->has('alamat') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('alamat') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="map icon"></i>
 							<input type="text" id="update-alamat" name="alamat" placeholder="Masukkan Alamat"
 								value={{ old('alamat') }}>
 						</div>
 					</div>
-					<div class="field {{ $errors->has('telepon') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('telepon') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="phone icon"></i>
 							<input type="text" id="update-telepon" name="telepon" placeholder="Masukkan Telepon"
 								value={{ old('telepon') }}>
 						</div>
 					</div>
-					<div class="field {{ $errors->has('loket') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('loket') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="pin icon"></i>
 							<input type="text" id="update-loket" name="loket" placeholder="Masukkan Loket"
 								value={{ old('loket') }}>
 						</div>
 					</div>
-					<div class="photo-field-container field {{ $errors->has('logo') ? 'error' : '' }}">
+					<div class="photo-field-container field error-deactiveable {{ $errors->has('logo') ? 'error' : '' }}">
 						<label for="logo" >Logo Agen Pelayaran</label>
 						<div class="ui left icon transparent input">
 							<i class="photo icon"></i>
@@ -291,7 +293,7 @@ Master Jadwal Pelayaran
 						</small>
 					</div>
 					@if($errors->any())
-					<div class="ui error message">
+					<div class="ui error message error-removeable">
 						<div class="header">{{ session('errorMessage') }}</div>
 						<ul>
 							@foreach($errors->all() as $error)
@@ -322,10 +324,10 @@ Master Jadwal Pelayaran
 	</div>
 	<div class="actions">
 		<div class="ui red basic cancel inverted button">
-			<i class="remove icon"></i>No
+			<i class="remove icon"></i>Tidak
 		</div>
 		<div class="ui green ok inverted button">
-			<i class="checkmark icon"></i>Yes
+			<i class="checkmark icon"></i>Ya
 		</div>
 	</div>
 </div>
@@ -373,6 +375,15 @@ Master Jadwal Pelayaran
 		margin: 10px auto;
 	}
 
+	.clickable-header *{
+		color: rgba(0, 0, 0, 0.87);
+	}
+
+	.clickable-header *:hover{
+		color: #2185d0;
+		text-decoration: underline;
+	}
+
 </style>
 <script>
 
@@ -386,6 +397,14 @@ Master Jadwal Pelayaran
 	function hideAllDismissableMessage(){
 		$('.message .close').closest('.message')
       									.transition('fade')
+	}
+
+	function removeOldValues(){
+		$('input[name=id-update]').val('');
+		$('input[name=nama]').val('');
+		$('input[name=alamat]').val('');
+		$('input[name=telepon]').val('');
+		$('input[name=loket]').val('');
 	}
 
 	function activateLastUpdate(){
@@ -537,12 +556,19 @@ Master Jadwal Pelayaran
 		}, timeout || 0);
 	}
 
+	function removeAllErrorMessage(){
+		$('.error-deactiveable').removeClass('error');
+		$('.error-removeable').hide();
+	}
+
 	// listener for clicked
 	$('#create-button').on('click', function(){
 		var clickedElement = $(this);
 		if (clickedElement.attr('isClicked') == 'true') {
-			setButtonToUnclickedState(clickedElement, 'Tambah', 'plus')
+			setButtonToUnclickedState(clickedElement, 'Tambah', 'plus');
+			removeOldValues();
 			resetAllForm();
+			removeAllErrorMessage();
 			toggleLogInformation(400);
 			toggleCreateForm(0)
 		} else {
@@ -557,7 +583,9 @@ Master Jadwal Pelayaran
 		var clickedElement = $(this);
 		if (clickedElement.attr('isClicked') == 'true') {
 			setButtonToUnclickedState(clickedElement, 'Update', 'edit');
+			removeOldValues();
 			resetAllForm();
+			removeAllErrorMessage();
 			hideRowActionButton('edit');
 			deactiveAllUpdateableRow();
 			if($('#update-form-container').css('display') != 'none'){
@@ -574,8 +602,10 @@ Master Jadwal Pelayaran
 	$('#delete-button').on('click', function () {
 		var clickedElement = $(this);
 		if (clickedElement.attr('isClicked') == 'true') {
-			resetAllForm();
 			setButtonToUnclickedState(clickedElement, 'Hapus', 'trash');
+			removeOldValues();;
+			removeAllErrorMessage();
+			resetAllForm();
 			hideRowActionButton('delete');
 		} else {
 			setButtonToClickedState(clickedElement, 'Batal', 'times');

@@ -24,8 +24,8 @@ class AuthController extends Controller{
 	 */
 	public function login(Request $request){
 		$validator = Validator::make($request->only(['username', 'password']), [
-			'username' => 'required|string|max:255',
-			'password'=> 'required|string|min:6|alpha_num'
+			'username' => 'required|string',
+			'password'=> 'required|string'
 		]);
 		if($validator->passes()) {
 			$credentials = $request->only('username', 'password');
