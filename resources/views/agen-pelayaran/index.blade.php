@@ -23,7 +23,8 @@ Master Jadwal Pelayaran
 				</div>
 			</div>
 			<table style="min-width: 100%"
-				class="ui raised {{$paginatedAgenPelayaran->hasMorePages() ? 'stacked' : '' }} segment selectable celled striped fixed collapsing table"
+				class="ui raised {{$paginatedAgenPelayaran->hasMorePages() ? 'stacked' : '' }}
+					segment selectable celled striped fixed padded collapsing small table"
 				>
 				<thead>
 					<tr>
@@ -61,8 +62,8 @@ Master Jadwal Pelayaran
 							{{ $agenPelayaran->loket }}
 						</td>
 						<td>
-							<div>{{ date('d/m/Y', strtotime($agenPelayaran->updated_at)) }}</div>
-							<div>{{ date('H:m T', strtotime($agenPelayaran->updated_at)) }}</div>
+							<div><small>{{ date('d/m/Y', strtotime($agenPelayaran->updated_at)) }}</small></div>
+							<div><small>{{ date('H:m T', strtotime($agenPelayaran->updated_at)) }}</small></div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>
@@ -317,7 +318,7 @@ Master Jadwal Pelayaran
 <div class="ui mini basic modal delete-modal">
 	<div class="ui icon header">
 		<i class="trash icon"></i>
-		Jadwal Pelayaran
+		Agen Pelayaran
 	</div>
 	<div class="content">
 		<p>Anda yakin untuk menghapus item ini?</p>

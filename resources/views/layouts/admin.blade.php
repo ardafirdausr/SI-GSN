@@ -79,7 +79,7 @@
                     </span>
                     <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="{{ route('web.profil') }}"><i class="user icon"></i>Profil</a>
+                        <a class="item" href="{{ route('web.user.profil') }}"><i class="user icon"></i>Profil</a>
                         <a class="item" href="{{ route('logout') }}"><i class="sign out icon"></i>Keluar</a>
                         {{-- <a class="item"><i class="edit icon"></i>Edit</a>
                         <a class="item"><i class="globe icon"></i>Language</a>

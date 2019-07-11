@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Illuminate\Support\Str;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,9 +18,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'nama',
         'NIP',
         'username',
-        'nama',
         'foto',
         // 'email',
         'password',
@@ -45,6 +47,14 @@ class User extends Authenticatable
 
     public function log_aktivitas(){
         return $this->morphToMany(LogAktivitas::class, 'log');
+    }
+
+    public function getAccessRoleAttribute($value){
+        return Str::title($value);
+    }
+
+    public function setNamaAttribute($value){
+        $this->attributes['nama'] = Str::title($value);
     }
 
     // public static function boot(){

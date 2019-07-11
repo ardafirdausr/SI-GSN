@@ -57,8 +57,8 @@ Master Kapal
 							{{ $kapal->agen_pelayaran->nama }}
 						</td>
 						<td>
-							<div>{{ date('d/m/Y', strtotime($kapal->updated_at)) }}</div>
-							<div>{{ date('H:m T', strtotime($kapal->updated_at)) }}</div>
+							<div><small>{{ date('d/m/Y', strtotime($kapal->updated_at)) }}</small></div>
+							<div><small>{{ date('H:m T', strtotime($kapal->updated_at)) }}</small></div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>
@@ -181,7 +181,7 @@ Master Kapal
 		<div class="row changeable-segment" id="create-form-container" style="display: none">
 			<form class="ui form error" id="create-form" method="POST" action="{{ route('web.kapal.store') }}" enctype="multipart/form-data">
 				@csrf
-				<h2 class="ui blue header" id="form-title">Tambah Agen Pelayaran</h2>
+				<h2 class="ui blue header" id="form-title">Tambah Kapal</h2>
 				<div class="ui raised segment">
 					<div class="field error-deactiveable {{ $errors->has('kode') ? 'error' : '' }}">
 						<div class="ui left icon input">
@@ -226,7 +226,7 @@ Master Kapal
 				@csrf
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="id-update" value="{{ old('id-update') }}">
-				<h2 class="ui green header" id="form-title">Edit Agen Pelayaran</h2>
+				<h2 class="ui green header" id="form-title">Edit Kapal</h2>
 				<div class="ui raised segment">
 					<div class="field error-deactiveable {{ $errors->has('kode') ? 'error' : '' }}">
 						<div class="ui left icon input">
@@ -277,7 +277,7 @@ Master Kapal
 <div class="ui mini basic modal delete-modal">
 	<div class="ui icon header">
 		<i class="trash icon"></i>
-		Jadwal Pelayaran
+		Kapal
 	</div>
 	<div class="content">
 		<p>Anda yakin untuk menghapus item ini?</p>

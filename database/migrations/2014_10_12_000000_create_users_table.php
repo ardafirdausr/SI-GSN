@@ -17,10 +17,10 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             // $table->string('email')->unique();
             // $table->timestamp('email_verified_at')->nullable();
+            $table->string('nama', 50);
             $table->string('NIP', 25)->unique();
             $table->string('username', 25)->unique();
-            $table->string('nama', 50);
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->string('password');
             $table->enum('access_role', ['petugas terminal', 'petugas agen', 'admin']);
             $table->rememberToken();

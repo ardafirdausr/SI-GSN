@@ -52,7 +52,7 @@ class KapalController extends Controller{
         $paginatedSearchResult = Kapal::with('agen_pelayaran')
                                       ->where($key, 'like', $query)
                                       ->paginate($size);
-        return BasicResource::collection($paginatedSearchResult)
+        return KapalResource::collection($paginatedSearchResult)
                             ->response()
                             ->setStatusCode(200);
     }

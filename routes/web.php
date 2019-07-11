@@ -25,8 +25,13 @@ Route::group(['middleware' => 'auth:web'], function(){
     Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
 
         // User Resource Route
-        Route::get('/profil', ['uses' => 'UserController@showProfile', 'as' => 'profil']);
-        Route::resource('user', 'UserController');
+        Route::group(['prefix' => '/user', 'as' => 'user.'], function(){
+            Route::get('/', ['uses' => 'UserController@index', 'as' => 'index']);
+            Route::get('/profil', ['uses' => 'UserController@showProfile', 'as' => 'profil']);
+            Route::post('/', ['uses' => 'UserController@store', 'as' => 'store']);
+            Route::put('/{user}', ['uses' => 'UserController@update', 'as' => 'update']);
+            Route::delete('/{user}', ['uses' => 'UserController@destroy', 'as' => 'destroy']);
+        });
 
         // Agent Pelayaran Resource Route
         Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
