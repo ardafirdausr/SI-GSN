@@ -4,7 +4,7 @@ Master Kapal
 @endsection
 @section('content')
 <div class="ui grid containers">
-	<div class="nine wide column">
+	<div class="ten wide column">
 		<div class="ui one column">
 			<div class="ui two column grid">
 				<div class="left aligned column">
@@ -84,7 +84,7 @@ Master Kapal
 			@endif
 		</div>
 	</div>
-	<div class="one wide column"></div>
+	{{-- <div class="one wide column"></div> --}}
 	<div class="six wide column">
 		<div class="row">
 			<h2 class="ui header">Aksi</h2>
@@ -204,6 +204,7 @@ Master Kapal
 							<div class="default text">Agen Pelayaran</div>
 						</div>
 					</div>
+					<input type="hidden" name="nama_agen_pelayaran" id="nama_agen_pelayaran">
 					<div id="img-upload-container" style="display: none; margin-bottom: 20px;">
 						<img id='img-upload'/>
 					</div>
@@ -390,7 +391,14 @@ Master Kapal
 		$('#search').val(queryString.query);
 		var failedCreate = {{ session()->has('failedCreate') ? 'true' : 'false' }};
 		var failedUpdate = {{ session()->has('failedUpdate') ? 'true' : 'false' }};
-		if(failedCreate) $('#create-button').click();
+		if(failedCreate) {
+			$('#create-button').click();
+			var lastSelectedAgenPelayaran = "{{old('id_agen_pelayaran')}}";
+			if(!!lastSelectedAgenPelayaran){
+				$('#create-form #create-dropdown-agen-pelayaran').dropdown('set selected', lastSelectedAgenPelayaran);
+				$('#create-form #create-dropdown-agen-pelayaran').dropdown('set text', 'ancok');
+			}
+		}
 		if(failedUpdate){
 			$('#update-button').click();
 			activateLastUpdate();

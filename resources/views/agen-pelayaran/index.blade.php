@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('title')
-Master Jadwal Pelayaran
+Master Agen Pelayaran
 @endsection
 @section('content')
 <div class="ui grid containers">
-	<div class="nine wide column">
+	<div class="ten wide column">
 		<div class="ui one column">
 			<div class="ui two column grid">
 				<div class="left aligned column">
@@ -47,7 +47,7 @@ Master Jadwal Pelayaran
 						<td id="value-logo" value={{ $agenPelayaran->logo }} class="center aligned">
 							<img
 								src="{{ $agenPelayaran->logo ? asset($agenPelayaran->logo) : asset('images/base.png') }}"
-								alt="{{ $agenPelayaran->nama }}" id="value-logo">
+								alt="{{ $agenPelayaran->nama }}" style="width: 100%; max-width: 150px">
 						</td>
 						<td id="value-nama" value="{{ $agenPelayaran->nama }}">
 							{{ $agenPelayaran->nama }}
@@ -75,7 +75,7 @@ Master Jadwal Pelayaran
 					@endforeach
 					@else
 					<tr>
-						<td colspan="6" style="text-align:center"> Tidak ada jadwal hari ini</td>
+						<td colspan="7" style="text-align:center"> Tidak ada jadwal hari ini</td>
 					<tr>
 						@endif
 				</tbody>
@@ -89,7 +89,7 @@ Master Jadwal Pelayaran
 			@endif
 		</div>
 	</div>
-	<div class="one wide column"></div>
+	{{-- <div class="one wide column"></div> --}}
 	<div class="six wide column">
 		<div class="row">
 			<h2 class="ui header">Aksi</h2>
@@ -343,11 +343,6 @@ Master Jadwal Pelayaran
 
 	.action {
 		cursor: pointer;
-	}
-
-	#value-logo{
-		width: 100%;
-		max-width: 150px;
 	}
 
 	.changeable-segment{

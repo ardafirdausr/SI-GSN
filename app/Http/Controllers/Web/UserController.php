@@ -38,6 +38,12 @@ class UserController extends Controller
         return view('user.index', compact('paginatedUser', 'topFiveUserLogs'));
     }
 
+    /**
+     *
+     */
+    public function showProfile(Request $request){
+        return view('user.profile');
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -4,7 +4,7 @@ Master User
 @endsection
 @section('content')
 <div class="ui grid containers">
-	<div class="nine wide column">
+	<div class="ten wide column">
 		<div class="ui one column">
 			<div class="ui two column grid">
 				<div class="left aligned column">
@@ -91,7 +91,7 @@ Master User
 			@endif
 		</div>
 	</div>
-	<div class="one wide column"></div>
+	{{-- <div class="one wide column"></div> --}}
 	<div class="six wide column">
 		<div class="row">
 			<h2 class="ui header">Aksi</h2>
@@ -721,7 +721,7 @@ Master User
     ;
   });
 
-	$('#access_role-dropdown').dropdown({ clearable: true})
+	$('#access_role-dropdown').dropdown({ clearable: true })
 
 	$('#create-form').form({
 		on: 'blur',

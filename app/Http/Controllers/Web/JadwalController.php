@@ -8,6 +8,8 @@ use Validator;
 
 use App\Models\Jadwal;
 use App\Models\AgenPelayaran;
+use App\Models\LogAktivitas;
+use Rule;
 
 class JadwalController extends Controller{
 
@@ -17,8 +19,25 @@ class JadwalController extends Controller{
      */
     public function index(Request $request){
         $tanggal = $request->input('tangggal') ?? date('Y-m-d');
-        $jadwalCollection = Jadwal::get();
-        return view('jadwal.index', compact('jadwalCollection'));
+        $size = $request->input('size') ?? 10;
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : ''
+                    : '%%';
+        $paginatedJadwal = Jadwal::with('kapal')
+                                 ->with('kapal.agen_pelayaran')
+                                 ->whereHas('kapal',function($kapal) use($query){
+                                     $kapal->where('nama', 'like', $query);
+                                   })
+                                 ->orderBy('updated_at', 'desc')
+                                 ->orderBy('waktu', 'desc')
+                                 ->paginate($size);
+        $topFiveJadwalLogs = LogAktivitas::where('log_type', 'App\Models\Jadwal')
+                                               ->orderBy('created_at', 'desc')
+                                               ->take(5)
+                                               ->get();
+        return view('jadwal.index', compact('paginatedJadwal', 'topFiveJadwalLogs'));
     }
 
     /**
@@ -65,7 +84,8 @@ class JadwalController extends Controller{
      */
     public function store(Request $request){
         $requestData = $request->only([
-            'waktu',
+            'tanggal',
+            'jam',
             'kota',
             'status_kegiatan',
             'status_kapal',
@@ -73,7 +93,8 @@ class JadwalController extends Controller{
             'id_kapal'
         ]);
         $validator = Validator::make($requestData, [
-            'waktu' => 'required|date',
+            'tanggal' => 'required|date',
+            'jam' => 'required|date_format:H:i',
             'kota' => 'required|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
@@ -82,17 +103,26 @@ class JadwalController extends Controller{
         ]);
         if($validator->passes()){
             try{
+                $requestData['waktu'] = $requestData['tanggal'].' '.$requestData['jam'];
                 $jadwal = Jadwal::create($requestData);
                 return redirect()->route('web.jadwal.index')
                                  ->with(['successMessage' => 'Berhasil menambahkan jadwal baru']);
             } catch(Exception $e){
-                return redirect()->route('web.jadwal.index')
-                                 ->with(['errorMessage' => 'Server Error']);
+                return redirect()->back()
+                                 ->withInput()
+                                 ->with([
+                                     'errorMessage' => 'Server Error',
+                                     'failedCreate' => true
+                                 ]);
             }
         }
-        return redirect()->route('web.jadwal.index')
-                         ->with(['errorMessage' => 'Data tidak valid'])
-                         ->withErrors($validator);
+        return redirect()->back()
+                         ->withErrors($validator)
+                         ->withInput()
+                         ->with([
+                             'errorMessage' => 'Data Tidak valid',
+                             'failedCreate' => true
+                         ]);
     }
 
     /**
@@ -107,7 +137,8 @@ class JadwalController extends Controller{
      */
     public function update(Request $request, Jadwal $jadwal){
         $requestData = $request->only([
-            'waktu',
+            'tanggal',
+            'jam',
             'kota',
             'status_kegiatan',
             'status_kapal',
@@ -115,7 +146,8 @@ class JadwalController extends Controller{
             'id_kapal',
         ]);
         $validator = Validator::make($requestData, [
-            'waktu' => 'required|date',
+            'tanggal' => 'required|date',
+            'jam' => 'required|date_format:H:i',
             'kota' => 'required|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
@@ -124,22 +156,35 @@ class JadwalController extends Controller{
         ]);
         if($validator->passes()){
             try{
+                $requestData['waktu'] = $$requestData['tanggal'].' '.$requestData['jam'];
                 $isJadwalUpdated = $jadwal->update($requestData);
                 if($isJadwalUpdated){
                     $jadwal = Jadwal::find($jadwal->id);
-                    return redirect()->route('web.jadwal.index')
+                    return redirect()->back()
                                      ->with(['successMessage' => 'Berhasil mengupdate jadwal']);
                 }
-                return redirect()->route('web.jadwal.index')
-                                 ->with(['errorMessage' => 'Gagal mengupdate jadwal']);
+                return redirect()->back()
+                                 ->withInput()
+                                 ->with([
+                                     'errorMessage' => 'Gagal mengupdate jadwal',
+                                     'failedCreate' => true
+                                 ]);
             } catch(Exception $e){
-                return redirect()->route('web.jadwal.index')
-                                 ->with(['errorMessage' => 'Server error']);
+                return redirect()->back()
+                                 ->withInput()
+                                 ->with([
+                                     'errorMessage' => 'Server error',
+                                     'failedCreate' => true
+                                 ]);
             }
 
         }
-        return redirect()->route('web.jadwal.index')
-                         ->with(['errorMessage' => 'Data tidak valid'])
+        return redirect()->back()
+                         ->withInput()
+                         ->with([
+                             'errorMessage' => 'Server error',
+                             'failedCreate' => true
+                         ])
                          ->withErrors($validator);
     }
 
@@ -152,13 +197,13 @@ class JadwalController extends Controller{
         try{
             $isJadwalDeleted = $jadwal->delete();
             if($isJadwalDeleted) {
-                return redirect()->route('web.jadwal.index')
-                                 ->with(['successMessage' => 'Berhasil menhapus jadwal']);
+                return redirect()->back()
+                                 ->with(['successMessage' => 'Berhasil menghapus jadwal']);
             };
-            return redirect()->route('web.jadwal.index')
+            return redirect()->back()
                              ->with(['errorMessage' => 'Gagal menghapus jadwal']);
         } catch(Exception $e){
-            return redirect()->route('web.jadwal.index')
+            return redirect()->back()
                              ->with(['errorMessage' => 'Server error']);
         }
     }
