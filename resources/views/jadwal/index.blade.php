@@ -16,7 +16,7 @@ Master Jadwal Pelayaran
 					<div class="ui two column grid">
 						<div class="column">
 							<div class="ui input">
-								<input type="date" name="date" style="height: 38px !important">
+								<input type="date" name="date" style="height: 38px !important" placeholder="hari/jam/tahun">
 							</div>
 						</div>
 						<div class="column">
@@ -202,7 +202,7 @@ Master Jadwal Pelayaran
 				<h2 class="ui blue header" id="form-title">Tambah Jadwal</h2>
 				<div class="ui raised segment">
 					<div class="field error-deactiveable">
-						<div class="ui fluid search selection dropdown" id="create-update-id_kapal-dropdown">
+						<div class="ui fluid search selection dropdown" id="create-id_kapal-dropdown">
 							<input type="hidden" name="id_kapal">
 							<i class="dropdown icon"></i>
 							<div class="default text">Pilih Kapal</div>
@@ -477,14 +477,16 @@ Master Jadwal Pelayaran
 
 	function activateLastUpdate(){
 		var id = "{{old('id-update')}}";
-		var selectedDataRow = $('#data-' + id);
-		var imageSource = selectedDataRow.find('#value-logo').attr('value');
-		selectedDataRow.addClass('active');
 		var url = $('#update-form').attr('action');
 		url = url.replace(':jadwal', id);
 		$('#update-form').attr('action', url);
-		$('#update-form #img-upload-container').show();
-		$('#update-form #img-upload').attr('src', imageSource);
+		$('#data-' + id).addClass('active');
+		var status_kegiatan = "{{old('status_kegiatan')}}";
+		var status_kapal = "{{old('status_kapal')}}";
+		var status_tiket = "{{old('status_tiket')}}";
+		$('#update-form #status_kegiatan-dropdown').dropdown('set selected', status_kegiatan);
+		$('#update-form #status_kapal-dropdown').dropdown('set selected', status_kapal);
+		$('#update-form #status_tiket-dropdown').dropdown('set selected', status_tiket);
 	}
 
 	function mapQueryToObject(){
@@ -549,15 +551,14 @@ Master Jadwal Pelayaran
 
 	// reset create form to its normal state
 	function resetCreateFormData(){
-		$('#update-form input[name=id-update]').val('');
-		$('#update-form #update-id_kapal-dropdown').dropdown('set selected', '');
-		$('#update-form #update-id_kapal-dropdown').dropdown('set text', '');
-		$('#update-form #status_kegiatan-dropdown').dropdown('set selected', '');
-		$('#update-form input[name=kota]').val('');
-		$('#update-form input[name=tanggal]').val('');
-		$('#update-form input[name=jam]').val('');
-		$('#update-form #status_kapal-dropdown').dropdown('set selected', '');
-		$('#update-form #status_tiket-dropdown').dropdown('set selected', '');
+		$('#create-form #update-id_kapal-dropdown').dropdown('set selected', '');
+		$('#create-form #update-id_kapal-dropdown').dropdown('set text', '');
+		$('#create-form #status_kegiatan-dropdown').dropdown('set selected', '');
+		$('#create-form input[name=kota]').val('');
+		$('#create-form input[name=tanggal]').val('');
+		$('#create-form input[name=jam]').val('');
+		$('#create-form #status_kapal-dropdown').dropdown('set selected', '');
+		$('#create-form #status_tiket-dropdown').dropdown('set selected', '');
 	}
 
 	function insertIdToDeleteForm(id){
@@ -706,7 +707,9 @@ Master Jadwal Pelayaran
 		deactiveAllUpdateableRow();
 		setSelectedEditRowToActive(rowDataElement);
 		resetUpdateFormData();
-		insertDataToUpdateForm(id, idKapal, namaKapal, status_kegiatan, kota, tanggal, jam, status_kapal, status_tiket)
+		insertDataToUpdateForm(
+			id, idKapal, namaKapal, status_kegiatan, kota, tanggal, jam, status_kapal, status_tiket
+		);
 		if ($('#update-form-container').css('display') == 'none'){
 			toggleLogInformation(0);
 			toggleUpdateForm(400);
@@ -814,11 +817,11 @@ Master Jadwal Pelayaran
 				]
 			},
 			id_kapal: {
-				identifier  : 'empty',
+				identifier  : 'id_kapal',
 				rules: [
 					{
 						type   : 'empty',
-						prompt : 'Status Tiket tidak boleh kosong'
+						prompt : 'Kapal tidak boleh kosong'
 					}
 				]
 			},

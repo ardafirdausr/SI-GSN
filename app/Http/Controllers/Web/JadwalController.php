@@ -94,7 +94,7 @@ class JadwalController extends Controller{
         ]);
         $validator = Validator::make($requestData, [
             'tanggal' => 'required|date',
-            'jam' => 'required|date_format:H:i',
+            'jam' => 'required',
             'kota' => 'required|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
@@ -145,9 +145,10 @@ class JadwalController extends Controller{
             'status_tiket',
             'id_kapal',
         ]);
+        // return response()->json($requestData);
         $validator = Validator::make($requestData, [
             'tanggal' => 'required|date',
-            'jam' => 'required|date_format:H:i',
+            'jam' => 'required',
             'kota' => 'required|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
@@ -156,7 +157,7 @@ class JadwalController extends Controller{
         ]);
         if($validator->passes()){
             try{
-                $requestData['waktu'] = $$requestData['tanggal'].' '.$requestData['jam'];
+                $requestData['waktu'] = $requestData['tanggal'].' '.$requestData['jam'];
                 $isJadwalUpdated = $jadwal->update($requestData);
                 if($isJadwalUpdated){
                     $jadwal = Jadwal::find($jadwal->id);
@@ -167,14 +168,14 @@ class JadwalController extends Controller{
                                  ->withInput()
                                  ->with([
                                      'errorMessage' => 'Gagal mengupdate jadwal',
-                                     'failedCreate' => true
+                                     'failedUpdate' => true
                                  ]);
             } catch(Exception $e){
                 return redirect()->back()
                                  ->withInput()
                                  ->with([
                                      'errorMessage' => 'Server error',
-                                     'failedCreate' => true
+                                     'failedUpdate' => true
                                  ]);
             }
 
@@ -183,7 +184,7 @@ class JadwalController extends Controller{
                          ->withInput()
                          ->with([
                              'errorMessage' => 'Server error',
-                             'failedCreate' => true
+                             'failedUpdate' => true
                          ])
                          ->withErrors($validator);
     }
