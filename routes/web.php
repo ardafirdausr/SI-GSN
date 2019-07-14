@@ -62,5 +62,8 @@ Route::group(['middleware' => 'auth:web'], function(){
     });
 });
 
+Route::get('/test', function(){
+    $model = new \App\Models\AgenPelayaran();
+});
 
 Route::get('/', function(){ return redirect()->route('login'); });

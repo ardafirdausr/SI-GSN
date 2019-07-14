@@ -8,14 +8,14 @@ class Kapal extends Model
 {
     public $table = 'kapal';
 
-    protected $fillable = ['kode', 'nama', 'id_agen_pelayaran'];
+    protected $fillable = ['kode', 'nama', 'agen_pelayaran_id'];
 
     public function agen_pelayaran(){
-        return $this->belongsTo(AgenPelayaran::class, 'id_agen_pelayaran', 'id');
+        return $this->belongsTo(AgenPelayaran::class, 'agen_pelayaran_id', 'id');
     }
 
     public function jadwal(){
-        return $this->hasMany(Jadwal::class, 'id_kapal', 'id');
+        return $this->hasMany(Jadwal::class, 'kapal_id', 'id');
     }
 
     public function log_aktivitas(){

@@ -29,6 +29,6 @@ $factory->afterCreating(App\Models\Jadwal::class, function ($jadwal, $faker) {
         'status_kegiatan' => 'berangkat',
         'status_kapal' => 'on schedule',
         'status_tiket' => 'check in',
-        'id_kapal' => $jadwal->id_kapal
+        'kapal_id' => $jadwal->kapal_id
     ]);
 });

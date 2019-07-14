@@ -202,8 +202,8 @@ Master Jadwal Pelayaran
 				<h2 class="ui blue header" id="form-title">Tambah Jadwal</h2>
 				<div class="ui raised segment">
 					<div class="field error-deactiveable">
-						<div class="ui fluid search selection dropdown" id="create-id_kapal-dropdown">
-							<input type="hidden" name="id_kapal">
+						<div class="ui fluid search selection dropdown" id="create-kapal_id-dropdown">
+							<input type="hidden" name="kapal_id">
 							<i class="dropdown icon"></i>
 							<div class="default text">Pilih Kapal</div>
 							<div class="menu">
@@ -290,8 +290,8 @@ Master Jadwal Pelayaran
 				<div class="ui raised segment">
 					<input type="hidden" name="id-update" value="{{ old('id-update') }}">
 						<div class="field error-deactiveable">
-							<div class="ui fluid search selection dropdown" id="update-id_kapal-dropdown">
-								<input type="hidden" name="id_kapal">
+							<div class="ui fluid search selection dropdown" id="update-kapal_id-dropdown">
+								<input type="hidden" name="kapal_id">
 								<i class="dropdown icon"></i>
 								<div class="default text">Pilih Kapal</div>
 								<div class="menu">
@@ -465,8 +465,8 @@ Master Jadwal Pelayaran
 
 	function removeOldValues(){
 		$('input[name=id-update]').val('');
-		$('#update-id_kapal-dropdown').dropdown('set selected', '');
-		$('#update-id_kapal-dropdown').dropdown('set text', '');
+		$('#update-kapal_id-dropdown').dropdown('set selected', '');
+		$('#update-kapal_id-dropdown').dropdown('set text', '');
 		$('#status_kegiatan-dropdown').dropdown('set selected', '');
 		$('input[name=kota]').val('');
 		$('input[name=tanggal]').val('');
@@ -523,8 +523,8 @@ Master Jadwal Pelayaran
 		console.log(id, idKapal, namaKapal, status_kegiatan, kota, tanggal, jam, status_kapal, status_tiket)
 		$('#update-form').attr('action', url);
 		$('#update-form input[name=id-update]').val(id);
-		$('#update-form #update-id_kapal-dropdown').dropdown('set selected', idKapal);
-		$('#update-form #update-id_kapal-dropdown').dropdown('set text', namaKapal);
+		$('#update-form #update-kapal_id-dropdown').dropdown('set selected', idKapal);
+		$('#update-form #update-kapal_id-dropdown').dropdown('set text', namaKapal);
 		$('#update-form #status_kegiatan-dropdown').dropdown('set selected', status_kegiatan);
 		$('#update-form input[name=kota]').val(kota);
 		$('#update-form input[name=tanggal]').val(tanggal);
@@ -539,8 +539,8 @@ Master Jadwal Pelayaran
 		url = url.replace(/\/[0-9]+$/, '/:jadwal');
 		$('#update-form').attr('action', url);
 		$('#update-form input[name=id-update]').val('');
-		$('#update-form #update-id_kapal-dropdown').dropdown('set selected', '');
-		$('#update-form #update-id_kapal-dropdown').dropdown('set text', '');
+		$('#update-form #update-kapal_id-dropdown').dropdown('set selected', '');
+		$('#update-form #update-kapal_id-dropdown').dropdown('set text', '');
 		$('#update-form #status_kegiatan-dropdown').dropdown('set selected', '');
 		$('#update-form input[name=kota]').val('');
 		$('#update-form input[name=tanggal]').val('');
@@ -551,8 +551,8 @@ Master Jadwal Pelayaran
 
 	// reset create form to its normal state
 	function resetCreateFormData(){
-		$('#create-form #update-id_kapal-dropdown').dropdown('set selected', '');
-		$('#create-form #update-id_kapal-dropdown').dropdown('set text', '');
+		$('#create-form #update-kapal_id-dropdown').dropdown('set selected', '');
+		$('#create-form #update-kapal_id-dropdown').dropdown('set text', '');
 		$('#create-form #status_kegiatan-dropdown').dropdown('set selected', '');
 		$('#create-form input[name=kota]').val('');
 		$('#create-form input[name=tanggal]').val('');
@@ -816,8 +816,8 @@ Master Jadwal Pelayaran
 					}
 				]
 			},
-			id_kapal: {
-				identifier  : 'id_kapal',
+			kapal_id: {
+				identifier  : 'kapal_id',
 				rules: [
 					{
 						type   : 'empty',
@@ -839,7 +839,7 @@ Master Jadwal Pelayaran
 	$('#status_kapal-dropdown').dropdown({ clearable: true });
 	$('#status_tiket-dropdown').dropdown({ clearable: true });
 
-	$('#update-id_kapal-dropdown,#create-id_kapal-dropdown').dropdown({
+	$('#update-kapal_id-dropdown,#create-kapal_id-dropdown').dropdown({
     clearable: true,
 		minCharacters: 2,
 		apiSettings: {

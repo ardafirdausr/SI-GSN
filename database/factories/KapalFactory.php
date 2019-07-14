@@ -12,5 +12,5 @@ $factory->define(App\Models\Kapal::class, function (Faker $faker) {
 });
 
 $factory->afterCreating(App\Models\Kapal::class, function ($kapal, $faker) {
-    factory('App\Models\Jadwal', 1)->create(['id_kapal' => $kapal->id]);
+    factory('App\Models\Jadwal', 1)->create(['kapal_id' => $kapal->id]);
 });

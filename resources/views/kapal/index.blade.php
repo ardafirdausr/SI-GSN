@@ -197,9 +197,9 @@ Master Kapal
 								value={{ old('nama') }}>
 							</div>
 					</div>
-					<div class="field error-deactiveable {{ $errors->has('id_agen_pelayaran') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('agen_pelayaran_id') ? 'error' : '' }}">
 						<div class="ui fluid search selection dropdown" id="create-dropdown-agen-pelayaran">
-							<input type="hidden" name="id_agen_pelayaran" id="id_agen_pelayaran">
+							<input type="hidden" name="agen_pelayaran_id" id="agen_pelayaran_id">
 							<i class="dropdown icon"></i>
 							<div class="default text">Agen Pelayaran</div>
 						</div>
@@ -243,9 +243,9 @@ Master Kapal
 								value={{ old('nama') }}>
 							</div>
 					</div>
-					<div class="field error-deactiveable {{ $errors->has('id_agen_pelayaran') ? 'error' : '' }}">
+					<div class="field error-deactiveable {{ $errors->has('agen_pelayaran_id') ? 'error' : '' }}">
 						<div class="ui fluid search selection dropdown" id="update-dropdown-agen-pelayaran">
-							<input type="hidden" name="id_agen_pelayaran" id="id_agen_pelayaran">
+							<input type="hidden" name="agen_pelayaran_id" id="agen_pelayaran_id">
 							<i class="dropdown icon"></i>
 							<div class="default text">Agen Pelayaran</div>
 						</div>
@@ -393,7 +393,7 @@ Master Kapal
 		var failedUpdate = {{ session()->has('failedUpdate') ? 'true' : 'false' }};
 		if(failedCreate) {
 			$('#create-button').click();
-			var lastSelectedAgenPelayaran = "{{old('id_agen_pelayaran')}}";
+			var lastSelectedAgenPelayaran = "{{old('agen_pelayaran_id')}}";
 			if(!!lastSelectedAgenPelayaran){
 				$('#create-form #create-dropdown-agen-pelayaran').dropdown('set selected', lastSelectedAgenPelayaran);
 				$('#create-form #create-dropdown-agen-pelayaran').dropdown('set text', 'ancok');
@@ -417,8 +417,8 @@ Master Kapal
 		$('#update-form input[name=id-update]').val(id);
 		$('#update-form input[name=kode]').val(kode);
 		$('#update-form input[name=nama]').val(nama);
-		$('#update-form input[name=id_agen_pelayaran]').val(idAgenPelayaran);
-		// $('#update-form input[name=id_agen_pelayaran]').attr('placeholder', namaAgenPelayaran);
+		$('#update-form input[name=agen_pelayaran_id]').val(idAgenPelayaran);
+		// $('#update-form input[name=agen_pelayaran_id]').attr('placeholder', namaAgenPelayaran);
 		// $('#update-form #img-upload-container').show();
 		// $('#update-form #img-upload').attr('src', logoAgenPelayaran);
 	}
@@ -431,8 +431,8 @@ Master Kapal
 		$('#update-form input[name=id-update]').val('');
 		$('#update-form input[name=kode]').val('');
 		$('#update-form input[name=nama]').val('');
-		$('#update-form input[name=id_agen_pelayaran]').val('');
-		// $('#update-form input[name=id_agen_pelayaran]').attr('placeholder', 'Agen Pelayaran');
+		$('#update-form input[name=agen_pelayaran_id]').val('');
+		// $('#update-form input[name=agen_pelayaran_id]').attr('placeholder', 'Agen Pelayaran');
 		// $('#update-form #img-upload-container').hide();
 		// $('#update-form #img-upload').attr('src', '');
 	}
@@ -441,7 +441,7 @@ Master Kapal
 	function resetCreateFormData(){
 		$('#update-form input[name=kode]').val('');
 		$('#update-form input[name=nama]').val('');
-		$('#update-form input[name=id_agen_pelayaran]').val('');
+		$('#update-form input[name=agen_pelayaran_id]').val('');
 	}
 
 	function insertIdToDeleteForm(id){
@@ -629,8 +629,8 @@ Master Kapal
 					},
 				]
 			},
-			id_agen_pelayaran: {
-				identifier  : 'id_agen_pelayaran',
+			agen_pelayaran_id: {
+				identifier  : 'agen_pelayaran_id',
 				rules: [
 					{
 						type   : 'empty',

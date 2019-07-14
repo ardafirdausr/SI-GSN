@@ -79,7 +79,7 @@ class JadwalController extends Controller{
      * @param enum<datang,berangkat> status_kegiatan
      * @param enum<datang,on_schedule,cancel> status_kapal
      * @param enum<check_in,boarding> status_tiket
-     * @param string id_kapal
+     * @param string kapal_id
      * @return Jadwal jadwal
      */
     public function store(Request $request){
@@ -90,7 +90,7 @@ class JadwalController extends Controller{
             'status_kegiatan',
             'status_kapal',
             'status_tiket',
-            'id_kapal'
+            'kapal_id'
         ]);
         $validator = Validator::make($requestData, [
             'tanggal' => 'required|date',
@@ -99,7 +99,7 @@ class JadwalController extends Controller{
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
             'status_tiket' => Rule::in('check in', 'boarding'),
-            'id_kapal' => 'required|integer|exists:kapal,id',
+            'kapal_id' => 'required|integer|exists:kapal,id',
         ]);
         if($validator->passes()){
             try{
@@ -132,7 +132,7 @@ class JadwalController extends Controller{
      * @param enum<datang,berangkat> status_kegiatan
      * @param enum<datang,on_schedule,cancel> status_kapal
      * @param enum<check_in,boarding> status_tiket
-     * @param string id_kapal
+     * @param string kapal_id
      * @return Jadwal jadwal
      */
     public function update(Request $request, Jadwal $jadwal){
@@ -143,7 +143,7 @@ class JadwalController extends Controller{
             'status_kegiatan',
             'status_kapal',
             'status_tiket',
-            'id_kapal',
+            'kapal_id',
         ]);
         // return response()->json($requestData);
         $validator = Validator::make($requestData, [
@@ -153,7 +153,7 @@ class JadwalController extends Controller{
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
             'status_tiket' => Rule::in('check in', 'boarding'),
-            'id_kapal' => 'required|integer|exists:kapal,id',
+            'kapal_id' => 'required|integer|exists:kapal,id',
         ]);
         if($validator->passes()){
             try{

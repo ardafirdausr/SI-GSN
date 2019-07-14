@@ -14,10 +14,10 @@ class AddRelationshipsToKapalTable extends Migration
     public function up()
     {
         Schema::table('kapal', function (Blueprint $table) {
-            $table->bigInteger('id_agen_pelayaran')
+            $table->bigInteger('agen_pelayaran_id')
                   ->unsigned()
                   ->before('created_at');
-            $table->foreign('id_agen_pelayaran')
+            $table->foreign('agen_pelayaran_id')
                   ->references('id')
                   ->on('agen_pelayaran')
                   ->onUpdate('cascade')

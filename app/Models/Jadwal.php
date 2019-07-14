@@ -16,11 +16,11 @@ class Jadwal extends Model
         'status_kegiatan',
         'status_kapal',
         'status_tiket',
-        'id_kapal'
+        'kapal_id'
     ];
 
     public function kapal(){
-        return $this->belongsTo(Kapal::class, 'id_kapal', 'id');
+        return $this->belongsTo(Kapal::class, 'kapal_id', 'id');
     }
 
     public function log_aktivitas(){

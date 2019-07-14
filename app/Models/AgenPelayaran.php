@@ -17,15 +17,15 @@ class AgenPelayaran extends Model
     ];
 
     public function kapal(){
-        return $this->hasMany(Kapal::class, 'id_agen_pelayaran', 'id');
+        return $this->hasMany(Kapal::class, 'agen_pelayaran_id', 'id');
     }
 
     public function jadwal(){
         return $this->hasManyThrough(
             Jadwal::class,
             Kapal::class,
-            'id_agen_pelayaran',
-            'id_kapal',
+            'agen_pelayaran_id',
+            'kapal_id',
             'id',
             'id'
         );

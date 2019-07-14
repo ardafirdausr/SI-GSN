@@ -27,5 +27,5 @@ $factory->define(App\Models\AgenPelayaran::class, function (Faker $faker) use ($
 });
 
 $factory->afterCreating(App\Models\AgenPelayaran::class, function ($agenPelayaran, $faker) {
-    factory('App\Models\Kapal', 10)->create(['id_agen_pelayaran' => $agenPelayaran->id]);
+    factory('App\Models\Kapal', 10)->create(['agen_pelayaran_id' => $agenPelayaran->id]);
 });
