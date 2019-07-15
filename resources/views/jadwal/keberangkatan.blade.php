@@ -3,7 +3,7 @@
 	Jadwal Keberangkatan
 @endsection
 @section('content')
-	<div class="ui grid content-container">
+	<div class="ui relaxed grid content-container">
 		<div class="row">
 			<div class="column">
 				<h2 class="ui header"> {{ date("l, d-m-Y") }} </h2>

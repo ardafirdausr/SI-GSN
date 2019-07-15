@@ -3,7 +3,7 @@
 Master Jadwal Pelayaran
 @endsection
 @section('content')
-<div class="ui grid content-container">
+<div class="ui relaxed grid content-container">
 	<div class="ten wide column">
 		<div class="ui one column">
 			<div class="ui two column grid">

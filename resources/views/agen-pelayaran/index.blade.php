@@ -63,7 +63,7 @@ Master Agen Pelayaran
 						</td>
 						<td>
 							<div><small>{{ date('d/m/Y', strtotime($agenPelayaran->updated_at)) }}</small></div>
-							<div><small>{{ date('H:i T', strtotime($agenPelayaran->updated_at)) }}</small></div>
+							<div><small>{{ date('H:m T', strtotime($agenPelayaran->updated_at)) }}</small></div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>
@@ -137,7 +137,7 @@ Master Agen Pelayaran
 							</td>
 							<td>
 								<div>{{ date('d/m/Y', strtotime($logAgenPelayaran->updated_at)) }}</div>
-								<div>{{ date('H:i T', strtotime($logAgenPelayaran->updated_at)) }}</div>
+								<div>{{ date('H:m T', strtotime($logAgenPelayaran->updated_at)) }}</div>
 							</td>
 						</tr>
 						@endforeach
