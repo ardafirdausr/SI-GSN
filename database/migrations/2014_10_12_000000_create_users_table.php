@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('username', 25)->unique();
             $table->string('foto')->nullable();
             $table->string('password');
-            $table->enum('access_role', ['petugas terminal', 'petugas agen', 'admin']);
+            // $table->enum('access_role', ['petugas terminal', 'petugas agen', 'admin']);
             $table->rememberToken();
             $table->timestamps();
         });

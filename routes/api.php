@@ -37,6 +37,8 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
     });
 
     Route::group(['prefix' => '/jadwal', 'as' => 'jadwal'], function(){
+        Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan' ]);
+        Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan' ]);
         Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
         Route::get('/search', ['uses' => 'KapalController@search', 'as' => 'search']);
         Route::get('/{jadwal}', ['uses' => 'JadwalController@show', 'as' => 'show']);
@@ -44,4 +46,4 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
     });
 });
 
-Route::fallback(function(){ return response()->json(['message' => 'Url not found'], 404); });
+// Route::fallback(function(){ return response()->json(['message' => 'Url not found'], 404); });

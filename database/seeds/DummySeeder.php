@@ -13,13 +13,10 @@ class DummySeeder extends Seeder
      */
     public function run(){
         // creating dummy users
-        $accessRoles = ['petugas terminal', 'petugas agen', 'admin'];
-        foreach($accessRoles as $accessRole){
-            factory('App\Models\User', 3)->create(['access_role' => $accessRole]);
-            factory('App\Models\User', 1)->create([
-                'username' => Str::camel($accessRole.'1'),
-                'access_role' => $accessRole
-            ]);
+        $roles = ['petugas terminal', 'petugas agen', 'admin'];
+        foreach($roles as $role){
+            $user = factory('App\Models\User')->create(['username' => Str::camel($role.'1')]);
+            $user->assignRole($role);
         }
         factory('App\Models\AgenPelayaran', 4)->create();
     }

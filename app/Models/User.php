@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoles;
+
+    protected $guard_name = 'web'; // or whatever guard you want to use
+
 
     /**
      * The attributes that are mass assignable.
@@ -24,7 +29,7 @@ class User extends Authenticatable
         'foto',
         // 'email',
         'password',
-        'access_role',
+        // 'access_role',
     ];
 
     /**

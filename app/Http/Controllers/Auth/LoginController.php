@@ -81,7 +81,7 @@ class LoginController extends Controller
      */
     protected function credentials(Request $request)
     {
-        return $request->only($this->username(), 'password', 'access_role');
+        return $request->only($this->username(), 'password');
     }
 
     /**
@@ -92,7 +92,12 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        $request->merge(['access_role' => 'admin']);
+        // $request->merge(['access_role' => 'admin']);
+        $user = \App\Models\User::where($this->username(), $request->input('username'))
+                                ->first();
+        if(!isset($user)) return false;
+        $role = $user->getRoleNames()->first();
+        if($role == 'petugas terminal') return false;
         return $this->guard()->attempt(
             $this->credentials($request), $request->filled('remember')
         );

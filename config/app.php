@@ -176,7 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         // Additional package
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*

@@ -20,7 +20,8 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'nama' => $this->nama,
             'foto' => asset($this->foto),
-            'access_role' => $this->access_role,
+            'access_role' => $this->getRoleNames()->first(),
+            'permission' => $this->getAllPermissions()
         ];
     }
 }

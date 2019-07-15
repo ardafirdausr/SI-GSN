@@ -18,7 +18,7 @@ class UserTest extends ModelTestCase {
             'username',
             'foto',
             'password',
-            'access_role',
+            // 'access_role',
         ];
         $hidden = [
             'password',

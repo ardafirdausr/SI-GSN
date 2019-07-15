@@ -58,8 +58,8 @@ Master User
 						<td id="value-username" value="{{ $user->username }}">
 							{{ $user->username }}
 						</td>
-						<td id="value-access_role" value="{{ $user->access_role }}">
-							{{ $user->access_role }}
+						<td id="value-access_role" value="{{ $user->getRoleNames()->first() }}">
+							{{ $user->getRoleNames()->first() }}
 						</td>
 						<td>
 							<small>{{ date('d/m/Y', strtotime($user->updated_at)) }}</small>

@@ -81,4 +81,54 @@ class JadwalController extends Controller{
             'errors' => $validator->errors()
         ], 400);
     }
+
+    /**
+     * Show all jadwal kedatangan
+     * @param Date date
+     * @return View jadwalKedatangan
+     */
+    public function showJadwalKedatangan(Request $request){
+        $tanggal = $request->input('tanggal') ?? date('Y-m-d');
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : '%%'
+                    : '%%';
+        $paginatedJadwal = Jadwal::with('kapal')
+                                  ->whereHas('kapal', function($kapal) use($query){
+                                        $kapal->where('nama', 'like', $query);
+                                    })
+                                  ->where('status_kegiatan', 'datang')
+                                  ->whereDate('waktu', $tanggal)
+                                  ->orderBy('waktu', 'asc')
+                                  ->paginate(10);
+        return JadwalResource::collection($paginatedJadwal)
+                             ->response()
+                             ->setStatusCode(200);
+    }
+
+    /**
+     * Show all jadwal keberangkatan
+     * @param Date date
+     * @return View jadwalKeberangkatan
+     */
+    public function showJadwalKeberangkatan(Request $request){
+        $tanggal = $request->input('tanggal') ?? date('Y-m-d');
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : '%%'
+                    : '%%';
+        $paginatedJadwal = Jadwal::with('kapal')
+                                  ->whereHas('kapal', function($kapal) use($query){
+                                      $kapal->where('nama', 'like', $query);
+                                    })
+                                  ->where('status_kegiatan', 'berangkat')
+                                  ->whereDate('waktu', $tanggal)
+                                  ->orderBy('waktu', 'asc')
+                                  ->paginate(10);
+        return JadwalResource::collection($paginatedJadwal)
+                             ->response()
+                             ->setStatusCode(200);
+    }
 }
