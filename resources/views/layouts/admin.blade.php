@@ -14,8 +14,8 @@
                 <i class="arrow left icon"></i>Jadwal Keberangkatan
             </div>
         </a>
-        <a class="item" href="{{ preg_match('/^web\.jadwal\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.jadwal.index') }}">
-            <div class="ui {{ preg_match('/^web\.jadwal\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
+        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.index' ? '#' : route('web.jadwal.index') }}">
+            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.index' ? 'primary' : 'deactive' }} fluid rounded button">
                 <i class="calendar alternate outline icon"></i>Master Jadwal
             </div>
         </a>

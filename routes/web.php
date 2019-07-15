@@ -53,7 +53,9 @@ Route::group(['middleware' => 'auth:web'], function(){
         Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
             Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
             Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan']);
+            Route::get('/keberangkatan/list', ['uses' => 'JadwalController@showJadwalKeberangkatanList', 'as' => 'keberangkatan-list']);
             Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan']);
+            Route::get('/kedatangan/list', ['uses' => 'JadwalController@showJadwalKedatanganList', 'as' => 'kedatangan-list']);
             Route::post('/', ['uses' => 'JadwalController@store', 'as' => 'store']);
             Route::put('/{jadwal}', ['uses' => 'JadwalController@update', 'as' => 'update']);
             Route::delete('/{jadwal}', ['uses' => 'JadwalController@destroy', 'as' => 'destroy']);

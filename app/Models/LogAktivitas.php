@@ -23,4 +23,12 @@ class LogAktivitas extends Model
     public function logable(){
         return $this->morphTo();
     }
+
+    public function jadwal(){
+        return BelongsToMorph::build($this, Jadwal::class, 'logable');
+    }
+
+    public function agen_pelayaran(){
+        return BelongsToMorph::build($this, AgenPelayaran::class, 'logable');
+    }
 }

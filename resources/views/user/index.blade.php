@@ -3,7 +3,7 @@
 Master User
 @endsection
 @section('content')
-<div class="ui grid containers">
+<div class="ui grid content-container">
 	<div class="ten wide column">
 		<div class="ui one column">
 			<div class="ui two column grid">
@@ -63,7 +63,7 @@ Master User
 						</td>
 						<td>
 							<small>{{ date('d/m/Y', strtotime($user->updated_at)) }}</small>
-							<small>{{ date('H:m T', strtotime($user->updated_at)) }}</small>
+							<small>{{ date('H:i T', strtotime($user->updated_at)) }}</small>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>
@@ -139,7 +139,7 @@ Master User
 							</td>
 							<td>
 								<div>{{ date('d/m/Y', strtotime($loguser->updated_at)) }}</div>
-								<div>{{ date('H:m T', strtotime($loguser->updated_at)) }}</div>
+								<div>{{ date('H:i T', strtotime($loguser->updated_at)) }}</div>
 							</td>
 						</tr>
 						@endforeach
@@ -369,7 +369,7 @@ Master User
 	</div>
 </div>
 <style>
-	.containers {
+	.content-container {
 		margin: 20px 40px !important;
 	}
 

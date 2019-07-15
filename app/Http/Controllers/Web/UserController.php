@@ -42,7 +42,8 @@ class UserController extends Controller
      *
      */
     public function showProfile(Request $request){
-        return view('user.profile');
+        $user = auth()->user();
+        return view('user.profile', compact('user'));
     }
 
     /**
@@ -67,6 +68,7 @@ class UserController extends Controller
             'NIP' => "required|string|max:25|unique:users,NIP",
             'username' => "required|string|max:25|unique:users,username",
             'password' => 'required|string|confirmed',
+            'password_confirmation' => 'required_with:password',
             'access_role' => Rule::in('petugas terminal', 'petugas agen', 'admin'),
             'foto' =>'sometimes|file|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -134,6 +136,7 @@ class UserController extends Controller
             'NIP' => "sometimes|string|max:25|unique:users,NIP,$user->id",
             'username' => "sometimes|string|max:25|unique:users,username,$user->id",
             'password' => 'nullable|string|confirmed',
+            'password_confirmation' => 'required_with:password',
             'access_role' => Rule::in('petugas terminal', 'petugas agen', 'admin'),
             'foto' =>'sometimes|file|image|mimes:jpg,jpeg,png|max:2048',
         ]);

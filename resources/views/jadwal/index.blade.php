@@ -3,7 +3,7 @@
 Master Jadwal Pelayaran
 @endsection
 @section('content')
-<div class="ui grid containers">
+<div class="ui grid content-container">
 	<div class="ten wide column">
 		<div class="ui one column">
 			<div class="ui two column grid">
@@ -60,7 +60,7 @@ Master Jadwal Pelayaran
 						</td>
 						<td id="value-waktu" value="{{ $jadwal->waktu }}">
 							<div>{{ date('d/m/Y', strtotime($jadwal->waktu)) }}</div>
-							<div>{{ date('H:m T', strtotime($jadwal->waktu)) }}</div>
+							<div>{{ date('H:i T', strtotime($jadwal->waktu)) }}</div>
 						</td>
 						<td id="value-kota" value="{{ $jadwal->kota }}">
 							{{ $jadwal->kota }}
@@ -76,7 +76,7 @@ Master Jadwal Pelayaran
 						</td>
 						<td>
 							<div><small>{{ date('d/m/Y', strtotime($jadwal->updated_at)) }}</small></div>
-							<div><small>{{ date('H:m T', strtotime($jadwal->updated_at)) }}</small></div>
+							<div><small>{{ date('H:i T', strtotime($jadwal->updated_at)) }}</small></div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>
@@ -150,7 +150,7 @@ Master Jadwal Pelayaran
 							</td>
 							<td>
 								<div>{{ date('d/m/Y', strtotime($logJadwal->updated_at)) }}</div>
-								<div>{{ date('H:m T', strtotime($logJadwal->updated_at)) }}</div>
+								<div>{{ date('H:i T', strtotime($logJadwal->updated_at)) }}</div>
 							</td>
 						</tr>
 						@endforeach
@@ -206,11 +206,6 @@ Master Jadwal Pelayaran
 							<input type="hidden" name="kapal_id">
 							<i class="dropdown icon"></i>
 							<div class="default text">Pilih Kapal</div>
-							<div class="menu">
-								<div class="item" data-value="petugas terminal">Petugas Terminal</div>
-								<div class="item" data-value="petugas agen">Petugas Agen</div>
-								<div class="item" data-value="admin">Admin</div>
-							</div>
 						</div>
 					</div>
 					<div class="field error-deactiveable">
@@ -396,7 +391,7 @@ Master Jadwal Pelayaran
 	</div>
 </div>
 <style>
-	.containers {
+	.content-container {
 		margin: 20px 40px !important;
 	}
 

@@ -3,7 +3,7 @@
 	Jadwal Keberangkatan
 @endsection
 @section('content')
-	<div class="ui grid containers">
+	<div class="ui grid content-container">
 		<div class="row">
 			<div class="column">
 				<h2 class="ui header"> {{ date("l, d-m-Y") }} </h2>
@@ -142,7 +142,7 @@
 		</div>
 	</div>
 	<style>
-		.containers {
+		.content-container {
 			margin: 20px 40px !important;
 		}
 		.shadow {

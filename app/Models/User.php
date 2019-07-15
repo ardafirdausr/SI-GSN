@@ -57,6 +57,29 @@ class User extends Authenticatable
         $this->attributes['nama'] = Str::title($value);
     }
 
+    public function hak_akses(){
+        switch(auth()->user()->access_rolle){
+            case 'admin':
+                return [
+                    'Mengelola user',
+                    'Mengelola master agen peayaran',
+                    'Mengelola master kapal',
+                    'Mengelola jadwal'
+                ];
+                break;
+            case 'petugas terminal' :
+                return [
+                    'Mengupdate status tiket pelayaran'
+                ];
+                break;
+            case 'petugas agen' :
+                return [
+                    'Mengupdate status kapal'
+                ];
+                break;
+        }
+    }
+
     // public static function boot(){
     //     parent::boot();
     //     static::created(function($user){

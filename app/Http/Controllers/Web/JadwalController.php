@@ -37,7 +37,7 @@ class JadwalController extends Controller{
                                                ->orderBy('created_at', 'desc')
                                                ->take(5)
                                                ->get();
-        return view('jadwal.index', compact('paginatedJadwal', 'topFiveJadwalLogs'));
+        return view('jadwal.index', compact('paginatedJadwal', 'topFiveJadwalLogs', 'tanggal', 'query'));
     }
 
     /**
@@ -46,14 +46,29 @@ class JadwalController extends Controller{
      * @return View jadwalKedatangan
      */
     public function showJadwalKedatangan(Request $request){
-        $waktu = $request->input('waktu') ?? date('Y-m-d');
+        $tanggal = $request->input('tanggal') ?? date('Y-m-d');
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : '%%'
+                    : '%%';
         $titleJadwal = 'Jadwal Kedatangan';
         $paginatedJadwal = Jadwal::with('kapal')
+                                  ->whereHas('kapal', function($kapal) use($query){
+                                        $kapal->where('nama', 'like', $query);
+                                    })
                                   ->where('status_kegiatan', 'datang')
-                                  ->whereDate('waktu', $waktu)
+                                  ->whereDate('waktu', $tanggal)
                                   ->orderBy('waktu', 'asc')
                                   ->paginate(10);
-        return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal'));
+        $topFiveJadwalLogs = LogAktivitas::where('log_type', 'App\Models\Jadwal')
+                                        //  ->whereHas('jadwal', function($jadwal){
+                                        //      $jadwal->where('status_kegiatan', 'berangkat');
+                                        //    })
+                                         ->orderBy('created_at', 'desc')
+                                         ->take(5)
+                                         ->get();
+        return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal', 'topFiveJadwalLogs', 'tanggal'));
     }
 
     /**
@@ -62,20 +77,84 @@ class JadwalController extends Controller{
      * @return View jadwalKeberangkatan
      */
     public function showJadwalKeberangkatan(Request $request){
-        $waktu = $request->input('waktu') ?? date('Y-m-d');
+        $tanggal = $request->input('tanggal') ?? date('Y-m-d');
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : '%%'
+                    : '%%';
         $titleJadwal = "Jadwal Keberangakatan";
         $paginatedJadwal = Jadwal::with('kapal')
+                                  ->whereHas('kapal', function($kapal) use($query){
+                                      $kapal->where('nama', 'like', $query);
+                                    })
                                   ->where('status_kegiatan', 'berangkat')
-                                  ->whereDate('waktu', $waktu)
+                                  ->whereDate('waktu', $tanggal)
                                   ->orderBy('waktu', 'asc')
                                   ->paginate(10);
-        return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal'));
+        $topFiveJadwalLogs = LogAktivitas::where('log_type', 'App\Models\Jadwal')
+                                        //  ->whereHas('jadwal', function($jadwal){
+                                        //     $jadwal->where('status_kegiatan', 'berangkat');
+                                        //  })
+                                         ->orderBy('created_at', 'desc')
+                                         ->take(5)
+                                         ->get();
+        return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal', 'topFiveJadwalLogs', 'tanggal'));
     }
+
+    /**
+     * Show all jadwal keberangkatan
+     * @param Date date
+     * @return View jadwalKeberangkatan
+     */
+    public function showJadwalKedatanganList(Request $request){
+        $tanggal = $request->input('tanggal') ?? date('Y-m-d');
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : '%%'
+                    : '%%';
+        $titleJadwal = "Jadwal Kedatangan";
+        $paginatedJadwal = Jadwal::with('kapal')
+                                  ->whereHas('kapal', function($kapal) use($query){
+                                      $kapal->where('nama', 'like', $query);
+                                    })
+                                  ->where('status_kegiatan', 'datang')
+                                  ->whereDate('waktu', $tanggal)
+                                  ->orderBy('waktu', 'asc')
+                                  ->paginate(10);
+        return view('jadwal.jadwalList', compact('paginatedJadwal', 'titleJadwal', 'tanggal'));
+    }
+
+    /**
+     * Show List jadwal keberangkatan
+     * @param Date date
+     * @return View jadwalKeberangkatanList
+     */
+    public function showJadwalKeberangkatanList(Request $request){
+        $tanggal = $request->input('tanggal') ?? date('Y-m-d');
+        $query = $request->has('query')
+                    ? $request->input('query')
+                        ? "%{$request->input('query')}%"
+                        : '%%'
+                    : '%%';
+        $titleJadwal = "Jadwal Keberangakatan";
+        $paginatedJadwal = Jadwal::with('kapal')
+                                  ->whereHas('kapal', function($kapal) use($query){
+                                      $kapal->where('nama', 'like', $query);
+                                    })
+                                  ->where('status_kegiatan', 'berangkat')
+                                  ->whereDate('waktu', $tanggal)
+                                  ->orderBy('waktu', 'asc')
+                                  ->paginate(10);
+        return view('jadwal.jadwalList', compact('paginatedJadwal', 'titleJadwal', 'tanggal'));
+    }
+
 
     /**
      * Create new jadwal
      * @param Date waktu
-     * @param string kota
+     * @param string kotalislistt
      * @param enum<datang,berangkat> status_kegiatan
      * @param enum<datang,on_schedule,cancel> status_kapal
      * @param enum<check_in,boarding> status_tiket
@@ -147,13 +226,13 @@ class JadwalController extends Controller{
         ]);
         // return response()->json($requestData);
         $validator = Validator::make($requestData, [
-            'tanggal' => 'required|date',
-            'jam' => 'required',
-            'kota' => 'required|string',
+            'tanggal' => 'sometimes|date',
+            'jam' => 'sometimes',
+            'kota' => 'sometimes|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
             'status_kapal' => Rule::in('on schedule', 'delay', 'cancel'),
             'status_tiket' => Rule::in('check in', 'boarding'),
-            'kapal_id' => 'required|integer|exists:kapal,id',
+            'kapal_id' => 'sometimes|integer|exists:kapal,id',
         ]);
         if($validator->passes()){
             try{
