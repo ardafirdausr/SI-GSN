@@ -7,14 +7,8 @@ Profil
 	<div class="ui left floated center aligned five wide column">
 		<div class="row">
 			<div class="ui fluid bordered image">
-				<a class="ui right corner label">
-					<i class="edit icon"></i>
-				</a>
 				<img src="{{ $user->foto }}" alt="{{ $user->nama }}">
 			</div>
-		</div>
-		<div class="row">
-			<button class="ui fluid teal large button"> <i class="edit icon"></i> Edit </button>
 		</div>
 	</div>
 	<div class="ui left floated left aligned five wide column">
@@ -47,16 +41,13 @@ Profil
 					<input type="text" name="access_role" value={{ $user->access_role }}>
 				</div>
 			</div>
-			<div class="ui primary fluid button">
-				simpan
-			</div>
 		</form>
 	</div>
 	<div class="one wide column"></div>
 	<div class="ui left floated left aligned five wide column segment" >
 		<h2 class="ui header">Hak Akses {{ $user->access_role }}</h2>
 		<ul>
-			{{ $user->hak_akses }}
+
 		</ul>
 	</div>
 </div>

@@ -289,21 +289,22 @@
 				<h2 class="ui green header" id="form-title">Edit Jadwal</h2>
 				<div class="ui raised segment">
 					<input type="hidden" name="id-update" value="{{ old('id-update') }}">
-						<div class="field error-deactiveable {{ $errors->has('tanggal') ? 'error' : '' }}">
+						{{-- <div class="field error-deactiveable {{ $errors->has('tanggal') ? 'error' : '' }}">
 							<div class="ui left icon input">
 								<i class="calendar alternate outline icon"></i>
 								<input type="date" id="create-tanggal" name="tanggal" format placeholder="Masukkan Tanggal"
 									value={{ old('tanggal') }}>
 								</div>
-						</div>
-						<div class="field error-deactiveable {{ $errors->has('jam') ? 'error' : '' }}">
+						</div> --}}
+						{{-- <div class="field error-deactiveable {{ $errors->has('jam') ? 'error' : '' }}">
 							<div class="ui left icon input">
 								<i class="clock outline icon"></i>
 								<input type="time" id="create-jam" name="jam" placeholder="Masukkan Jam"
 									value={{ old('jam') }}>
 								</div>
-						</div>
+						</div> --}}
 						<div class="field error-deactiveable">
+							<label for="status_kapal">Status</label>
 							<div class="ui fluid search selection dropdown" id="status_kapal-dropdown">
 								<input type="hidden" name="status_kapal">
 								<i class="dropdown icon"></i>
@@ -454,7 +455,6 @@
 	function insertDataToUpdateForm(id, tanggal, jam, status_kapal){
 		var url = $('#update-form').attr('action');
 		url = url.replace(':jadwal', id);
-		console.log(id, tanggal, jam, status_kapal);
 		$('#update-form').attr('action', url);
 		$('#update-form input[name=id-update]').val(id);
 		$('#update-form input[name=tanggal]').val(tanggal);

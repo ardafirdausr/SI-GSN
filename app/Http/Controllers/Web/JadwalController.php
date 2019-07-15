@@ -236,7 +236,9 @@ class JadwalController extends Controller{
         ]);
         if($validator->passes()){
             try{
-                $requestData['waktu'] = $requestData['tanggal'].' '.$requestData['jam'];
+                if(isset($requestData['tanggal']) && isset($requestData['jam'])){
+                    $requestData['waktu'] = $requestData['tanggal'].' '.$requestData['jam'];
+                }
                 $isJadwalUpdated = $jadwal->update($requestData);
                 if($isJadwalUpdated){
                     $jadwal = Jadwal::find($jadwal->id);

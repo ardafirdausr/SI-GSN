@@ -58,7 +58,7 @@ Master Jadwal Pelayaran
 						<td id="value-status_kegiatan" value="{{ $jadwal->status_kegiatan }}">
 							{{ $jadwal->status_kegiatan }}
 						</td>
-						<td id="value-waktu" value="{{ $jadwal->waktu }}">
+						<td id="value-waktu" value="{{ date('Y-m-d H:i', strtotime($jadwal->waktu)) }}">
 							<div>{{ date('d/m/Y', strtotime($jadwal->waktu)) }}</div>
 							<div>{{ date('H:i T', strtotime($jadwal->waktu)) }}</div>
 						</td>
