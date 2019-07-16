@@ -29,7 +29,7 @@ class JadwalResource extends JsonResource
             'agen_pelayaran' => [
                 'id' => $this->kapal->agen_pelayaran->id,
                 'nama' => $this->kapal->agen_pelayaran->nama,
-                'logo' => $this->kapal->agen_pelayaran->logo,
+                'logo' => asset($this->kapal->agen_pelayaran->logo),
                 'loket' => $this->kapal->agen_pelayaran->loket
             ],
             'created_at' => (string) $this->created_at,
