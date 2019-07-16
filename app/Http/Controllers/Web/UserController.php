@@ -20,7 +20,7 @@ class UserController extends Controller
      * Set middleware for theese functions
      */
     public function __construct(){
-        $this->middleware(['role:admin']);
+        $this->middleware(['role:admin'])->except(['showProfile']);
     }
 
     /**
