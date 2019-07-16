@@ -29,8 +29,8 @@
                 <i class="building outline icon"></i>Master Agen Pelayaran
             </div>
         </a>
-        <a class="item" href="{{ preg_match('/^web\.user\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.user.index') }}">
-            <div class="ui {{ preg_match('/^web\.user\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
+        <a class="item" href="{{ preg_match('/^web\.user\.index$/im', Route::currentRouteName()) ? '#' : route('web.user.index') }}">
+            <div class="ui {{ preg_match('/^web\.user\.index$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
                 <i class="user icon"></i>Master User
             </div>
         </a>

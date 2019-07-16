@@ -1,6 +1,6 @@
-@extends('layouts.admin')
+@extends($user->getRoleNames()->first() == 'admin' ? 'layouts.admin' : 'layouts.petugas-agen')
 @section('title')
-Profil
+	Profil
 @endsection
 @section('content')
 <div class="ui relaxed grid content-container">
@@ -19,28 +19,28 @@ Profil
 				<label for="nama">Nama</label>
 				<div class="ui transparent big left icon disabled input">
 					<i class="user icon"></i>
-					<input type="text" name="nama" value={{ $user->nama }}>
+					<input type="text" name="nama" value="{{ $user->nama }}">
 				</div>
 			</div>
 			<div class="field">
 				<label for="NIP">NIP</label>
 				<div class="ui transparent big left icon disabled input">
 					<i class="barcode icon"></i>
-					<input type="text" name="NIP" value={{ $user->NIP }}>
+					<input type="text" name="NIP" value="{{ $user->NIP }}">
 				</div>
 			</div>
 			<div class="field">
 				<label for="username">Username</label>
 				<div class="ui transparent big left icon disabled input">
 					<i class="id card icon"></i>
-					<input type="text" name="username" value={{ $user->username }}>
+					<input type="text" name="username" value="{{ $user->username }}">
 				</div>
 			</div>
 			<div class="field">
 				<label for="access_role">Access Role</label>
 				<div class="ui transparent big left icon disabled input">
 					<i class="info circle icon"></i>
-					<input type="text" name="access_role" value={{ Str::title($user->getRoleNames()->first()) }}>
+					<input type="text" name="access_role" value="{{ Str::title($user->getRoleNames()->first()) }}">
 				</div>
 			</div>
 		</form>
