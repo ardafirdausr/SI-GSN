@@ -65,10 +65,12 @@ Master User
 							<small>{{ date('d/m/Y', strtotime($user->updated_at)) }}</small>
 							<small>{{ date('H:i T', strtotime($user->updated_at)) }}</small>
 						</td>
+						@if(auth()->user()->id == $user->id || $user->getRoleNames()->first() !== 'admin')
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>
 						</td>
-						@if(auth()->user()->id != $user->id)
+						@endif
+						@if(auth()->user()->id != $user->id && $user->getRoleNames()->first() !== 'admin')
 						<td class="action action-delete negative collapsing single line" style="display: none;">
 							<div class="action-delete"><i class="trash icon"></i> Hapus</div>
 						</td>
@@ -304,7 +306,7 @@ Master User
 						</div>
 					</div>
 					<div class="field error-deactiveable">
-							<div class="ui fluid search selection dropdown" id="access_role-dropdown">
+							<div class="ui fluid search selection dropdown" id='access_role-dropdown'>
 								<input type="hidden" name="access_role">
 								<i class="dropdown icon"></i>
 								<div class="default text">Pilih Access Role</div>
@@ -497,6 +499,12 @@ Master User
 		$('#update-form #access_role-dropdown').dropdown('set selected', access_role);
 		$('#update-form #img-upload-container').show();
 		$('#update-form #img-upload').attr('src', foto);
+		if("{{ auth()->user()->id }}" == id){
+			$('#update-form #access_role-dropdown').addClass('disabled');
+		}
+		else{
+			$('#update-form #access_role-dropdown').removeClass('disabled');
+		}
 	}
 
   // reset update form to its normal state

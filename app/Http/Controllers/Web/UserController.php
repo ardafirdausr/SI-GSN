@@ -86,6 +86,7 @@ class UserController extends Controller
                 $requestData['password'] = Hash::make($requestData['password']);
                 $user = User::create($requestData);
                 $isImageUpdated = true;
+                $user->assignRole($requestData['access_role']);
                 if($request->hasFile('foto')){
                     $imageUploaded = $request->file('foto');
                     $extension = $imageUploaded->extension();
@@ -157,6 +158,10 @@ class UserController extends Controller
                 $requestData = array_filter($requestData, function($value){ return !!$value; });
                 $isUserUpdated = $user->update($requestData);
                 $isImageUpdated = true;
+                if(isset($requestData['access_role'])){
+                    $user->removeRole($user->getRoleNames()->first());
+                    $user->assignRole($requestData['access_role']);
+                }
                 if($request->hasFile('foto')){
                     $imageUploaded = $request->file('foto');
                     $extension = $imageUploaded->extension();

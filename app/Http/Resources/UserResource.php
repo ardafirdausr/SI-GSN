@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'nama' => $this->nama,
             'foto' => asset($this->foto),
             'access_role' => $this->getRoleNames()->first(),
-            'permission' => $this->getAllPermissions()
+            'permission' => $this->getAllPermissions()->pluck('name')
         ];
     }
 }
