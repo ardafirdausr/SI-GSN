@@ -11,8 +11,15 @@ use Log;
 use App\Models\AgenPelayaran;
 use App\Models\LogAktivitas;
 
-class AgenPelayaranController extends Controller
-{
+class AgenPelayaranController extends Controller{
+
+    /**
+     * Set middleware for theese functions
+     */
+    public function __construct(){
+        $this->middleware(['role:admin']);
+    }
+
     /**
      * Display a listing of the resource.
      * @param int size

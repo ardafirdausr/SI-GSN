@@ -15,6 +15,14 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+
+    /**
+     * Set middleware for theese functions
+     */
+    public function __construct(){
+        $this->middleware(['role:admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *

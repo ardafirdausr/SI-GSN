@@ -97,7 +97,15 @@ class LoginController extends Controller
                                 ->first();
         if(!isset($user)) return false;
         $role = $user->getRoleNames()->first();
-        if($role == 'petugas terminal') return false;
+        if($role == 'admin'){
+            $this->redirectTo = '/jadwal/kedatangan';
+        }
+        else if($role == 'petugas agen'){
+            $this->redirectTo = '/jadwal/tiket';
+        }
+        else if($role == 'petugas terminal'){
+            return false;
+        }
         return $this->guard()->attempt(
             $this->credentials($request), $request->filled('remember')
         );

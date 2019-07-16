@@ -4,34 +4,9 @@
         <div class="logo-pelindo">
             <img src="{{ asset('images/pelindo3.png') }}" alt="Pelindo 3 Logo">
         </div>
-        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.kedatangan' ? '#' : route('web.jadwal.kedatangan') }}">
-            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.kedatangan' ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="arrow right icon"></i>Jadwal Kedatangan
-            </div>
-        </a>
-        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.keberangkatan' ? '#' : route('web.jadwal.keberangkatan') }}">
-            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.keberangkatan' ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="arrow left icon"></i>Jadwal Keberangkatan
-            </div>
-        </a>
-        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.index' ? '#' : route('web.jadwal.index') }}">
-            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.index' ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="calendar alternate outline icon"></i>Master Jadwal
-            </div>
-        </a>
-        <a class="item" href="{{ preg_match('/^web\.kapal\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.kapal.index') }}">
-            <div class="ui {{ preg_match('/^web\.kapal\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="ship icon"></i>Master Kapal
-            </div>
-        </a>
-        <a class="item" href="{{ preg_match('/^web\.agen-pelayaran\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.agen-pelayaran.index') }}">
-            <div class="ui {{ preg_match('/^web\.agen-pelayaran\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="building outline icon"></i>Master Agen Pelayaran
-            </div>
-        </a>
-        <a class="item" href="{{ preg_match('/^web\.user\.\w+$/im', Route::currentRouteName()) ? '#' : route('web.user.index') }}">
-            <div class="ui {{ preg_match('/^web\.user\.\w+$/im', Route::currentRouteName()) ? 'primary' : 'deactive' }} fluid rounded button">
-                <i class="user icon"></i>Master User
+        <a class="item" href="{{ Route::currentRouteName() == 'web.jadwal.tiket-jadwal' ? '#' : route('web.jadwal.tiket-jadwal') }}">
+            <div class="ui {{ Route::currentRouteName() == 'web.jadwal.tiket-jadwal' ? 'primary' : 'deactive' }} fluid rounded button">
+                <i class="ticket icon"></i>Tiket
             </div>
         </a>
     </nav>

@@ -72,6 +72,9 @@ class Kernel extends HttpKernel
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
         'api-localization' => \App\Http\Middleware\ApiLocalication::class,
         'refresh-token-on-request' => \App\Http\Middleware\RefreshTokenOnRequest::Class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 
     /**
