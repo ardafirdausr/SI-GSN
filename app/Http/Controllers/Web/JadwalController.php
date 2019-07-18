@@ -18,7 +18,7 @@ class JadwalController extends Controller{
      */
     public function __construct(){
         $this->middleware(['role:admin'])->except(['showTiketJadwal', 'showTiketJadwalList', 'update']);
-        $this->middleware(['role:petugas agen'])->only(['showTiketJadwal', 'showTiketJadwalList','update']);
+        $this->middleware(['role:petugas agen'])->only(['showTiketJadwal', 'showTiketJadwalList']);
         $this->middleware(['permission:mengupdate jadwal'])->only(['update']);
     }
 
@@ -231,7 +231,7 @@ class JadwalController extends Controller{
             'kapal_id'
         ]);
         $validator = Validator::make($requestData, [
-            'tanggal' => 'required|date',
+            'tanggal' => 'required|date|after:'.date('Y/m/d'),
             'jam' => 'required',
             'kota' => 'required|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),
@@ -323,7 +323,7 @@ class JadwalController extends Controller{
         return redirect()->back()
                          ->withInput()
                          ->with([
-                             'errorMessage' => 'Server error',
+                             'errorMessage' => 'Data tidak valid',
                              'failedUpdate' => true
                          ])
                          ->withErrors($validator);

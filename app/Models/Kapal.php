@@ -8,7 +8,7 @@ class Kapal extends Model
 {
     public $table = 'kapal';
 
-    protected $fillable = ['kode', 'nama', 'agen_pelayaran_id'];
+    protected $fillable = ['nama', 'agen_pelayaran_id'];
 
     public function agen_pelayaran(){
         return $this->belongsTo(AgenPelayaran::class, 'agen_pelayaran_id', 'id');

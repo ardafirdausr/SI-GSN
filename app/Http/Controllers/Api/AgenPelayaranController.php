@@ -19,7 +19,7 @@ class AgenPelayaranController extends Controller{
      * @return Collection<AgenPelayaran> agenPelayaranCollection
      */
     public function index(Request $request){
-        $size = $request->input('size');
+        $size = $request->input('size') ?? 10;
         $agenPelayaranCollection = AgenPelayaran::paginate($size);
         return AgenPelayaranResource::collection($agenPelayaranCollection)
                                     ->response()

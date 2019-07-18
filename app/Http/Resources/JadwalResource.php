@@ -23,7 +23,6 @@ class JadwalResource extends JsonResource
             'status_tiket' => $this->status_tiket,
             'kapal' => [
                 'id' => $this->kapal->id,
-                'kode' => $this->kapal->kode,
                 'nama' => $this->kapal->nama,
             ],
             'agen_pelayaran' => [

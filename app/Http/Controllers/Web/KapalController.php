@@ -46,19 +46,16 @@ class KapalController extends Controller
 
     /**
      * Create new kapal
-     * @param string kode
      * @param string nama
      * @param int agen_pelayaran_id
      * @return Kapal kapal
      */
     public function store(Request $request){
         $requestData = $request->only([
-            'kode',
             'nama',
             'agen_pelayaran_id'
         ]);
         $validator = Validator::make($requestData, [
-            'kode' => 'required|string|unique:kapal,kode',
             'nama' => 'required|string',
             'agen_pelayaran_id' => 'required|integer|exists:agen_pelayaran,id'
         ]);
@@ -80,7 +77,6 @@ class KapalController extends Controller
 
     /**
      * Update kapal by Id
-     * @param string kode
      * @param string nama
      * @param int agen_pelayaran_id
      * @return Kapal kapal
@@ -88,11 +84,9 @@ class KapalController extends Controller
     public function update(Request $request, Kapal $kapal){
         $requestData = $request->only([
             'nama',
-            'kode',
             'agen_pelayaran_id'
         ]);
         $validator = Validator::make($requestData, [
-            'kode' => "required|string|unique:kapal,kode,$kapal->id",
             'nama' => 'required|string',
             'agen_pelayaran_id' => 'required|integer|exists:agen_pelayaran,id'
         ]);

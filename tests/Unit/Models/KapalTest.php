@@ -19,7 +19,7 @@ class KapalTest extends ModelTestCase{
 
     public function test_model_configuration(){
         $model = new Kapal();
-        $fillable = ['kode', 'nama', 'agen_pelayaran_id'];
+        $fillable = ['nama', 'agen_pelayaran_id'];
         $this->runConfigurationAssertions($model, $fillable);
     }
 

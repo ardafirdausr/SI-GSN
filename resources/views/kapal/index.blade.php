@@ -28,7 +28,6 @@ Master Kapal
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th>Kode</th>
 						<th>Nama</th>
 						<th colspan="2">Agen Pelayaran</th>
 						<th>Terakhir diubah</th>
@@ -41,9 +40,6 @@ Master Kapal
 					<tr id="data-{{ $kapal->id }}">
 						<td id="value-id" value="{{ $kapal->id }}">
 							{{ $kapal->id }}
-						</td>
-						<td id="value-kode" value="{{ $kapal->kode }}">
-							{{ $kapal->kode }}
 						</td>
 						<td id="value-nama" value="{{ $kapal->nama }}">
 							{{ $kapal->nama }}
@@ -183,13 +179,6 @@ Master Kapal
 				@csrf
 				<h2 class="ui blue header" id="form-title">Tambah Kapal</h2>
 				<div class="ui raised segment">
-					<div class="field error-deactiveable {{ $errors->has('kode') ? 'error' : '' }}">
-						<div class="ui left icon input">
-							<i class="barcode icon"></i>
-							<input type="text" id="create-kode" name="kode" placeholder="Masukkan kode"
-								value={{ old('kode') }}>
-							</div>
-					</div>
 					<div class="field error-deactiveable {{ $errors->has('nama') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="id card icon"></i>
@@ -229,13 +218,6 @@ Master Kapal
 				<input type="hidden" name="id-update" value="{{ old('id-update') }}">
 				<h2 class="ui green header" id="form-title">Edit Kapal</h2>
 				<div class="ui raised segment">
-					<div class="field error-deactiveable {{ $errors->has('kode') ? 'error' : '' }}">
-						<div class="ui left icon input">
-							<i class="barcode icon"></i>
-							<input type="text" id="create-kode" name="kode" placeholder="Masukkan kode"
-								value={{ old('kode') }}>
-							</div>
-					</div>
 					<div class="field error-deactiveable {{ $errors->has('nama') ? 'error' : '' }}">
 						<div class="ui left icon input">
 							<i class="id card icon"></i>
@@ -362,7 +344,6 @@ Master Kapal
 
 	function removeOldValues(){
 		$('input[name=id-update]').val('');
-		$('input[name=kode]').val('');
 		$('input[name=nama]').val('');
 	}
 
@@ -409,13 +390,12 @@ Master Kapal
 	}
 
 	// insert data to form
-	function insertDataToUpdateForm(id, kode, nama, idAgenPelayaran, namaAgenPelayaran, logoAgenPelayaran) {
+	function insertDataToUpdateForm(id, nama, idAgenPelayaran, namaAgenPelayaran, logoAgenPelayaran) {
 		var url = $('#update-form').attr('action');
 		url = url.replace(':kapal', id);
 		console.log(idAgenPelayaran, namaAgenPelayaran, logoAgenPelayaran);
 		$('#update-form').attr('action', url);
 		$('#update-form input[name=id-update]').val(id);
-		$('#update-form input[name=kode]').val(kode);
 		$('#update-form input[name=nama]').val(nama);
 		$('#update-form input[name=agen_pelayaran_id]').val(idAgenPelayaran);
 		// $('#update-form input[name=agen_pelayaran_id]').attr('placeholder', namaAgenPelayaran);
@@ -429,7 +409,6 @@ Master Kapal
 		url = url.replace(/\/[0-9]+$/, '/:kapal');
 		$('#update-form').attr('action', url);
 		$('#update-form input[name=id-update]').val('');
-		$('#update-form input[name=kode]').val('');
 		$('#update-form input[name=nama]').val('');
 		$('#update-form input[name=agen_pelayaran_id]').val('');
 		// $('#update-form input[name=agen_pelayaran_id]').attr('placeholder', 'Agen Pelayaran');
@@ -439,7 +418,6 @@ Master Kapal
 
 	// reset create form to its normal state
 	function resetCreateFormData(){
-		$('#update-form input[name=kode]').val('');
 		$('#update-form input[name=nama]').val('');
 		$('#update-form input[name=agen_pelayaran_id]').val('');
 	}
@@ -578,7 +556,6 @@ Master Kapal
 		var clickedElement = $(this);
 		var rowDataElement = clickedElement.parent();
 		var id = rowDataElement.find('#value-id').attr('value');
-		var kode = rowDataElement.find('#value-kode').attr('value');
 		var nama = rowDataElement.find('#value-nama').attr('value');
 		// var agenPelayaranId = rowDataElement.find('#value-agen_p').attr('value');
 		var namaAgenPelayaran = rowDataElement.find('#value-agen_pelayaran-nama').attr('value');
@@ -586,7 +563,7 @@ Master Kapal
 		deactiveAllUpdateableRow();
 		setSelectedEditRowToActive(rowDataElement);
 		resetUpdateFormData();
-		insertDataToUpdateForm(id, kode, nama, null, namaAgenPelayaran, logoAgenPelayaran);
+		insertDataToUpdateForm(id, nama, null, namaAgenPelayaran, logoAgenPelayaran);
 		if ($('#update-form-container').css('display') == 'none'){
 			toggleLogInformation(0);
 			toggleUpdateForm(400);
@@ -611,15 +588,6 @@ Master Kapal
 		on: 'blur',
 		inline: true,
 		fields: {
-			kode: {
-				identifier  : 'kode',
-				rules: [
-					{
-						type: 'empty',
-						prompt: 'Kode kapal tidak boleh kosong'
-					}
-				]
-			},
 			nama: {
 				identifier  : 'nama',
 				rules: [

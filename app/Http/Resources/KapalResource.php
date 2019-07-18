@@ -16,7 +16,6 @@ class KapalResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'kode' => $this->kode,
             'nama' => $this->nama,
             'agen_pelayaran' => [
                 'id' => $this->agen_pelayaran->id,

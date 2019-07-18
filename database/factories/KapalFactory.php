@@ -6,7 +6,6 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Models\Kapal::class, function (Faker $faker) {
     return [
-        'kode' => uniqid(),
         'nama' => $faker->lastName
     ];
 });

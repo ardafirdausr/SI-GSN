@@ -484,6 +484,15 @@ Master Jadwal Pelayaran
 		$('#update-form #status_tiket-dropdown').dropdown('set selected', status_tiket);
 	}
 
+	function activateLastCreate(){
+		var status_kegiatan = "{{old('status_kegiatan')}}";
+		var status_kapal = "{{old('status_kapal')}}";
+		var status_tiket = "{{old('status_tiket')}}";
+		$('#create-form #status_kegiatan-dropdown').dropdown('set selected', status_kegiatan);
+		$('#create-form #status_kapal-dropdown').dropdown('set selected', status_kapal);
+		$('#create-form #status_tiket-dropdown').dropdown('set selected', status_tiket);
+	}
+
 	function mapQueryToObject(){
 		var queries = {};
 		if(document.location.search){
@@ -501,7 +510,10 @@ Master Jadwal Pelayaran
 		$('#search').val(queryString.query);
 		var failedCreate = {{ session()->has('failedCreate') ? 'true' : 'false' }};
 		var failedUpdate = {{ session()->has('failedUpdate') ? 'true' : 'false' }};
-		if(failedCreate) $('#create-button').click();
+		if(failedCreate) {
+			$('#create-button').click();
+			activateLastCreate();
+		}
 		if(failedUpdate){
 			$('#update-button').click();
 			activateLastUpdate();
@@ -518,7 +530,7 @@ Master Jadwal Pelayaran
 		console.log(id, idKapal, namaKapal, status_kegiatan, kota, tanggal, jam, status_kapal, status_tiket)
 		$('#update-form').attr('action', url);
 		$('#update-form input[name=id-update]').val(id);
-		$('#update-form #update-kapal_id-dropdown').dropdown('set selected', idKapal);
+		$('#update-form #update-kapal_id-dropdown').dropdown('set value', idKapal);
 		$('#update-form #update-kapal_id-dropdown').dropdown('set text', namaKapal);
 		$('#update-form #status_kegiatan-dropdown').dropdown('set selected', status_kegiatan);
 		$('#update-form input[name=kota]').val(kota);
