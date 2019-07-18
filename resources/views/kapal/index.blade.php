@@ -57,8 +57,8 @@ Master Kapal
 							{{ $kapal->agen_pelayaran->nama }}
 						</td>
 						<td>
-							<div><small>{{ date('d/m/Y', strtotime($kapal->updated_at)) }}</small></div>
-							<div><small>{{ date('H:i T', strtotime($kapal->updated_at)) }}</small></div>
+							<div>{{ date('d/m/Y', strtotime($kapal->updated_at)) }}</div>
+							<div>{{ date('H:i T', strtotime($kapal->updated_at)) }}</div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>

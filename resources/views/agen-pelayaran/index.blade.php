@@ -66,8 +66,8 @@ Master Agen Pelayaran
 							{{ $agenPelayaran->loket }}
 						</td>
 						<td>
-							<div><small>{{ date('d/m/Y', strtotime($agenPelayaran->updated_at)) }}</small></div>
-							<div><small>{{ date('H:m T', strtotime($agenPelayaran->updated_at)) }}</small></div>
+							<div>{{ date('d/m/Y', strtotime($agenPelayaran->updated_at)) }}</div>
+							<div>{{ date('H:m T', strtotime($agenPelayaran->updated_at)) }}</div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>

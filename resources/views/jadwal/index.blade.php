@@ -37,6 +37,7 @@ Master Jadwal Pelayaran
 				>
 				<thead>
 					<tr>
+						<th>No</th>
 						<th>ID</th>
 						<th>Kegiatan</th>
 						<th>Waktu</th>
@@ -78,8 +79,8 @@ Master Jadwal Pelayaran
 							{{ $jadwal->status_tiket }}
 						</td>
 						<td>
-							<div><small>{{ date('d/m/Y', strtotime($jadwal->updated_at)) }}</small></div>
-							<div><small>{{ date('H:i T', strtotime($jadwal->updated_at)) }}</small></div>
+							<div>{{ date('d/m/Y', strtotime($jadwal->updated_at)) }}</div>
+							<div>{{ date('H:i T', strtotime($jadwal->updated_at)) }}</div>
 						</td>
 						<td class="action action-edit positive collapsing single line" style="display: none;">
 							<div><i class="edit icon"></i>Edit</div>

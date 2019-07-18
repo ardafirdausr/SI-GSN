@@ -66,8 +66,8 @@ Master User
 							{{ $user->getRoleNames()->first() }}
 						</td>
 						<td>
-							<small>{{ date('d/m/Y', strtotime($user->updated_at)) }}</small>
-							<small>{{ date('H:i T', strtotime($user->updated_at)) }}</small>
+							{{ date('d/m/Y', strtotime($user->updated_at)) }}
+							{{ date('H:i T', strtotime($user->updated_at)) }}
 						</td>
 						@if(auth()->user()->id == $user->id || $user->getRoleNames()->first() !== 'admin')
 						<td class="action action-edit positive collapsing single line" style="display: none;">
