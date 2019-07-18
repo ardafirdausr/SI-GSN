@@ -27,6 +27,7 @@ Master Kapal
 				>
 				<thead>
 					<tr>
+						<th>No</th>
 						<th>ID</th>
 						<th>Nama</th>
 						<th colspan="2">Agen Pelayaran</th>
@@ -36,10 +37,13 @@ Master Kapal
 				</thead>
 				<tbody>
 					@if(count($paginatedKapal->items()) > 0)
-					@foreach ($paginatedKapal->items() as $kapal)
+					@foreach ($paginatedKapal->items() as $idx => $kapal)
 					<tr id="data-{{ $kapal->id }}">
+						<td>
+							{{ (($paginatedKapal->currentPage() - 1) * $paginatedKapal->perPage() + ($idx + 1)) }}
+						</td>
 						<td id="value-id" value="{{ $kapal->id }}">
-							{{ $kapal->id }}
+							{{ "kpl-".$kapal->id }}
 						</td>
 						<td id="value-nama" value="{{ $kapal->nama }}">
 							{{ $kapal->nama }}

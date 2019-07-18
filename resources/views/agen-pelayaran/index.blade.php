@@ -28,6 +28,7 @@ Master Agen Pelayaran
 				>
 				<thead>
 					<tr>
+						<th>No</th>
 						<th>ID</th>
 						<th colspan="2">Agen</th>
 						<th>Alamat</th>
@@ -39,10 +40,13 @@ Master Agen Pelayaran
 				</thead>
 				<tbody>
 					@if(count($paginatedAgenPelayaran->items()) > 0)
-					@foreach ($paginatedAgenPelayaran->items() as $agenPelayaran)
+					@foreach ($paginatedAgenPelayaran->items() as $idx => $agenPelayaran)
 					<tr id="data-{{ $agenPelayaran->id }}">
+						<td>
+							{{ (($paginatedAgenPelayaran->currentPage() - 1) * $paginatedAgenPelayaran->perPage() + ($idx + 1)) }}
+						</td>
 						<td id="value-id" value="{{ $agenPelayaran->id }}">
-							{{ $agenPelayaran->id }}
+							{{ "agn-".$agenPelayaran->id }}
 						</td>
 						<td id="value-logo" value={{ $agenPelayaran->logo }} class="center aligned">
 							<img

@@ -27,6 +27,7 @@ Master User
 				>
 				<thead>
 					<tr>
+						<th>No</th>
 						<th>ID</th>
 						<th colspan="2">Nama</th>
 						<th>NIP</th>
@@ -38,10 +39,13 @@ Master User
 				</thead>
 				<tbody>
 					@if(count($paginatedUser->items()) > 0)
-					@foreach ($paginatedUser->items() as $user)
+					@foreach ($paginatedUser->items() as $idx => $user)
 					<tr id="data-{{ $user->id }}">
 						<td id="value-id" value="{{ $user->id }}">
-							{{ $user->id }}
+								{{ (($paginatedUser->currentPage() - 1) * $paginatedUser->perPage() + ($idx + 1)) }}
+						</td>
+						<td id="value-id" value="{{ $user->id }}">
+							{{ "usr-".$user->id }}
 						</td>
 						<td id="value-foto" value={{ $user->foto }} class="center aligned">
 							<img

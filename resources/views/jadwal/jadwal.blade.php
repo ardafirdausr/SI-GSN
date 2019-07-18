@@ -56,6 +56,7 @@
 						>
 						<thead>
 							<tr>
+								<th>No.</th>
 								<th>Nama Kapal</th>
 								<th>Asal</th>
 								<th>Jam</th>
@@ -66,8 +67,11 @@
 						</thead>
 						<tbody>
 							@if(count($paginatedJadwal->items()) > 0)
-							@foreach ($paginatedJadwal->items() as $jadwal)
+							@foreach ($paginatedJadwal->items() as $idx => $jadwal)
 							<tr id="data-{{ $jadwal->id }}" value="{{ $jadwal->id }}">
+								<td>
+									{{ (($paginatedJadwal->currentPage() - 1) * $paginatedJadwal->perPage() + ($idx + 1)) }}
+								</td>
 								<td id="value-kapal-nama" value="{{ $jadwal->kapal->nama }}">
 									{{ $jadwal->kapal->nama }}
 								</td>

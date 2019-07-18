@@ -50,10 +50,13 @@ Master Jadwal Pelayaran
 				</thead>
 				<tbody>
 					@if(count($paginatedJadwal->items()) > 0)
-					@foreach ($paginatedJadwal->items() as $jadwal)
+					@foreach ($paginatedJadwal->items() as $idx => $jadwal)
 					<tr id="data-{{ $jadwal->id }}">
+						<td>
+							{{ (($paginatedJadwal->currentPage() - 1) * $paginatedJadwal->perPage() + ($idx + 1)) }}
+						</td>
 						<td id="value-id" value="{{ $jadwal->id }}">
-							{{ $jadwal->id }}
+							{{ "jwdl-".$jadwal->id }}
 						</td>
 						<td id="value-status_kegiatan" value="{{ $jadwal->status_kegiatan }}">
 							{{ $jadwal->status_kegiatan }}
