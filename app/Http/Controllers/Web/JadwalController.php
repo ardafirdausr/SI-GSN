@@ -9,6 +9,7 @@ use Validator;
 use App\Models\Jadwal;
 use App\Models\AgenPelayaran;
 use App\Models\LogAktivitas;
+use App\Http\Resources\JadwalResource;
 use Rule;
 
 class JadwalController extends Controller{
@@ -191,16 +192,17 @@ class JadwalController extends Controller{
                         ? "%{$request->input('query')}%"
                         : '%%'
                     : '%%';
-        $titleJadwal = "Jadwal Keberangakatan";
-        $paginatedJadwal = Jadwal::with('kapal')
+        $titleJadwal = "Tiket Pelayaran";
+        $jadwalCollection = Jadwal::with('kapal.agen_pelayaran')
+                                  ->with('kapal')
                                   ->whereHas('kapal', function($kapal) use($query){
                                       $kapal->where('nama', 'like', $query);
                                     })
                                   ->where('status_kegiatan', 'berangkat')
                                   ->whereDate('waktu', $tanggal)
                                   ->orderBy('waktu', 'asc')
-                                  ->paginate(10);
-        return view('jadwal.tiket-list', compact('paginatedJadwal', 'titleJadwal', 'tanggal'));
+                                  ->get();
+        return view('jadwal.tiket-list', compact('jadwalCollection', 'titleJadwal', 'tanggal'));
     }
 
 

@@ -38,7 +38,7 @@ Master Jadwal Pelayaran
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>ID</th>
+						<th>Kode</th>
 						<th>Kegiatan</th>
 						<th>Waktu</th>
 						<th>Kota</th>
@@ -57,7 +57,7 @@ Master Jadwal Pelayaran
 							{{ (($paginatedJadwal->currentPage() - 1) * $paginatedJadwal->perPage() + ($idx + 1)) }}
 						</td>
 						<td id="value-id" value="{{ $jadwal->id }}">
-							{{ "jwdl-".$jadwal->id }}
+							{{ $jadwal->id }}
 						</td>
 						<td id="value-status_kegiatan" value="{{ $jadwal->status_kegiatan }}">
 							{{ $jadwal->status_kegiatan }}

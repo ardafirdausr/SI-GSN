@@ -28,7 +28,7 @@ Master User
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>ID</th>
+						<th>Kode</th>
 						<th colspan="2">Nama</th>
 						<th>NIP</th>
 						<th>Username</th>

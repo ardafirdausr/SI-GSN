@@ -29,7 +29,7 @@ Master Agen Pelayaran
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>ID</th>
+						<th>Kode</th>
 						<th colspan="2">Agen</th>
 						<th>Alamat</th>
 						<th>Telepon</th>
@@ -46,7 +46,7 @@ Master Agen Pelayaran
 							{{ (($paginatedAgenPelayaran->currentPage() - 1) * $paginatedAgenPelayaran->perPage() + ($idx + 1)) }}
 						</td>
 						<td id="value-id" value="{{ $agenPelayaran->id }}">
-							{{ "agn-".$agenPelayaran->id }}
+							{{ $agenPelayaran->id }}
 						</td>
 						<td id="value-logo" value={{ $agenPelayaran->logo }} class="center aligned">
 							<img

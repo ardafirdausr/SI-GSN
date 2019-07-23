@@ -28,7 +28,7 @@ Master Kapal
 				<thead>
 					<tr>
 						<th>No</th>
-						<th>ID</th>
+						<th>Kode</th>
 						<th>Nama</th>
 						<th colspan="2">Agen Pelayaran</th>
 						<th>Terakhir diubah</th>
@@ -43,7 +43,7 @@ Master Kapal
 							{{ (($paginatedKapal->currentPage() - 1) * $paginatedKapal->perPage() + ($idx + 1)) }}
 						</td>
 						<td id="value-id" value="{{ $kapal->id }}">
-							{{ "kpl-".$kapal->id }}
+							{{ $kapal->id }}
 						</td>
 						<td id="value-nama" value="{{ $kapal->nama }}">
 							{{ $kapal->nama }}
