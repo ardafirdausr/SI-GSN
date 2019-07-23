@@ -18,6 +18,6 @@ class DummySeeder extends Seeder
             $user = factory('App\Models\User')->create(['username' => Str::camel($role.'1')]);
             $user->assignRole($role);
         }
-        factory('App\Models\AgenPelayaran', 4)->create();
+        factory('App\Models\AgenPelayaran', 8)->create();
     }
 }

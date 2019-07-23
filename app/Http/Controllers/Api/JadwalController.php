@@ -88,21 +88,24 @@ class JadwalController extends Controller{
      * @return View jadwalKedatangan
      */
     public function showJadwalKedatangan(Request $request){
+        $size = $request->input('size') ?? 10;
         $tanggal = $request->input('tanggal') ?? date('Y-m-d');
         $query = $request->has('query')
                     ? $request->input('query')
                         ? "%{$request->input('query')}%"
                         : '%%'
                     : '%%';
-        $paginatedJadwal = Jadwal::with('kapal')
+        $jadwalCollection = Jadwal::with('kapal')
                                   ->whereHas('kapal', function($kapal) use($query){
                                         $kapal->where('nama', 'like', $query);
                                     })
                                   ->where('status_kegiatan', 'datang')
                                   ->whereDate('waktu', $tanggal)
-                                  ->orderBy('waktu', 'asc')
-                                  ->paginate(10);
-        return JadwalResource::collection($paginatedJadwal)
+                                  ->orderBy('waktu', 'asc');
+        $jadwalCollection = !!$size
+                            ? $jadwalCollection->paginate($size)
+                            : $jadwalCollection->get();
+        return JadwalResource::collection($jadwalCollection)
                              ->response()
                              ->setStatusCode(200);
     }
@@ -113,21 +116,24 @@ class JadwalController extends Controller{
      * @return View jadwalKeberangkatan
      */
     public function showJadwalKeberangkatan(Request $request){
+        $size = $request->input('size') ?? 10;
         $tanggal = $request->input('tanggal') ?? date('Y-m-d');
         $query = $request->has('query')
                     ? $request->input('query')
                         ? "%{$request->input('query')}%"
                         : '%%'
                     : '%%';
-        $paginatedJadwal = Jadwal::with('kapal')
+        $jadwalCollection = Jadwal::with('kapal')
                                   ->whereHas('kapal', function($kapal) use($query){
                                       $kapal->where('nama', 'like', $query);
                                     })
                                   ->where('status_kegiatan', 'berangkat')
                                   ->whereDate('waktu', $tanggal)
-                                  ->orderBy('waktu', 'asc')
-                                  ->paginate(10);
-        return JadwalResource::collection($paginatedJadwal)
+                                  ->orderBy('waktu', 'asc');
+        $jadwalCollection = !!$size
+                            ? $jadwalCollection->paginate($size)
+                            : $jadwalCollection->get();
+        return JadwalResource::collection($jadwalCollection)
                              ->response()
                              ->setStatusCode(200);
     }

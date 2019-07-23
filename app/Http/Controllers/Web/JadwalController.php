@@ -149,16 +149,13 @@ class JadwalController extends Controller{
                         ? "%{$request->input('query')}%"
                         : '%%'
                     : '%%';
-        $titleJadwal = "Jadwal Kedatangan";
-        $paginatedJadwal = Jadwal::with('kapal')
-                                  ->whereHas('kapal', function($kapal) use($query){
-                                      $kapal->where('nama', 'like', $query);
-                                    })
+        $titleJadwal = "Kedatangan";
+        $jadwalCollection = Jadwal::with('kapal')
                                   ->where('status_kegiatan', 'datang')
                                   ->whereDate('waktu', $tanggal)
                                   ->orderBy('waktu', 'asc')
-                                  ->paginate(10);
-        return view('jadwal.jadwal-list', compact('paginatedJadwal', 'titleJadwal', 'tanggal'));
+                                  ->get();
+        return view('jadwal.jadwal-list', compact('jadwalCollection', 'titleJadwal', 'tanggal'));
     }
 
     /**
@@ -173,16 +170,13 @@ class JadwalController extends Controller{
                         ? "%{$request->input('query')}%"
                         : '%%'
                     : '%%';
-        $titleJadwal = "Jadwal Keberangakatan";
-        $paginatedJadwal = Jadwal::with('kapal')
-                                  ->whereHas('kapal', function($kapal) use($query){
-                                      $kapal->where('nama', 'like', $query);
-                                    })
+        $titleJadwal = "Keberangakatan";
+        $jadwalCollection = Jadwal::with('kapal')
                                   ->where('status_kegiatan', 'berangkat')
                                   ->whereDate('waktu', $tanggal)
                                   ->orderBy('waktu', 'asc')
-                                  ->paginate(10);
-        return view('jadwal.jadwal-list', compact('paginatedJadwal', 'titleJadwal', 'tanggal'));
+                                  ->get();
+        return view('jadwal.jadwal-list', compact('jadwalCollection', 'titleJadwal', 'tanggal'));
     }
 
     /**
@@ -231,7 +225,7 @@ class JadwalController extends Controller{
             'kapal_id'
         ]);
         $validator = Validator::make($requestData, [
-            'tanggal' => 'required|date|after:'.date('Y/m/d'),
+            'tanggal' => 'required|date|after_or_equal:'.date('Y/m/d'),
             'jam' => 'required',
             'kota' => 'required|string',
             'status_kegiatan' => Rule::in('datang', 'berangkat'),

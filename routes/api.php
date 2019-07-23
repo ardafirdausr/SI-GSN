@@ -36,7 +36,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function(){
         Route::get('/{kapal}/jadwal', ['uses' => 'KapalController@showJadwalByKapalId', 'as' => 'kapal' ]);
     });
 
-    Route::group(['prefix' => '/jadwal', 'as' => 'jadwal'], function(){
+    Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
         Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan' ]);
         Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan' ]);
         Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
