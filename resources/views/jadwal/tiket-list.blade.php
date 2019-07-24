@@ -32,21 +32,29 @@
 							{{-- <td class="two wide">
 								{{ ($idx + 1).'. ' }}
 							</td> --}}
-							<td class="one wide"></td>
-							<td class="three wide" id="value-kapal-nama" value="{{ $jadwal->kapal->nama }}">
-								{{ $jadwal->kapal->nama }}
+							<td class="one wide data-container"></td>
+							<td class="three wide data-container" id="value-kapal-nama" value="{{ $jadwal->kapal->nama }}">
+								<div>
+									{{ $jadwal->kapal->nama }}
+								</div>
 							</td>
-							<td class="five wide" id="value-kota" value="{{ $jadwal->kota }}">
-								{{ $jadwal->kota }}
+							<td class="five wide data-container" id="value-kota" value="{{ $jadwal->kota }}">
+								<div>
+									{{ $jadwal->kota }}
+								</div>
 							</td>
-							<td class="two wide" id="value-waktu" value="{{ $jadwal->waktu }}">
-								<div>{{ date('H:i T', strtotime($jadwal->waktu)) }}</div>
+							<td class="two wide data-container" id="value-waktu" value="{{ $jadwal->waktu }}">
+								<div>{{ date('H : i T', strtotime($jadwal->waktu)) }}</div>
 							</td>
-							<td class="three wide" id="value-status_tiket" value="{{ $jadwal->status_tiket }}">
-								{{ $jadwal->status_tiket }}
+							<td class="three wide data-container" id="value-status_tiket" value="{{ $jadwal->status_tiket }}">
+								<div>
+									{{ $jadwal->status_tiket }}
+								</div>
 							</td>
-							<td class="three wide">
+							<td class="three wide data-container">
+								<div>
 									{{ $jadwal->kapal->agen_pelayaran->loket }}
+								</div>
 							</td>
 						</tr>
 						@endforeach
@@ -89,9 +97,10 @@
 			width: 100%;
 			flex-grow: 1;
 		}
-		/* table{
+		table{
 			overflow: hidden;
-		} */
+			height: 100%;
+		}
 		#footer{
 			width: 100%;
 			background-color: #1a71b2;
@@ -139,6 +148,8 @@
 		}
 
 		function showJadwal(){
+			// $('#jadwal-body td.data-container > div').css('height', '100%');
+			// $('#jadwal-body td.data-container').css('height', 'calc(100%/' + jadwalPerGroup +')');
 			toggleJadwalView();
 			setTimeout(function(){
 				$('#jadwal-body tr.showed').removeClass('showed');

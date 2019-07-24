@@ -31,18 +31,18 @@
 							{{-- <td class="two wide">
 								{{ ($idx + 1).'. ' }}
 							</td> --}}
-							<td class="one wide"></td>
-							<td class="three wide" id="value-kapal-nama" value="{{ $jadwal->kapal->nama }}">
-								{{ $jadwal->kapal->nama }}
+							<td class="one wide data"></td>
+							<td class="three wide data" id="value-kapal-nama" value="{{ $jadwal->kapal->nama }}">
+								<div> {{ $jadwal->kapal->nama }} </div>
 							</td>
-							<td class="five wide" id="value-kota" value="{{ $jadwal->kota }}">
-								{{ $jadwal->kota }}
+							<td class="five wide data" id="value-kota" value="{{ $jadwal->kota }}">
+								<div> {{ $jadwal->kota }} </div>
 							</td>
-							<td class="three wide" id="value-waktu" value="{{ $jadwal->waktu }}">
-								<div>{{ date('H:i T', strtotime($jadwal->waktu)) }}</div>
+							<td class="three wide data" id="value-waktu" value="{{ $jadwal->waktu }}">
+								<div>{{ date('H : i T', strtotime($jadwal->waktu)) }}</div>
 							</td>
-							<td class="three wide" id="value-status_kapal" value="{{ $jadwal->status_kapal }}">
-								{{ $jadwal->status_kapal }}
+							<td class="three wide data" id="value-status_kapal" value="{{ $jadwal->status_kapal }}">
+								<div>{{ $jadwal->status_kapal }}</div>
 							</td>
 						</tr>
 						@endforeach
@@ -85,9 +85,10 @@
 			width: 100%;
 			flex-grow: 1;
 		}
-		/* table{
+		table{
 			overflow: hidden;
-		} */
+			height: 100%;
+		}
 		#footer{
 			width: 100%;
 			background-color: #1a71b2;
@@ -135,6 +136,8 @@
 		}
 
 		function showJadwal(){
+			$('#jadwal-body td.data div').css('height', '20px !important');
+			$('#jadwal-body td.data').css('height', '20px !important');
 			toggleJadwalView();
 			setTimeout(function(){
 				$('#jadwal-body tr.showed').removeClass('showed');
@@ -178,11 +181,11 @@
 						var minute = ("0" + waktu.getTime()).slice(-2);
 						$('#jadwal-body').append(
 							"<tr id='data-" + elem.id + "' value='" + elem.id + "' style='display: none'>" +
-								"<td class='one wide'></td>" +
-								"<td class='three wide' id='value-kapal-nama' value='" + elem.kapal.nama + "'>" + elem.kapal.nama + "</td>" +
-								"<td class='five wide' id='value-kota' value='" + elem.kota + "'>" + elem.kota + "</td>" +
-								"<td class='three wide' id='value-waktu' value='" + elem.waktu + "'>" + hour + " : " + minute + "WIB" + "</td>" +
-								"<td class='three wide' id='value-status_kapal' value='" + elem.status_kapal + "'>" + elem.status_kapal + "</td>" +
+								"<td class='one wide data'></td>" +
+								"<td class='three wide data' id='value-kapal-nama' value='" + elem.kapal.nama + "'>" + "<div>" + elem.kapal.nama + "<div>" + "</td>" +
+								"<td class='five wide data' id='value-kota' value='" + elem.kota + "'>" + "<div>" + elem.kota + "<div>" + "</td>" +
+								"<td class='three wide data' id='value-waktu' value='" + elem.waktu + "'>" + "<div>" + hour + " : " + minute + "WIB" + "<div>" + "</td>" +
+								"<td class='three wide data' id='value-status_kapal' value='" + elem.status_kapal + "'>" + "<div>" + elem.status_kapal + "<div>" + "</td>" +
 							"</tr>"
 						);
 					});

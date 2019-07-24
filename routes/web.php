@@ -18,57 +18,49 @@ Route::group(['middleware' => 'guest'], function(){
     Route::post('/login', ['uses' => 'Auth\LoginController@login']);
 });
 
-Route::group(['middleware' => 'auth:web'], function(){
+Route::get('/logout', ['uses' => 'Auth\LoginController@logout', 'as' => 'logout']);
 
-    Route::get('/logout', ['uses' => 'Auth\LoginController@logout', 'as' => 'logout']);
+Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
 
-    Route::group(['namespace' => 'Web', 'as' => 'web.'], function(){
-
-        // User Resource Route
-        Route::group(['prefix' => '/user', 'as' => 'user.'], function(){
-            Route::get('/', ['uses' => 'UserController@index', 'as' => 'index']);
-            Route::get('/profil', ['uses' => 'UserController@showProfile', 'as' => 'profil']);
-            Route::post('/', ['uses' => 'UserController@store', 'as' => 'store']);
-            Route::put('/{user}', ['uses' => 'UserController@update', 'as' => 'update']);
-            Route::delete('/{user}', ['uses' => 'UserController@destroy', 'as' => 'destroy']);
-        });
-
-        // Agent Pelayaran Resource Route
-        Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
-            Route::get('/', ['uses' => 'AgenPelayaranController@index', 'as' => 'index']);
-            Route::post('/', ['uses' => 'AgenPelayaranController@store', 'as' => 'store']);
-            Route::put('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@update', 'as' => 'update']);
-            Route::delete('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@destroy', 'as' => 'destroy']);
-        });
-
-        // Kapal Resource Route
-        Route::group(['prefix' => '/kapal', 'as' => 'kapal.'], function(){
-            Route::get('/', ['uses' => 'KapalController@index', 'as' => 'index']);
-            Route::post('/', ['uses' => 'KapalController@store', 'as' => 'store']);
-            Route::put('/{kapal}', ['uses' => 'KapalController@update', 'as' => 'update']);
-            Route::delete('/{kapal}', ['uses' => 'KapalController@destroy', 'as' => 'destroy']);
-        });
-
-        // Jadwal Resource Route
-        Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
-            Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan']);
-            Route::get('/keberangkatan/list', ['uses' => 'JadwalController@showJadwalKeberangkatanList', 'as' => 'keberangkatan-list']);
-            Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan']);
-            Route::get('/kedatangan/list', ['uses' => 'JadwalController@showJadwalKedatanganList', 'as' => 'kedatangan-list']);
-            Route::get('/tiket', ['uses' => 'JadwalController@showTiketJadwal', 'as' => 'tiket-jadwal']);
-            Route::get('/tiket/list', ['uses' => 'JadwalController@showTiketJadwalList', 'as' => 'tiket-jadwal-list']);
-            Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
-            Route::post('/', ['uses' => 'JadwalController@store', 'as' => 'store']);
-            Route::put('/{jadwal}', ['uses' => 'JadwalController@update', 'as' => 'update']);
-            Route::delete('/{jadwal}', ['uses' => 'JadwalController@destroy', 'as' => 'destroy']);
-        });
-
+    // User Resource Route
+    Route::group(['prefix' => '/user', 'as' => 'user.'], function(){
+        Route::get('/', ['uses' => 'UserController@index', 'as' => 'index']);
+        Route::get('/profil', ['uses' => 'UserController@showProfile', 'as' => 'profil']);
+        Route::post('/', ['uses' => 'UserController@store', 'as' => 'store']);
+        Route::put('/{user}', ['uses' => 'UserController@update', 'as' => 'update']);
+        Route::delete('/{user}', ['uses' => 'UserController@destroy', 'as' => 'destroy']);
     });
-});
 
-Route::get('/test', function(){
-    $user = App\Models\User::first();
-    return response()->json($user->getRoleNames()->first());
+    // Agent Pelayaran Resource Route
+    Route::group(['prefix' => '/agen-pelayaran', 'as' => 'agen-pelayaran.'], function(){
+        Route::get('/', ['uses' => 'AgenPelayaranController@index', 'as' => 'index']);
+        Route::post('/', ['uses' => 'AgenPelayaranController@store', 'as' => 'store']);
+        Route::put('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@update', 'as' => 'update']);
+        Route::delete('/{agenPelayaran}', ['uses' => 'AgenPelayaranController@destroy', 'as' => 'destroy']);
+    });
+
+    // Kapal Resource Route
+    Route::group(['prefix' => '/kapal', 'as' => 'kapal.'], function(){
+        Route::get('/', ['uses' => 'KapalController@index', 'as' => 'index']);
+        Route::post('/', ['uses' => 'KapalController@store', 'as' => 'store']);
+        Route::put('/{kapal}', ['uses' => 'KapalController@update', 'as' => 'update']);
+        Route::delete('/{kapal}', ['uses' => 'KapalController@destroy', 'as' => 'destroy']);
+    });
+
+    // Jadwal Resource Route
+    Route::group(['prefix' => '/jadwal', 'as' => 'jadwal.'], function(){
+        Route::get('/keberangkatan', ['uses' => 'JadwalController@showJadwalKeberangkatan', 'as' => 'keberangkatan']);
+        Route::get('/keberangkatan/list', ['uses' => 'JadwalController@showJadwalKeberangkatanList', 'as' => 'keberangkatan-list']);
+        Route::get('/kedatangan', ['uses' => 'JadwalController@showJadwalKedatangan', 'as' => 'kedatangan']);
+        Route::get('/kedatangan/list', ['uses' => 'JadwalController@showJadwalKedatanganList', 'as' => 'kedatangan-list']);
+        Route::get('/tiket', ['uses' => 'JadwalController@showTiketJadwal', 'as' => 'tiket-jadwal']);
+        Route::get('/tiket/list', ['uses' => 'JadwalController@showTiketJadwalList', 'as' => 'tiket-jadwal-list']);
+        Route::get('/', ['uses' => 'JadwalController@index', 'as' => 'index']);
+        Route::post('/', ['uses' => 'JadwalController@store', 'as' => 'store']);
+        Route::put('/{jadwal}', ['uses' => 'JadwalController@update', 'as' => 'update']);
+        Route::delete('/{jadwal}', ['uses' => 'JadwalController@destroy', 'as' => 'destroy']);
+    });
+
 });
 
 Route::get('/', function(){ return redirect()->route('login'); });

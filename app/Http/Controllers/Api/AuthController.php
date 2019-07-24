@@ -38,12 +38,16 @@ class AuthController extends Controller{
 				return response()->json(['message' => 'Gagal membuat token'], 500);
 			}
 			$user = auth()->user();
-			return (new UserResource($user))->additional([
-																					'meta' => compact('token'),
-																					'message' => 'Login Berhasil'
-																				])
-																			->response()
-																		  ->setStatusCode(200);
+			$role = $user->getRoleNames()->first();
+			if($role == 'petugas terminal'){
+				return (new UserResource($user))->additional([
+																						'meta' => compact('token'),
+																						'message' => 'Login Berhasil'
+																					])
+																				->response()
+																				->setStatusCode(200);
+			}
+			return response()->json(['message' => 'Hanya petugas terminal yang dapat mengakses aplikasi ini'], 403);
 		}
 		$errors = $validator->errors();
 		return response()->json([

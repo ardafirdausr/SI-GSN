@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Validator;
-
 use App\Models\Jadwal;
 use App\Models\AgenPelayaran;
 use App\Models\LogAktivitas;
@@ -18,8 +17,15 @@ class JadwalController extends Controller{
      * Set middleware for theese functions
      */
     public function __construct(){
-        $this->middleware(['role:admin'])->except(['showTiketJadwal', 'showTiketJadwalList', 'update']);
-        $this->middleware(['role:petugas agen'])->only(['showTiketJadwal', 'showTiketJadwalList']);
+        // $this->middleware(['role:admin'])->except(['showTiketJadwal', 'showTiketJadwalList', 'update']);
+        // $this->middleware(['role:petugas agen'])->only(['showTiketJadwal', 'showTiketJadwalList']);
+        // $this->middleware(['permission:mengupdate jadwal'])->only(['update']);
+        $adminAccessable = ['index', 'showJadwalKedatangan', 'showJadwalKeberangkatan', 'store', 'destroy'];
+        $petugasAgenAccessable = ['showTiketJadwal'];
+        $guestAccessable = ['showJadwalKedatanganList', 'showJadwalKeberangkatanList', 'showTiketJadwalList'];
+        $this->middleware(['auth:web'])->except($guestAccessable);
+        $this->middleware(['role:admin'])->only($adminAccessable);
+        $this->middleware(['role:petugas agen'])->only($petugasAgenAccessable);
         $this->middleware(['permission:mengupdate jadwal'])->only(['update']);
     }
 
@@ -112,6 +118,11 @@ class JadwalController extends Controller{
         return view('jadwal.jadwal', compact('paginatedJadwal', 'titleJadwal', 'topFiveJadwalLogs', 'tanggal'));
     }
 
+    /**
+     * Show all jadwal keberangkatan
+     * @param Date date
+     * @return View Tiekt
+     */
     public function showTiketJadwal(Request $request){
         $tanggal = $request->input('tanggal') ?? date('Y-m-d');
         $query = $request->has('query')

@@ -17,6 +17,7 @@ class AgenPelayaranController extends Controller{
      * Set middleware for theese functions
      */
     public function __construct(){
+        $this->middleware(['auth:web']);
         $this->middleware(['role:admin']);
     }
 
