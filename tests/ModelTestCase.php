@@ -121,6 +121,7 @@ abstract class ModelTestCase extends TestCase
         $this->assertEquals($related, $relation->getRelated());
         $this->assertEquals($foreignKey, $relation->getForeignKeyName());
         $this->assertEquals($ownerPrimaryKey, $relation->getOwnerKeyName());
+        $this->assertTrue(Schema::hasColumns($relation->getParent()->getTable(), [$foreignKey]));
     }
 
     /**

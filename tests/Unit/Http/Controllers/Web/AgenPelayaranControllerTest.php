@@ -13,6 +13,11 @@ use App\Http\Controllers\Web\AgenPelayaranController;
 class AgenPelayaranControllerTest extends TestCase
 {
 
+    /**
+     * Test whether index() return the right view
+     *
+     * @return View agen-pelayaran.index
+     */
     public function test_index_function_returns_view(){
         $controller = new AgenPelayaranController();
         $request = new Request();
@@ -20,8 +25,15 @@ class AgenPelayaranControllerTest extends TestCase
         $this->assertEquals('agen-pelayaran.index', $responseView->getName());
         $this->assertArrayHasKey('paginatedAgenPelayaran', $responseView->getData());
         $this->assertArrayHasKey('topFiveAgenPelayaranLogs', $responseView->getData());
+
+        // getData() returns all vars attached to the response.
+        // $posts = $response->original->getData()['posts'];
+        // $this->call('GET', 'posts');
     }
 
+    /**
+     * Test whether
+     */
     public function test_store_function_returns_redirect_route_with_success_message(){
         $data = [
             'nama' => 'Test Name',
@@ -30,12 +42,12 @@ class AgenPelayaranControllerTest extends TestCase
             'telepon' => 'Test Telepon',
             'loket' => 'Test Loket'
         ];
-
         $controller = new AgenPelayaranController();
         $request = new Request($data);
         $response = $controller->store($request);
+        // $response = $this->call('POST', '/jadwal', [], [], ['HTTP_REFERER' => 'http://alexsears.com']);
         $this->assertInstanceOf(RedirectResponse::class, $response);
-        // $this->assertEquals(route(''), $response->headers->get('Location'));
+        $this->assertEquals('http://localhost', $response->headers->get('Location'));
         // $this->assertEquals(333, $response->getSession()->get('created'));
     }
 

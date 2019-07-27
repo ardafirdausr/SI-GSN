@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Jadwal extends Model
 {
 
+    /**
+     * Define table that will be used
+     */
     public $table = 'jadwal';
 
+    /**
+     * Define table's field that can be
+     */
     protected $fillable = [
         'id',
         'waktu',
@@ -19,6 +25,9 @@ class Jadwal extends Model
         'kapal_id'
     ];
 
+    /**
+     * @return App/Models/Kapal kapal
+     */
     public function kapal(){
         return $this->belongsTo(Kapal::class, 'kapal_id', 'id');
     }

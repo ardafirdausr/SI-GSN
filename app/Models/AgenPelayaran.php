@@ -16,10 +16,16 @@ class AgenPelayaran extends Model
         'loket'
     ];
 
+    /**
+     * @return App/Models/Kapal kapal
+     */
     public function kapal(){
         return $this->hasMany(Kapal::class, 'agen_pelayaran_id', 'id');
     }
 
+    /**
+     * @return App/Models/Jadwal jadwal
+     */
     public function jadwal(){
         return $this->hasManyThrough(
             Jadwal::class,
