@@ -56,7 +56,10 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception) {
 
         // set localization in handler
-        $locale = $request->header('Accept-Language') ?? 'en';
+        $locale = $request->wantsJson()
+                    ? $request->header('Accept-Language') ?? 'id'
+                    : $request->cookie('language') ?? 'id';
+        // set laravel localization
         app()->setLocale($locale);
 
         // handle query exception
@@ -66,9 +69,6 @@ class Handler extends ExceptionHandler
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
             }
-            else{
-                abort($code, $message);
-            }
         }
 
         // handle accessing undefined model id in url
@@ -76,10 +76,7 @@ class Handler extends ExceptionHandler
             $message = env('APP_DEBUG') ? $exception->getMessage() : __('response.404');
             $code = 404;
             if($request->wantsJson()) {
-                return response()->json(compact('message'), 404);
-            }
-            else {
-                abort($code, $message);
+                return response()->json(compact('message'), $code);
             }
         }
 
@@ -88,10 +85,7 @@ class Handler extends ExceptionHandler
             $message = env('APP_DEBUG') ? $exception->getMessage() : __('response.404');
             $code = 404;
             if($request->wantsJson()) {
-                return response()->json(compact('message'), 404);
-            }
-            else{
-                abort($code, $message);
+                return response()->json(compact('message'), $code);
             }
         }
 
@@ -102,9 +96,6 @@ class Handler extends ExceptionHandler
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
             }
-            else{
-                abort($code, $message);
-            }
         }
 
         if($exception instanceof FileNotFoundException ){
@@ -112,9 +103,6 @@ class Handler extends ExceptionHandler
             $code = 500;
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
-            }
-            else{
-                abort($code, $message);
             }
         }
 
@@ -125,9 +113,6 @@ class Handler extends ExceptionHandler
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
             }
-            else{
-                abort($code, $message);
-            }
         }
 
         // handle unauthorized user when accessing authorized route
@@ -136,9 +121,6 @@ class Handler extends ExceptionHandler
             $code = 403;
             if($request->wantsJson()) {
                 return response()->json($message, $code);
-            }
-            else{
-                abort($code, $message);
             }
         }
 
@@ -149,9 +131,6 @@ class Handler extends ExceptionHandler
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
             }
-            else{
-                abort($code, $message);
-            }
         }
 
         // handle invalid token
@@ -161,9 +140,6 @@ class Handler extends ExceptionHandler
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
             }
-            else{
-                abort($code, $message);
-            }
         }
 
         // if unknow exceptions happends return server error on production
@@ -172,9 +148,6 @@ class Handler extends ExceptionHandler
             $code = 500;
             if($request->wantsJson()) {
                 return response()->json(compact('message'), $code);
-            }
-            else{
-                abort($code, $message);
             }
         }
 

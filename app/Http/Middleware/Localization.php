@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class ApiLocalication
+class Localization
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,11 @@ class ApiLocalication
      */
     public function handle($request, Closure $next)
     {
-        // Check header request and determine localizaton
-        $local = $request->header('Accept-Language') ?? 'en';
+        $locale = $request->wantsJson()
+                    ? $request->header('Accept-Language') ?? 'id'
+                    : $request->cookie('language') ?? 'id';
         // set laravel localization
-        app()->setLocale($local);
+        app()->setLocale($locale);
         // continue request
         return $next($request);
     }

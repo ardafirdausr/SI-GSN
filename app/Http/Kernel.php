@@ -35,13 +35,14 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            'localization'
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
             'cors',
-            'api-localization'
+            'localization'
         ],
 
         'jwt-auth-refresh' => [
@@ -70,7 +71,7 @@ class Kernel extends HttpKernel
         'cors' => \Barryvdh\Cors\HandleCors::class,
         'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
         'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
-        'api-localization' => \App\Http\Middleware\ApiLocalication::class,
+        'localization' => \App\Http\Middleware\Localization::class,
         'refresh-token-on-request' => \App\Http\Middleware\RefreshTokenOnRequest::Class,
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
