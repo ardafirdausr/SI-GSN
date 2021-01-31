@@ -44,8 +44,85 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $exception)
-    {
+    public function render($request, Exception $exception){
+        // set localization in handler
+        $local = $request->header('Accept-Language') ?? 'en';
+        app()->setLocale($local);
+
+        if($exception instanceof QueryException){
+            if($request->wantsJson()){
+                return response()->json(
+                    [
+                        'message' => env('APP_DEBUG') ?
+                            $exception->getMessage() :
+                            __('response.500')
+                    ], 500
+                );
+            }
+        }
+
+        // ? for unavailable model id
+        // ? not available url handled by fallback
+        if($exception instanceof ModelNotFoundException){
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.404')], 404);
+            }
+        }
+
+        // ? for unavailable model id
+        // ? not available url handled by fallback
+        if($exception instanceof NotFoundHttpException){
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.404')], 404);
+            }
+        }
+
+        // ? handle wrong method
+        if($exception instanceOf MethodNotAllowedHttpException){
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.400')], 400);
+            }
+        }
+        // ? handle unauthenticated, default : Unauthenticated
+        if($exception instanceOf AuthenticationException){
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.401')], 401);
+            }
+        }
+
+        // ? handle unauthorized, default : ?
+        if($exception instanceOf AuthorizationException){
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.403')], 403);
+            }
+        }
+
+        // ? handle token expired
+        if ($exception instanceof TokenExpiredException) {
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.token_expired')], 404);
+            }
+        }
+
+        // ? handle token invalid
+        if ($exception instanceof TokenInvalidException) {
+            if($request->wantsJson()){
+                return response()->json(['message' => __('response.token_invalid')], 404);
+            }
+        }
+
+        // ? handle unknow exception
+        if($exception){
+            if($request->wantsJson()){
+                return response()->json(
+                    [
+                        'message' => env('APP_DEBUG') ?
+                            $exception->getMessage() :
+                            __('response.500')
+                    ], 500
+                );
+            }
+        }
         return parent::render($request, $exception);
     }
 }
